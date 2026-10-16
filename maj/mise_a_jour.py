@@ -77,6 +77,7 @@ if __name__ == '__main__':
     bilan['textes_jo'] = len({x['cid'] for x in new_p['jo']} - {x['cid'] for x in old_p['jo']})
     bilan['piste'] = piste_ok
     bilan['synchro'] = new_p['date']
+    if os.path.exists(S + 'etat.json'): bilan['sources'] = json.load(open(S + 'etat.json'))
     print('BILAN', json.dumps(bilan, ensure_ascii=False))
 
     # Matière du quiz de la semaine

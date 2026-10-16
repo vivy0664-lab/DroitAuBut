@@ -128,7 +128,9 @@ for nom, f in (('piste', piste),
 
 # 3. Juridictions compétentes par commune (data.gouv.fr)
 try:
-    open(OUT + 'juridictions.csv', 'wb').write(req('https://www.data.gouv.fr/api/1/datasets/r/56423a8b-be50-4e96-acf1-23283e44bf85', timeout=300))
+    csv = req('https://www.data.gouv.fr/api/1/datasets/r/56423a8b-be50-4e96-acf1-23283e44bf85', timeout=300)
+    if len(csv) < 100000 or b';' not in csv[:2000]: raise ValueError(f'fichier inattendu ({len(csv)} octets)')
+    open(OUT + 'juridictions.csv', 'wb').write(csv)
     log('Juridictions compétentes par commune : téléchargées'); etat['juridictions'] = True
 except Exception as e:
     log('Juridictions : erreur ' + err(e)); etat['juridictions'] = False

@@ -60,7 +60,8 @@ if __name__ == '__main__':
     if glob.glob(S + 'admin/CE-*.xml') or glob.glob(S + 'admin-caa/CAA-*.xml'): run('admin.py')
     if piste_ok: run('piste_build.py')
     run('juris_build.py')
-    if os.path.exists(S + 'juridictions.csv'): run('juridictions_build.py')
+    if os.path.exists(S + 'juridictions.csv') and os.path.getsize(S + 'juridictions.csv') > 100000: run('juridictions_build.py')
+    else: print('!! juridictions.csv absent : juris/communes.json conservé')
 
     # Report dans le dépôt
     for f in glob.glob(os.path.join(P, 'juris', '*.json')): shutil.copy(f, os.path.join(REPO, 'juris'))

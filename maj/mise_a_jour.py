@@ -4,7 +4,7 @@
 Met à jour juris/*.json, maj/etat/ce_refs.json, maj/etat/piste_data.js et le bloc des données PISTE dans index.html,
 puis prépare maj/travail/weekly_src.json pour le quiz de la semaine (voir maj/CONSIGNES.md).
 Seuls les blocs de données de index.html sont remplacés : le reste de la page n'est jamais régénéré."""
-import os, sys, json, glob, shutil, subprocess, tempfile
+import os, sys, json, glob, re, shutil, subprocess, tempfile
 
 REPO = os.getcwd()
 MAJ = os.path.join(REPO, 'maj')
@@ -78,10 +78,32 @@ if __name__ == '__main__':
     bilan['piste'] = piste_ok
     bilan['synchro'] = new_p['date']
     if os.path.exists(S + 'etat.json'): bilan['sources'] = json.load(open(S + 'etat.json'))
+    # Réformes à examiner : textes nouveaux (JO + veille ciblée) et articles cités sur le site dont le texte a changé
+    os.makedirs(TRAV, exist_ok=True)
+    vus_f = os.path.join(ETAT, 'reformes_vues.json')
+    vus = set(json.load(open(vus_f, encoding='utf-8'))) if os.path.exists(vus_f) else set()
+    old_cids = {x['cid'] for x in old_p['jo']}
+    textes = [dict(x, src='jo') for x in new_p['jo'] if x['cid'] not in old_cids and x['cid'] not in vus]
+    for f in sorted(glob.glob(S + 'veille-*.json')):
+        for r in json.load(open(f, encoding='utf-8-sig')).get('results', []):
+            for t in r.get('titles') or []:
+                c = t.get('cid')
+                if c and c not in vus and all(c != x['cid'] for x in textes):
+                    textes.append({'cid': c, 't': re.sub(r'</?mark>', '', t.get('title') or ''), 'nat': r.get('nature'),
+                                   'd': (r.get('datePublication') or '')[:10], 'src': 'veille'})
+    noms = {}
+    for l in open(os.path.join(MAJ, 'articles.txt'), encoding='utf-8-sig'):
+        p = l.strip().split('|')
+        if len(p) >= 4: noms[p[0] + '|' + p[1]] = p[2] + ' ' + p[1]
+    norm = lambda s: re.sub(r'\s+', ' ', s or '').strip()
+    arts = [{'ref': noms.get(k, k), 'cle': k, 'id': a.get('id'), 'vigueur': a.get('d'), 'ancien': old_p['arts'].get(k, {}).get('t'), 'nouveau': a.get('t')}
+            for k, a in new_p['arts'].items() if norm(a.get('t')) != norm(old_p['arts'].get(k, {}).get('t')) and old_p['arts'].get(k)]
+    json.dump({'textes': textes, 'articles_modifies': arts}, open(os.path.join(TRAV, 'reformes.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    json.dump(sorted(vus | {x['cid'] for x in textes}), open(vus_f, 'w', encoding='utf-8'))
+    bilan['reformes_a_examiner'] = {'textes': len(textes), 'articles_modifies': len(arts)}
     print('BILAN', json.dumps(bilan, ensure_ascii=False))
 
     # Matière du quiz de la semaine
-    os.makedirs(TRAV, exist_ok=True)
     if piste_ok and shutil.which('node'):
         if subprocess.run(['node', 'dumpweek.cjs'], cwd=P).returncode == 0:
             shutil.copy(os.path.join(P, 'weekly_src.json'), TRAV)

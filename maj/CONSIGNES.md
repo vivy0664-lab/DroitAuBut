@@ -30,6 +30,21 @@ Règles générales :
        mauvaises réponses plausibles mais clairement fausses au regard de la source. Privilégie les éléments les plus récents et les plus importants.
    - Lance `python3 maj/appliquer_quiz.py`. S'il refuse le format, corrige `maj/travail/weekly.js` et relance.
 
+2 bis. **Réformes qui modifient les calculs et les ressources** (si `maj/travail/reformes.json` contient des textes ou des articles modifiés) :
+   - Lis `maj/REFERENTIEL.md` (paramètres légaux de la page et leurs repères) et `maj/travail/reformes.json`.
+   - Pour chaque texte, juge d'après son titre s'il peut toucher un paramètre du référentiel ou un contenu du site (calculateur, barème, délai, procédure, fiche, modèle d'acte).
+     Écarte sans les lire les textes sans rapport (nominations, textes purement locaux ou outre-mer, accords internationaux…).
+   - Pour les textes pertinents, lis le texte officiel : `python3 maj/scripts/texte_jo.py <cid>` (et `LEGIARTI…` pour un article).
+     Pour un article modifié, `reformes.json` donne l'ancienne et la nouvelle rédaction.
+   - Modifie `index.html` **seulement** si le texte officiel donne explicitement la nouvelle valeur ou la nouvelle règle, et qu'elle est en vigueur
+     ou que la page la présente pour la période concernée (ex. barème « 2027 » publié en décembre 2026) :
+     - modification minimale avec l'outil Edit, au même format (nombres JS sans espace, texte en français identique au style existant) ;
+     - mets à jour toutes les occurrences du même paramètre (constante, valeur par défaut d'un champ, explications en clair, millésime « 2026 » → « 2027 ») ;
+     - ne touche jamais aux blocs `const PISTE=` et `WEEKLY=` ni aux fichiers `juris/`, `codes/`, `maj/etat/` ;
+     - ajoute une ligne à `maj/JOURNAL-REFORMES.md` : date, texte (titre, cid), endroit modifié, valeur avant → après.
+   - En cas de doute (valeur non explicite, date d'effet incertaine, portée ambiguë), ne modifie rien : note-le pour le compte rendu (« à vérifier par Virginie »).
+   - Une modification de calcul doit passer la vérification de l'étape 3 ; si elle échoue à cause de tes modifications, annule-les seulement elles et signale-le.
+
 3. **Vérification** :
    `python3 -m pip install -q playwright && python3 -m playwright install --with-deps chromium 2>&1 | tail -5` puis `python3 maj/verifier.py`.
    - Si l'installation de Playwright échoue (réseau), note la cause (dernières lignes affichées) pour le compte rendu, désinstalle-le (`python3 -m pip uninstall -y playwright`) et relance `python3 maj/verifier.py` :
@@ -46,4 +61,6 @@ Règles générales :
 
 5. **Compte rendu** (dernier message de la session, en français simple, en tutoyant Virginie, 8 lignes maximum) :
    nombre de nouveaux arrêts (Cour de cassation, Conseil d'État, CAA) et de nouveaux textes au JO, quiz renouvelé ou non,
-   résultat de la vérification, site redéployé ou non, problèmes éventuels. Aucun identifiant.
+   **réformes : paramètres ou contenus modifiés (avant → après) et points à vérifier**, résultat de la vérification,
+   site redéployé ou non, problèmes éventuels (pour une source en échec, cite la ligne d'erreur du journal). Aucun identifiant.
+   Une mise à jour qui ne change que des dates de synchronisation n'est pas publiée ; une modification issue d'une réforme l'est toujours.

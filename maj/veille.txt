@@ -1,0 +1,13 @@
+# Veille ciblée au Journal officiel : une recherche par ligne (mots tous présents dans le titre du texte).
+# Lois, ordonnances, décrets, arrêtés et avis des 120 derniers jours. Voir maj/REFERENTIEL.md pour les paramètres concernés.
+taux de l'intérêt légal
+plafond de la sécurité sociale
+saisies et cessions des rémunérations
+montant forfaitaire du revenu de solidarité active
+salaire minimum de croissance
+loi de finances
+tarifs réglementés notaires
+tarifs réglementés commissaires de justice
+seuils de procédure commande publique
+aide juridictionnelle
+droits de mutation à titre onéreux

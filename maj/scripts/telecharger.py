@@ -73,6 +73,17 @@ def piste():
         if '"titles"' not in t: break
         time.sleep(0.2)
     log(f'Légifrance JORF : {nP} page(s)')
+    # Veille ciblée (maj/veille.txt) : textes qui modifient les paramètres des calculateurs, arrêtés et avis compris
+    nV = 0
+    for i, l in enumerate(x.strip() for x in open(os.path.join(ICI, '..', 'veille.txt'), encoding='utf-8')):
+        if not l or l.startswith('#'): continue
+        q = {'fond': 'JORF', 'recherche': {'champs': [{'typeChamp': 'TITLE', 'criteres': [{'typeRecherche': 'TOUS_LES_MOTS_DANS_UN_CHAMP', 'valeur': l, 'operateur': 'ET'}], 'operateur': 'ET'}],
+             'filtres': [{'facette': 'NATURE', 'valeurs': ['LOI', 'ORDONNANCE', 'DECRET', 'ARRETE', 'AVIS']}, {'facette': 'DATE_PUBLICATION', 'dates': {'start': debut, 'end': fin}}],
+             'pageNumber': 1, 'pageSize': 50, 'operateur': 'ET', 'sort': 'PUBLICATION_DATE_DESC', 'typePagination': 'DEFAUT'}}
+        try: ecrire(f'veille-{i}.json', appel(lf + '/search', q)); nV += 1
+        except Exception as e: log(f'Veille « {l} » : ' + err(e))
+        time.sleep(0.2)
+    log(f'Veille ciblée : {nV} recherche(s)')
     # Légifrance : version en vigueur des articles cités sur le site
     lignes, ep, ok, ko = [], None, 0, 0
     for l in open(os.path.join(ICI, '..', 'articles.txt'), encoding='utf-8-sig'):

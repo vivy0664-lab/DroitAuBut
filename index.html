@@ -318,6 +318,7 @@ a{color:var(--accent)}
 .sub4{font:600 15px/1.3 var(--body);margin:10px 0 2px;color:var(--accent)}
 .pending{font-style:italic;color:var(--muted);font-size:14px}
 .fl-sw{margin-bottom:6px}
+.fdlbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:18px}.fdlbar .eyebrow{margin-right:4px}.fdlbar .btn{min-width:76px}
 .art h3 a{color:inherit;text-decoration:none;border-bottom:1px solid var(--gold)}
 .art .more{font-size:14px;font-weight:600;color:var(--accent);display:inline-block;margin-top:6px}
 .art{scroll-margin-top:110px}
@@ -16376,7 +16377,7 @@ function renderTab(){
   if(tab==='module'){const md=(m.id==='personnes'||m.id==='patrifam')?null:modOf(m.id);const open=tid=>famTheme(body,tid,()=>famSommaire(body,open,md),null,md);famSommaire(body,open,md);return}
   if(tab==='fiche'){
     const f=m.fiche;
-    body.innerHTML=`<div class="pane fiche">
+    body.innerHTML=`${ficheDlBar(m)}<div class="pane fiche">
       <div class="arts">${ficheArts(m)}</div>
       <aside class="side">
         <div><h4>Textes à maîtriser</h4><ul>${f.txt.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div>
@@ -16448,6 +16449,80 @@ function ficheSide(m){const f=m.fiche;return `<aside class="side">
         <div><h4>Arrêts et repères clés</h4><ul>${f.arr.map(a=>`<li><span class="ref">${esc(a[0])}</span> : ${esc(a[1])}</li>`).join('')}</ul></div>
         <div class="piege"><b>Piège classique</b>${esc(f.piege)}</div>
       </aside>`}
+
+/* Téléchargement d'une fiche complète (tous niveaux) en PDF ou en Word */
+function ficheDlBar(m){return `<div class="fdlbar"><span class="eyebrow">Télécharger la fiche complète</span><button class="btn" data-fdl="pdf" data-m="${m.id}">PDF</button><button class="btn ghost" data-fdl="doc" data-m="${m.id}">Word</button></div>`}
+function ficheData(m){
+  const f=m.fiche,e=EXT[m.id]||{dev:[]},det=DET[m.id];
+  return {titre:m.n,ou:m.y+(m.spe?' · '+(SPECS[m.spe]||PARC[m.spe]||''):''),lead:f.lead,met:e.met||'',txt:f.txt,arr:f.arr,piege:f.piege,
+    pts:f.pts.map((p,i)=>({t:`Art. ${i+1} — ${p[0]}`,court:p[1],dev:e.dev&&e.dev[i]||'',
+      det:(det&&det[i]||[]).map(q=>Array.isArray(q)?{h:q[0],p:q[1]}:{h:'',p:q})}))};
+}
+function ficheDoc(d){
+  const P=s=>`<p>${esc(s)}</p>`,pg=s=>`<p class="piege"><b>Piège classique : </b>${esc(s)}</p>`;
+  const body=`<p class="ou">${esc(d.ou)} · Droit au But</p><h1>${esc(d.titre)}</h1>${d.lead?`<p class="lead">${esc(d.lead)}</p>`:''}`
+    +d.pts.map(p=>`<h2>${esc(p.t)}</h2><p class="court">${esc(p.court)}</p>${p.dev?P(p.dev):''}`
+      +p.det.map(q=>q.h==='Piège'?pg(q.p):(q.h?`<h3>${esc(q.h)}</h3>`:'')+P(q.p)).join('')).join('')
+    +(d.met?`<h2>Méthode</h2>${P(d.met)}`:'')
+    +`<h2>Textes à maîtriser</h2><ul>${d.txt.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`
+    +`<h2>Arrêts et repères clés</h2><ul>${d.arr.map(a=>`<li><b>${esc(a[0])}</b> : ${esc(a[1])}</li>`).join('')}</ul>`+pg(d.piege);
+  return `﻿<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>${esc(d.titre)}</title><style>
+@page{margin:2cm}body{font:11pt Calibri,Arial,sans-serif;color:#1D1D1B;line-height:1.4}
+h1{font:bold 24pt Georgia,serif;color:#01476A;margin:0 0 8pt}
+h2{font:bold 14pt Georgia,serif;color:#008676;margin:18pt 0 4pt;border-bottom:1pt solid #D0DBD8;padding-bottom:2pt}
+h3{font:bold 11pt Calibri,Arial,sans-serif;color:#008676;margin:8pt 0 2pt}
+.ou{color:#56615F;font-size:9pt;text-transform:uppercase;letter-spacing:1pt;margin:0}
+.lead{font:italic 12pt Georgia,serif}.court{font-weight:bold}
+.piege{border:1pt dashed #008676;padding:6pt;background:#F2F8F7}
+</style></head><body>${body}</body></html>`;
+}
+let JSPDF=null;
+function loadJsPDF(){if(!JSPDF)JSPDF=new Promise((ok,ko)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+  s.onload=()=>ok(window.jspdf.jsPDF);s.onerror=()=>{JSPDF=null;s.remove();ko(new Error('jsPDF'))};document.head.appendChild(s)});return JSPDF}
+// Polices standard du PDF : jeu Latin-1 seulement
+const pdfTxt=s=>String(s??'').replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/[–—]/g,'-').replace(/…/g,'...').replace(/œ/g,'oe').replace(/Œ/g,'OE').replace(/€/g,'EUR')
+  .replace(/[   ]/g,' ').replace(/[^\x00-\xFF]/g,c=>c.normalize('NFD').replace(/[^\x00-\xFF]/g,''));
+async function fichePdf(d){
+  const jsPDF=await loadJsPDF(),doc=new jsPDF({unit:'mm',format:'a4'});
+  const M=18,CW=210-2*M,BOT=297-20,PT=.3528,C={ink:[29,29,27],acc:[0,134,118],navy:[1,71,106],mut:[86,97,95],line:[208,219,216]};
+  let y=M;
+  const room=h=>{if(y+h>BOT){doc.addPage();y=M}};
+  const font=(size,style='normal',face='helvetica',col=C.ink)=>{doc.setFont(face,style);doc.setFontSize(size);doc.setTextColor(...col)};
+  const text=(s,o={})=>{const{size=10.5,style='normal',face='helvetica',col=C.ink,gap=2,ind=0}=o;s=pdfTxt(s);if(!s.trim())return;
+    font(size,style,face,col);const h=size*PT*1.38;doc.splitTextToSize(s,CW-ind).forEach(l=>{room(h);doc.text(l,M+ind,y+h*.78);y+=h});y+=gap};
+  const h2=s=>{room(20);y+=4;text(s,{size:14,style:'bold',face:'times',col:C.acc,gap:1});doc.setDrawColor(...C.line);doc.setLineWidth(.3);doc.line(M,y,M+CW,y);y+=3.5};
+  const bullet=(s,b)=>{font(10.5);const L=doc.splitTextToSize(pdfTxt(s),CW-5),h=10.5*PT*1.38;
+    L.forEach((l,i)=>{room(h);if(!i){doc.setFillColor(...C.acc);doc.circle(M+1.3,y+h*.5,.7,'F');if(b){font(10.5,'bold')}}
+      doc.text(l,M+5,y+h*.78);y+=h});font(10.5);y+=1.2};
+  const piege=s=>{font(10);const L=doc.splitTextToSize(pdfTxt(s),CW-8),h=10*PT*1.38,H=L.length*h+11;
+    if(H>BOT-M){text('PIÈGE CLASSIQUE',{size:7.5,style:'bold',col:C.acc,gap:1});text(s,{size:10});return}
+    y+=1;room(H);doc.setDrawColor(...C.acc);doc.setLineWidth(.4);doc.setLineDashPattern([1.2,1],0);doc.rect(M,y,CW,H);doc.setLineDashPattern([],0);
+    font(7.5,'bold','helvetica',C.acc);doc.text('PIÈGE CLASSIQUE',M+4,y+5.5);font(10);L.forEach((l,i)=>doc.text(l,M+4,y+10.5+i*h));y+=H+4};
+  text(d.ou.toUpperCase()+'   ·   DROIT AU BUT',{size:8,col:C.mut,gap:1.5});
+  text(d.titre,{size:24,style:'bold',face:'times',col:C.navy,gap:2});
+  doc.setDrawColor(...C.acc);doc.setLineWidth(.8);doc.line(M,y,M+CW,y);y+=5;
+  if(d.lead)text(d.lead,{size:12,style:'italic',face:'times',gap:3});
+  d.pts.forEach(p=>{h2(p.t);text(p.court,{style:'bold'});if(p.dev)text(p.dev);
+    p.det.forEach(q=>{if(q.h==='Piège')piege(q.p);else{if(q.h){room(12);y+=1;text(q.h,{size:10.5,style:'bold',col:C.acc,gap:.8})}text(q.p)}})});
+  if(d.met){h2('Méthode');text(d.met)}
+  h2('Textes à maîtriser');d.txt.forEach(t=>bullet(t));
+  h2('Arrêts et repères clés');d.arr.forEach(a=>{const s=pdfTxt(a[0])+' : '+pdfTxt(a[1]);bullet(s)});
+  y+=2;piege(d.piege);
+  const n=doc.getNumberOfPages();for(let i=1;i<=n;i++){doc.setPage(i);font(8,'normal','helvetica',C.mut);
+    doc.text(pdfTxt(d.titre)+'  ·  Droit au But',M,297-10);doc.text(i+' / '+n,210-M,297-10,{align:'right'})}
+  return doc.output('blob');
+}
+function dlBlob(name,blob){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}
+document.addEventListener('click',async ev=>{
+  const b=ev.target.closest('[data-fdl]');if(!b||b.disabled)return;
+  const m=MAT.find(x=>x.id===b.dataset.m);if(!m)return;
+  const d=ficheData(m),name='fiche-'+slug(m.n).replace(/^-|-$/g,''),lab=b.textContent;b.disabled=true;b.textContent='Préparation…';
+  try{if(b.dataset.fdl==='doc')dlBlob(name+'.doc',new Blob([ficheDoc(d)],{type:'application/msword'}));
+    else dlBlob(name+'.pdf',await fichePdf(d));b.textContent='Téléchargé ✓'}
+  catch(e){b.textContent='Échec, réessayez'}
+  setTimeout(()=>{b.textContent=lab;b.disabled=false},2000);
+});
 
 function startQuizLegacy(body){
   const m=cur;let qi=0,score=0;
@@ -16558,7 +16633,7 @@ function renderPTab(){
   if(ptab==='module'){const md=d.id==='famille'?null:modDom(d.id);const open=tid=>famTheme(body,tid,()=>famSommaire(body,open,md),null,md);famSommaire(body,open,md);return}
   if(ptab==='fiches'){
     const m=MAT.find(x=>x.id===psub);
-    body.innerHTML=`<div class="pane"><div class="subchips"><span class="eyebrow" style="margin-right:6px">Fiche</span>${visRefs(d).map(r=>{const mm=MAT.find(x=>x.id===r);return `<button class="chip" id="sub-${r}" data-r="${r}" aria-pressed="${r===psub}">${esc(mm.n)}</button>`}).join('')}</div>
+    body.innerHTML=`<div class="pane"><div class="subchips"><span class="eyebrow" style="margin-right:6px">Fiche</span>${visRefs(d).map(r=>{const mm=MAT.find(x=>x.id===r);return `<button class="chip" id="sub-${r}" data-r="${r}" aria-pressed="${r===psub}">${esc(mm.n)}</button>`}).join('')}</div>${ficheDlBar(m)}
       <div class="fiche"><div class="arts"><p style="font-size:17px;max-width:66ch">${esc(m.fiche.lead)}</p>${ficheArts(m)}</div>${ficheSide(m)}</div></div>`;
     body.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{psub=b.dataset.r;renderPTab()});
   } else if(ptab==='exemples'){

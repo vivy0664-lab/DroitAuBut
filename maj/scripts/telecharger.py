@@ -35,7 +35,7 @@ log('Début de la mise à jour')
 
 # 1. PISTE : Judilibre et Légifrance (120 derniers jours)
 def piste():
-    cid, sec = os.environ.get('PISTE_CLIENT_ID', '').strip(), os.environ.get('PISTE_CLIENT_SECRET', '').strip()
+    cid, sec = (os.environ.get(v, '').strip().strip('"\'').strip() for v in ('PISTE_CLIENT_ID', 'PISTE_CLIENT_SECRET'))
     if not cid or not sec:
         log('PISTE : variables PISTE_CLIENT_ID / PISTE_CLIENT_SECRET absentes de l\'environnement cloud'); return False
     try:

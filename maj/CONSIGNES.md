@@ -31,8 +31,8 @@ Règles générales :
    - Lance `python3 maj/appliquer_quiz.py`. S'il refuse le format, corrige `maj/travail/weekly.js` et relance.
 
 3. **Vérification** :
-   `pip install -q playwright && python3 -m playwright install --with-deps chromium` puis `python3 maj/verifier.py`.
-   - Si l'installation de Playwright échoue (réseau), désinstalle-le (`pip uninstall -y playwright`) et relance `python3 maj/verifier.py` :
+   `pip install -q playwright && python3 -m playwright install --with-deps chromium 2>&1 | tail -5` puis `python3 maj/verifier.py`.
+   - Si l'installation de Playwright échoue (réseau), note la cause (dernières lignes affichées) pour le compte rendu, désinstalle-le (`pip uninstall -y playwright`) et relance `python3 maj/verifier.py` :
      il fait alors un contrôle de syntaxe (vérification partielle, à signaler dans le compte rendu).
    - En cas d'échec : `git checkout -- . && git clean -fd maj/travail`, ne pousse rien, explique l'erreur.
 

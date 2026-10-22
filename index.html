@@ -7,7 +7,7 @@
 /* Layout : étages (années) > étagère de matières > volume ouvert avec onglets (fiche, quiz, sujets + corrigés séparés), puis le Bulletin d'actualité. */
 :root{
   --bg:#F2F5F4; --paper:#FFFFFF; --ink:#1D1D1B; --muted:#56615F; --line:#D0DBD8; --on-accent:#FFFFFF;
-  --wood:#5F807A; --wood-dark:#3C5A55; --gold:#8EAAA5; --accent:#008676; --navy:#01476A;
+  --wood:#5F807A; --wood-dark:#3C5A55; --gold:#8EAAA5; --accent:#00766A; --navy:#01476A;
   --ok:#1F7A4D; --ko:#B3261E; --corr:#F2F8F7; --corr-line:#B5D1CB; --soft:#E3ECEA;
   --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
   --body:"Instrument Sans","Segoe UI",system-ui,sans-serif;
@@ -23,6 +23,7 @@
   --corr:#1A2625;--corr-line:#2C5550;--soft:#203029;--on-accent:#0F1615;color-scheme:dark}
 
 *{box-sizing:border-box}
+::placeholder{color:var(--muted);opacity:1}
 body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--body);padding:0 16px;-webkit-font-smoothing:antialiased}
 .wrap{overflow-x:clip;max-width:1140px;margin:0 auto;padding-block:36px 80px;display:flex;flex-direction:column;gap:56px}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.06}
@@ -36,7 +37,7 @@ a{color:var(--accent)}
 .hero{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:28px;align-items:end}
 .hero h1{font-size:clamp(42px,7.4vw,92px);font-weight:900;letter-spacing:-.02em}
 .hero h1 em{font-style:italic;font-weight:500;color:var(--accent)}
-.hero .lede{max-width:60ch;color:var(--muted);margin-top:16px;font-size:17px}
+.hero .lede{max-width:54ch;text-wrap:pretty;color:var(--muted);margin-top:16px;font-size:17px}
 .copy{width:220px;height:200px}
 .copy .ln{stroke:var(--muted);stroke-width:2;stroke-linecap:round;stroke-dasharray:140;stroke-dashoffset:140;animation:write 6s ease-in-out infinite}
 .copy .ln:nth-of-type(2){animation-delay:.35s}.copy .ln:nth-of-type(3){animation-delay:.7s}.copy .ln:nth-of-type(4){animation-delay:1.05s}.copy .ln:nth-of-type(5){animation-delay:1.4s}
@@ -54,7 +55,7 @@ a{color:var(--accent)}
 
 /* MODULE FAMILLE */
 .famgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
-.famcard{--c:#008676;text-align:left;border:1px solid var(--line);border-top:6px solid var(--c);background:var(--paper);border-radius:4px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;transition:transform .2s,box-shadow .2s}
+.famcard{--c:#00766A;text-align:left;border:1px solid var(--line);border-top:6px solid var(--c);background:var(--paper);border-radius:4px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;transition:transform .2s,box-shadow .2s}
 .famcard:hover{transform:translateY(-3px);box-shadow:0 12px 24px -16px rgba(0,0,0,.4)}
 .famcard .num{font:500 12px/1 var(--mono);color:var(--muted)}
 .famcard .tt{font:700 21px/1.15 var(--display)}
@@ -157,7 +158,7 @@ a{color:var(--accent)}
 .rdh{display:flex;align-items:center}.rdh b{font:700 26px/1 var(--display)}
 .rditem{text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:4px;padding:12px 14px;display:flex;flex-direction:column;gap:3px}.rditem b{font:700 18px/1.2 var(--display)}.rditem span{font-size:13px;color:var(--muted)}
 .rdin hr{border:0;border-top:1px solid var(--line);width:100%}
-@media (max-width:640px){.hero,.metsel{padding-right:44px}.srow{flex-direction:column}.rbtn{padding:10px 16px}.metsel{margin-top:-40px}}
+@media (max-width:640px){.srow{flex-direction:column}.metsel{margin-top:-40px}.spacelbl{display:none}.cmlbl{display:none}.commonbar{padding:6px 0}.rtab{padding:8px 11px;min-width:44px;justify-content:center}.rtab .rtl{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.rtab{position:relative}}
 
 /* MÉTIER */
 .mgrid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:30px}
@@ -243,8 +244,19 @@ a{color:var(--accent)}
 .audb[aria-pressed="true"] svg{color:var(--gold)}
 
 /* ONGLETS PRINCIPAUX */
-.maintabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:0;border-bottom:3px solid var(--ink);padding-top:8px}
-.mtab{border:0;background:transparent;padding:14px 12px 12px;text-align:left;display:flex;flex-direction:column;gap:3px;border-radius:4px 4px 0 0;transition:background .2s,color .2s}
+.navstack{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-top:8px}
+.maintabs{display:flex;align-items:flex-end;gap:4px;border-bottom:3px solid var(--ink);overflow-x:auto;scrollbar-width:none}
+.spacelbl{align-self:center;flex:none;font:600 13px/1.3 var(--body);color:var(--muted);padding:0 14px 0 2px;margin-right:4px;border-right:1px solid var(--line)}
+.commonbar{display:flex;align-items:center;gap:6px;padding:8px 0;border-bottom:1px solid var(--line)}
+.cmlbl{flex:none;font:600 13px/1.3 var(--body);color:var(--muted);padding:0 10px 0 2px}
+.commontabs{display:flex;gap:4px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);padding-right:24px}
+.commontabs .mtab{flex:none;flex-direction:row;align-items:center;padding:8px 12px;min-height:40px;border-radius:999px}
+.commontabs .mtab .big{font:600 15px/1.2 var(--body);white-space:nowrap}
+.commontabs .mtab .small{display:none}
+.commontabs .mtab .cnt{margin-left:6px;vertical-align:1px;padding:3px 6px;font-size:11px}
+.rtab{flex:none;display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:8px 14px;border:1.5px solid var(--ink);border-radius:999px;background:var(--paper);color:var(--ink);font:600 15px/1.2 var(--body)}
+.rtab svg{width:18px;height:18px}.rtab:hover{background:var(--soft)}
+.mtab{flex:none;border:0;background:transparent;padding:14px 12px 12px;text-align:left;display:flex;flex-direction:column;gap:3px;border-radius:4px 4px 0 0;transition:background .2s,color .2s}
 .mtab .big{font:700 clamp(20px,3vw,30px)/1 var(--display)}
 .mtab .small{font:500 11px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .mtab:hover{background:var(--soft)}
@@ -270,11 +282,11 @@ a{color:var(--accent)}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 
 /* ÉTAGÈRE */
-.shelf-scroll{overflow-x:auto;padding-top:36px;scrollbar-width:thin}
+.shelf-scroll{overflow-x:auto;overflow-y:hidden;padding-top:36px;padding-bottom:22px;scrollbar-width:thin}
 .shelf{position:relative;display:flex;align-items:flex-end;gap:6px;padding:0 18px;min-width:max-content;min-height:280px}
 .shelf::after{content:"";position:absolute;left:0;right:0;bottom:-18px;height:18px;background:linear-gradient(var(--wood),var(--wood-dark));border-radius:2px;box-shadow:0 10px 18px -8px rgba(0,0,0,.45)}
-.spine{--c:#008676;position:relative;width:58px;border:0;padding:14px 0;border-radius:3px 3px 1px 1px;
-  background:linear-gradient(90deg,rgba(0,0,0,.28),rgba(255,255,255,.10) 22%,rgba(0,0,0,0) 45%,rgba(0,0,0,.22)),var(--c);
+.spine{--c:#00766A;position:relative;width:58px;border:0;padding:14px 0;border-radius:3px 3px 1px 1px;
+  background:linear-gradient(90deg,rgba(0,0,0,.28),rgba(255,255,255,.08) 22%,rgba(0,0,0,0) 45%,rgba(0,0,0,.22)),linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2)),var(--c);
   color:#F3F8F7;display:flex;flex-direction:column;align-items:center;justify-content:space-between;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25);
   transition:transform .45s cubic-bezier(.2,.8,.2,1.2),filter .3s;animation:drop .7s cubic-bezier(.2,.8,.25,1.15) backwards;animation-delay:calc(var(--i)*70ms)}
 @keyframes drop{from{transform:translateY(-80px) rotate(-5deg)}}
@@ -282,8 +294,8 @@ a{color:var(--accent)}
 .spine[aria-selected="true"]{transform:translateY(-32px);filter:drop-shadow(0 14px 14px rgba(0,0,0,.35))}
 .spine .band{width:70%;height:3px;border-top:1px solid #8EAAA5;border-bottom:1px solid #8EAAA5}
 .spine .label{writing-mode:vertical-rl;transform:rotate(180deg);font:700 15px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;flex:1;display:flex;align-items:center;padding:10px 0}
-.spine .yr{font:500 10px/1 var(--mono)}
-.spine.fat{width:70px}.spine.thin{width:48px}.spine.thin .label{font-size:13px}
+.spine .yr{font:500 11px/1 var(--mono)}
+.spine.fat{width:70px}.spine.thin{width:48px}.spine.thin .label{font-size:13px}.spine .label.wrap{white-space:normal;text-align:center;line-height:1.05;justify-content:center}
 .spine .done{position:absolute;top:-8px;right:-6px;background:var(--gold);color:#1B1D21;font:600 10px/1 var(--mono);border-radius:999px;padding:4px 6px}
 
 /* VOLUME */
@@ -307,16 +319,18 @@ a{color:var(--accent)}
 /* fiche */
 .fiche{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px}
 .arts{display:flex;flex-direction:column;gap:18px}
-.art h3{font:500 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+.flvwrap>.art+.art{margin-top:36px}
+.art h3{font:700 20px/1.25 var(--display);color:var(--ink);margin:0 0 8px;text-wrap:balance}
+.art h3 .artn{font:600 14px/1 var(--body);color:var(--accent);margin-right:4px;white-space:nowrap}
 .side{display:flex;flex-direction:column;gap:22px}
 .side h4{font:500 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
 .side ul{margin:0;padding-left:18px}.side li{margin:4px 0}
 .side .ref{font-weight:600}
-.art .dev{margin-top:6px;color:var(--ink);opacity:.86;font-size:15px;max-width:68ch}
-.art p.short{font-weight:600}
+.art .dev{margin-top:6px;color:var(--ink);opacity:.86;font-size:15px;max-width:62ch;text-wrap:pretty}
+.art p.short{font-weight:600;max-width:60ch;text-wrap:pretty}
 .sub4{font:600 15px/1.3 var(--body);margin:10px 0 2px;color:var(--accent)}
 .pending{font-style:italic;color:var(--muted);font-size:14px}
-.fl-sw{margin-bottom:6px}
+.fl-sw{margin-bottom:22px}
 .fdlbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:18px}.fdlbar .eyebrow{margin-right:4px}.fdlbar .btn{min-width:76px}
 .art h3 a{color:inherit;text-decoration:none;border-bottom:1px solid var(--gold)}
 .art .more{font-size:14px;font-weight:600;color:var(--accent);display:inline-block;margin-top:6px}
@@ -440,7 +454,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);paddin
 .fgridx{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-bottom:12px}
 .fcard{border:1px solid var(--line);border-radius:4px;padding:12px 14px;background:var(--paper);min-width:0}.fcard h4{margin:6px 0 4px;font-size:17px;line-height:1.3}
 .fcard details summary{cursor:pointer;font-size:14px;color:var(--accent)}.fcard details p{font-size:14px;line-height:1.5}.fcard a{font-size:14px}
-.fsub{font-size:13px;color:var(--muted);margin:0 0 6px}.ftag{display:inline-block;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;padding:1px 6px;border-radius:3px;border:1px solid var(--accent);color:var(--accent);margin-left:6px}
+.fsub{font-size:13px;color:var(--muted);margin:0 0 6px}.ftag{display:inline-block;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.04em;padding:1px 6px;border-radius:3px;border:1px solid var(--accent);color:var(--accent);margin-left:6px}
 .atext{grid-column:1/-1;margin:-4px 0 8px;padding:0 0 0 12px;border-left:2px solid var(--line)}.atext summary{cursor:pointer;font-size:13px;color:var(--accent)}.aart p{font-size:14px;line-height:1.55;margin:4px 0}.aart{margin:8px 0}
 @media (max-width:640px){.fgridx{grid-template-columns:1fr}}
 .jall{display:grid;grid-template-columns:250px minmax(0,1fr);gap:24px;align-items:start}
@@ -456,7 +470,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);paddin
 .fgrid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px 14px;margin-bottom:10px}.paform .fld{margin-bottom:10px}
 .cxsujet{white-space:normal;max-width:78ch}.cxchrono{font-family:var(--mono);font-size:14px;margin-top:6px}.cxcard .cs{font-size:13px}
 .cxd .rt td{vertical-align:top}.cxd .rt td:nth-child(5){min-width:220px}
-@media (min-width:701px){.maintabs{grid-auto-columns:minmax(max-content,1fr);overflow-x:auto;scrollbar-width:thin}.mtab .big{white-space:nowrap;font-size:21px}.mtab .small{max-width:20ch}}
+@media (min-width:701px){.maintabs .mtab .big{white-space:nowrap;font-size:21px}.maintabs .mtab .small{white-space:nowrap}}
 .avtl{display:flex;flex-direction:column;gap:22px;margin-top:14px}.avgrp h3{font-size:22px;margin:0 0 10px;display:flex;align-items:baseline;gap:10px}.avgrp h3 .note{font-family:var(--body);font-size:14px}
 .avcard{border:1px solid var(--line);border-left:6px solid var(--accent);border-radius:4px;background:var(--paper);padding:12px 14px;margin-bottom:10px;min-width:0}.avcard h4{margin:4px 0;font-size:17px;line-height:1.3}
 .avcard .meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:13px}.avcard .when{font:600 13px var(--mono);color:var(--accent)}.avcard p{font-size:15px;max-width:80ch}.avcard .ref{font-size:13px;color:var(--muted)}
@@ -468,8 +482,9 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);paddin
 .ptex .enonce{font-style:italic}.ptdl dt{font-weight:600;margin-top:8px}.ptdl dd{margin:2px 0 0}.ptabs{margin-bottom:10px}
 .redac{margin-top:14px}.redac-t{border-left:3px solid var(--accent);padding:4px 0 4px 14px;margin-top:10px}.redac-t p{margin:0 0 10px;text-align:justify;hyphens:auto}.redh{font:700 16px/1.3 var(--display);margin:14px 0 6px}
 
-.rdbar{position:relative;margin-top:10px;height:22px;border-radius:3px;background:var(--soft);overflow:hidden;font:500 11px/22px var(--mono);color:var(--muted)}
-.rdbar i{position:absolute;inset:0 auto 0 0;background:color-mix(in srgb,var(--accent) 22%,transparent)}.rdbar span{position:relative;padding:0 8px}.rdbar.ok{background:color-mix(in srgb,var(--ok) 14%,transparent);color:var(--ok)}
+.rdbar{position:relative;margin-top:12px;padding-top:9px;max-width:280px;font:500 12px/1.4 var(--body);color:var(--muted)}
+.rdbar::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;border-radius:2px;background:var(--soft)}
+.rdbar i{position:absolute;top:0;left:0;height:3px;border-radius:2px;background:var(--accent)}.rdbar.ok{color:var(--ok);padding-top:0}.rdbar.ok::before{display:none}
 .lockbox{border:1px dashed var(--line);border-radius:4px;padding:12px 14px;margin:10px 0}.chip.on{border-color:var(--ok);color:var(--ok)}
 .qnote textarea,.errc textarea{width:100%;font:inherit;padding:8px;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:inherit}
 .phead{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:end;border:1px solid var(--line);border-radius:4px;background:var(--paper);padding:18px 20px;margin:18px 0 8px}
@@ -478,6 +493,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);paddin
 .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}.pcard{border:1px solid var(--line);border-radius:4px;background:var(--paper);padding:16px 18px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}.pcard h4{font-size:20px;margin:0}
 .pdays{display:flex;gap:6px;flex-wrap:wrap}.pday{width:30px;height:30px;border-radius:4px;border:1px solid var(--line);display:grid;place-items:center;font:500 12px var(--mono);color:var(--muted)}.pday.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .errlist{display:flex;flex-direction:column;gap:10px}.errc{border:1px solid var(--line);border-left:4px solid var(--ko);border-radius:4px;background:var(--paper);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.wkc .wkh{font:700 20px/1.25 var(--body);margin:0}
 .rt tr.on td{background:color-mix(in srgb,var(--accent) 12%,transparent);font-weight:600}.wkslot{margin:16px 0}.wkslot .pcard{max-width:720px}
 .xptoast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,40px);opacity:0;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:6px;font-size:14px;z-index:60;transition:all .3s;pointer-events:none;text-align:center}.xptoast.show{opacity:1;transform:translate(-50%,0)}.xptoast span{color:var(--gold)}
 @media (max-width:640px){.phead{grid-template-columns:1fr}.pstats{justify-content:space-between}}
@@ -485,7 +501,7 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);paddin
 .jall>*{min-width:0}.jsel{display:none;width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:inherit;font:inherit;margin-bottom:10px}
 .fbar{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:6px;background:var(--paper);padding:0 10px;max-width:560px}
 .fbar input{flex:1;min-width:0;border:0;background:transparent;color:inherit;font:inherit;padding:9px 0;outline:none}.fbar:focus-within{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
-.book-head .fbar{margin-top:14px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.35);color:#F3F8F7}.book-head .fbar input::placeholder{color:rgba(243,248,247,.75)}
+.book-head .fbar{margin-top:14px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.35);color:#F3F8F7}.book-head .fbar input::placeholder{color:#F3F8F7;opacity:.95}
 .rfind{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-bottom:16px}.rfind .fbar{flex:1;min-width:220px}
 .fhits{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}.fhit{display:flex;flex-direction:column;gap:4px;width:100%;text-align:left;border:1px solid var(--line);border-radius:4px;background:var(--paper);padding:10px 12px}
 .fhit:hover{border-color:var(--accent)}.fhit b{font-size:15.5px}.fhit span:last-child{font-size:14px;color:var(--muted)}.fhit .ftag{align-self:flex-start}
@@ -501,9 +517,21 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 .cjps{margin-top:8px;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:6px 10px}.cjps>summary{cursor:pointer;font-weight:600;color:var(--accent);font-size:14px}.cjps ul{list-style:none;padding:0;margin:6px 0}.cjp{border-top:1px dashed var(--line);padding:8px 0;font-size:14px}.cjp p{margin:2px 0}.cjh{font-weight:600}.cjp details summary{cursor:pointer;font-size:13px;color:var(--muted)}
 @media (max-width:760px){.ctwrap{grid-template-columns:1fr}.cttoc{position:static;max-height:40vh}}
 .cth{margin:26px 0 8px;line-height:1.3}.cth[data-lv='1']{font-size:22px;border-bottom:2px solid var(--ink);padding-bottom:4px}.cth[data-lv='2']{font-size:19px}.cth[data-lv='3']{font-size:17px}.cth[data-lv='4'],.cth[data-lv='5'],.cth[data-lv='6']{font-size:15px;color:var(--muted)}.ctnext{display:block;margin:18px auto}
+
+/* Téléphone : le contenu de révision arrive plus vite, zones à toucher de 44 px */
+@media (max-width:640px){
+  .wrap{gap:28px;padding-block:20px 60px}
+  #eyebrow{display:none}
+  .hero .lede{font-size:15px;margin-top:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .aud{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .audb{padding:10px 12px;min-height:52px;justify-content:center}.audb svg{display:none}.audb .t{font-size:17px;white-space:nowrap}.audb .d{display:none!important}
+  .years{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+  .plate{padding:8px 4px;align-items:center;min-height:48px;justify-content:center}.plate .yr{font-size:21px}.plate .sub{display:none}
+  .chip{min-height:44px}
+  .ticker .run button{padding:12px 0}
+}
 </style>
 
-<button class="burger" id="burger" aria-label="Ouvrir le menu des ressources" aria-controls="rdrawer"><span></span><span></span><span></span></button>
 <div class="rdrawer" id="rdrawer" hidden><div class="rdin" role="dialog" aria-label="Ressources">
   <div class="rdh"><b>Ressources</b><button class="dx" id="rdx" aria-label="Fermer">×</button></div>
   <p class="note">Accessibles à tous. En espace professionnel, elles sont filtrées selon votre profession (option pour tout afficher) ; en Général, tout est affiché.</p>
@@ -547,7 +575,6 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
     <input type="search" id="gq" autocomplete="off" placeholder="Rechercher partout : une notion, un article, un arrêt, une procédure…" aria-label="Recherche générale">
     <kbd>/</kbd>
   </div>
-  <button class="rbtn" id="rbtn" aria-haspopup="true" aria-controls="rdrawer"><span aria-hidden="true">☰</span> Ressources</button>
   </div>
   <div class="gres" id="gres" hidden></div>
 
@@ -566,17 +593,26 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 
   <section id="metgate" hidden></section>
 
-  <nav class="maintabs" role="tablist" aria-label="Rubriques">
+  <div class="navstack">
+  <nav class="maintabs" role="tablist" aria-label="Votre espace">
+    <span class="spacelbl" id="spacelbl">Espace étudiants</span>
     <button class="mtab" role="tab" id="mt-revisions" data-p="revisions"><span class="big" id="mt1b">Révisions</span><span class="small" id="mt1s">Licence et master, par matière</span></button>
     <button class="mtab" role="tab" id="mt-metier" data-p="metier" hidden><span class="big">Mon métier</span><span class="small">Réflexes et raccourcis</span></button>
-    <button class="mtab" role="tab" id="mt-mres" data-p="mres" hidden><span class="big">Ressources</span><span class="small">Propres à votre profession</span></button>
-    <button class="mtab" role="tab" id="mt-procedures" data-p="procedures"><span class="big">Procédures</span><span class="small">Saisir, exécuter, indemniser</span></button>
-    <button class="mtab" role="tab" id="mt-reformes" data-p="reformes"><span class="big">Réformes<span class="cnt" id="c-ref"></span></span><span class="small">Lois, ordonnances, décrets</span></button>
-    <button class="mtab" role="tab" id="mt-jurisprudence" data-p="jurisprudence"><span class="big">Jurisprudence<span class="cnt" id="c-jur"></span></span><span class="small">Arrêts et décisions récents</span></button>
-    <button class="mtab" role="tab" id="mt-concours" data-p="concours"><span class="big">Concours</span><span class="small">Examens, programmes, examens blancs</span></button>
-    <button class="mtab" role="tab" id="mt-partage" data-p="partage"><span class="big" id="mt-pa-b">Partiels</span><span class="small" id="mt-pa-s">Sujets partagés par fac</span></button>
-    <button class="mtab" role="tab" id="mt-prog" data-p="prog"><span class="big">Mon programme<span class="cnt" id="c-prog" hidden></span></span><span class="small">Révision, défis, carnet</span></button>
+    <button class="mtab" role="tab" id="mt-mres" data-p="mres" hidden><span class="big">Ressources métier</span><span class="small">Propres à votre profession</span></button>
   </nav>
+  <div class="commonbar">
+    <span class="cmlbl" id="cmlbl">Pour tous</span>
+    <nav class="commontabs" role="tablist" aria-labelledby="cmlbl">
+    <button class="mtab ctab" role="tab" id="mt-procedures" data-p="procedures"><span class="big">Procédures</span><span class="small">Saisir, exécuter, indemniser</span></button>
+    <button class="mtab ctab" role="tab" id="mt-reformes" data-p="reformes"><span class="big">Réformes<span class="cnt" id="c-ref"></span></span><span class="small">Lois, ordonnances, décrets</span></button>
+    <button class="mtab ctab" role="tab" id="mt-jurisprudence" data-p="jurisprudence"><span class="big">Jurisprudence<span class="cnt" id="c-jur"></span></span><span class="small">Arrêts et décisions récents</span></button>
+    <button class="mtab ctab" role="tab" id="mt-concours" data-p="concours"><span class="big">Concours</span><span class="small">Examens, programmes, examens blancs</span></button>
+    <button class="mtab ctab" role="tab" id="mt-partage" data-p="partage"><span class="big" id="mt-pa-b">Partiels</span><span class="small" id="mt-pa-s">Sujets partagés par fac</span></button>
+    <button class="mtab ctab" role="tab" id="mt-prog" data-p="prog"><span class="big">Mon programme<span class="cnt" id="c-prog" hidden></span></span><span class="small">Révision, défis, carnet</span></button>
+    </nav>
+    <button class="rtab" id="burger" aria-haspopup="dialog" aria-controls="rdrawer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="rtl">Ressources</span></button>
+  </div>
+  </div>
 
   <div class="panel" id="p-revisions">
     <section class="floors" aria-label="Choisir une année">
@@ -1165,7 +1201,7 @@ comm:[
 ["Plan proposé",["I. La fin du numerus clausus des droits réels","A. La liberté de création","B. La distinction avec l'usufruit","II. La question de la durée","A. Un droit perpétuel ?","B. Les précisions ultérieures de la Cour"]]]]]
 });
 
-M({id:"finpub",y:"L1",n:"Finances publiques",c:"#008676",w:"thin",
+M({id:"finpub",y:"L1",n:"Finances publiques",c:"#00766A",w:"thin",
 fiche:{lead:"Le budget de l'État, sa préparation, son vote, son exécution et son contrôle.",
 pts:[
 ["La LOLF","Loi organique du 1er août 2001, pleinement appliquée en 2006, réformée par la loi organique du 28 décembre 2021. Budget par missions, programmes, actions, avec indicateurs de performance."],
@@ -2137,7 +2173,7 @@ comm:[
 ["Plan proposé",["I. Une conception morale de l'intérêt social","A. L'indifférence de l'avantage économique","B. Le risque anormal de sanctions"," II. Les fonctions de la solution","A. La répression de la corruption par l'ABS","B. Le contournement des difficultés de preuve et de prescription"]]]]]
 });
 
-M({id:"commande",y:"M2",spe:"public",n:"Commande publique",c:"#008676",w:"thin",
+M({id:"commande",y:"M2",spe:"public",n:"Commande publique",c:"#00766A",w:"thin",
 fiche:{lead:"Les marchés publics, les concessions et l'intervention économique des personnes publiques.",
 pts:[
 ["Le code","Code de la commande publique, entré en vigueur le 1er avril 2019."],
@@ -2649,7 +2685,7 @@ comm:[
 [["Plan proposé",["I. Les conditions","A. Un lien de dépendance","B. Un transfert indirect de bénéfices","II. La mise en œuvre","A. La méthode de comparaison avec le prix de pleine concurrence","B. Les obligations documentaires"]]]]]
 });
 
-M({id:"fiscapat",y:"M2",spe:"fiscal",n:"Fiscalité du patrimoine",c:"#008676",w:"thin",
+M({id:"fiscapat",y:"M2",spe:"fiscal",n:"Fiscalité du patrimoine",c:"#00766A",w:"thin",
 fiche:{lead:"L'imposition de la détention et de la transmission du patrimoine des particuliers.",
 pts:[
 ["L'IFI","Impôt sur la fortune immobilière depuis 2018, dû au-delà de 1,3 M€ de patrimoine immobilier net."],
@@ -3448,7 +3484,7 @@ jp:[
 ["CE, 1er juil. 2021, Commune de Grande-Synthe","Injonction climatique au Gouvernement.","Contentieux climatique."],
 ["CC, n° 2019-823 QPC, 31 janv. 2020","Protection de l'environnement, objectif de valeur constitutionnelle.","Justifier une atteinte à la liberté d'entreprendre."]]});
 
-P({id:"commande",n:"Commande publique",c:"#008676",w:"thin",refs:["commande"],
+P({id:"commande",n:"Commande publique",c:"#00766A",w:"thin",refs:["commande"],
 lead:"Passation et exécution des marchés et concessions, recours des candidats.",
 ex:[
 {t:"Le candidat évincé",sit:"Une entreprise classée deuxième apprend le rejet de son offre ; la pondération des critères n'avait pas été publiée. Le contrat n'est pas signé.",
@@ -3562,7 +3598,7 @@ jp:[["CJUE, 4 juin 2009, Pannon","Relevé d'office des clauses abusives.","Soule
 ["Cass., ch. mixte, 23 nov. 2004","Aléa de l'assurance-vie.","Qualification des contrats d'assurance-vie face aux héritiers."],
 ["Cass. 2e civ., 20 mai 2020","Faute dolosive autonome.","Anticiper l'exclusion légale invoquée par l'assureur."]]});
 
-P({id:"corporel",n:"Dommage corporel et victimes",c:"#008676",w:"fat",refs:["corporel","respciv"],
+P({id:"corporel",n:"Dommage corporel et victimes",c:"#00766A",w:"fat",refs:["corporel","respciv"],
 lead:"Expertise, nomenclature Dintilhac, recours des tiers payeurs, régimes spéciaux et fonds d'indemnisation.",
 ex:[
 {t:"La victime d'un accident du travail routier",sit:"Un salarié est blessé par un tiers pendant une tournée ; la caisse lui sert une rente ; l'assureur du tiers impute la rente sur tous les postes.",
@@ -4173,7 +4209,7 @@ jp:[["Cass. 1re civ., 22 févr. 1978, Poussin","L'erreur sur la substance peut p
 ["Cass. ch. mixte, 24 févr. 2017, n° 15-20.411","La nullité sanctionnant une règle protectrice d'un intérêt privé est relative."],
 ["Cass. com., 22 oct. 1996, n° 93-18.632, Chronopost","La clause limitative qui contredit la portée de l'obligation essentielle est réputée non écrite."]]},
 
-{id:"ob-inexecution",n:"Exécution et inexécution du contrat",c:"#008676",
+{id:"ob-inexecution",n:"Exécution et inexécution du contrat",c:"#00766A",
 sections:[
 {h:"Force obligatoire, bonne foi et imprévision",s:"Le contrat tient lieu de loi à ceux qui l'ont fait et doit être exécuté de bonne foi ; depuis 2016, le juge peut réviser ou mettre fin au contrat bouleversé par un changement imprévisible de circonstances.",
 d:"Les contrats légalement formés tiennent lieu de loi à ceux qui les ont faits (art. 1103) ; ils doivent être négociés, formés et exécutés de bonne foi, disposition d'ordre public (art. 1104). Ils ne peuvent être modifiés ou révoqués que du consentement mutuel des parties ou pour les causes que la loi autorise (art. 1193). L'article 1195 rompt avec la jurisprudence Canal de Craponne (Cass. civ., 6 mars 1876) : si un changement de circonstances imprévisible lors de la conclusion rend l'exécution excessivement onéreuse pour une partie qui n'avait pas accepté d'en assumer le risque, celle-ci peut demander une renégociation à son cocontractant, en continuant d'exécuter ses obligations. En cas de refus ou d'échec, les parties peuvent convenir de la résolution ou demander d'un commun accord au juge d'adapter le contrat ; à défaut d'accord dans un délai raisonnable, le juge peut, à la demande d'une partie, réviser le contrat ou y mettre fin.",
@@ -4507,7 +4543,7 @@ jp:[["Cass. soc., 8 oct. 1987, Raquin, n° 84-41.902","Une modification du contr
 ["Cass. soc., 13 sept. 2023, n° 22-17.340","Le salarié en arrêt maladie non professionnelle acquiert des congés payés, en application du droit de l'Union."],
 ["Cass. soc., 10 sept. 2025, n° 23-22.732 et n° 23-14.455","Report des congés coïncidant avec un arrêt maladie notifié ; prise en compte des congés payés pour le seuil de déclenchement des heures supplémentaires en décompte hebdomadaire."]]}
 ,
-{id:"trav-licperso",n:"Pouvoir disciplinaire et licenciement pour motif personnel",c:"#008676",
+{id:"trav-licperso",n:"Pouvoir disciplinaire et licenciement pour motif personnel",c:"#00766A",
 sections:[
 {h:"Le pouvoir disciplinaire",s:"L'employeur sanctionne les agissements fautifs dans le respect d'une procédure, de délais stricts et du principe de proportionnalité.",
 d:"Constitue une sanction toute mesure, autre que les observations verbales, prise par l'employeur à la suite d'un agissement du salarié considéré comme fautif (art. L. 1331-1 C. trav.). Les amendes et sanctions pécuniaires sont interdites (art. L. 1331-2). Dans les entreprises d'au moins 50 salariés, le règlement intérieur fixe la nature et l'échelle des sanctions (art. L. 1311-2 et L. 1321-1) ; une sanction qu'il ne prévoit pas ne peut être prononcée, sauf le licenciement. Aucun fait fautif ne peut donner lieu à lui seul à l'engagement de poursuites disciplinaires au-delà de deux mois à compter du jour où l'employeur en a eu connaissance (art. L. 1332-4).",
@@ -4846,7 +4882,7 @@ jp:[["Cass. crim., 21 janv. 2025, n° 22-87.145, France Télécom","Consécratio
 ["Cass. crim., 14 nov. 2000","L'abus de confiance peut porter sur un bien incorporel, tel un numéro de carte bancaire."],
 ["Cons. const., 4 mai 2012, n° 2012-240 QPC","Abrogation immédiate de l'ancien délit de harcèlement sexuel, faute de définition suffisamment précise des éléments constitutifs."]]}
 ,
-{id:"pe-enquete",n:"Enquête et garde à vue",c:"#008676",
+{id:"pe-enquete",n:"Enquête et garde à vue",c:"#00766A",
 sections:[
 {h:"Les cadres d'enquête",s:"L'enquête de flagrance, coercitive mais brève, suppose un crime ou un délit flagrant ; l'enquête préliminaire, de droit commun, est en principe fondée sur l'assentiment et limitée dans le temps depuis 2021.",
 d:"Est flagrant le crime ou le délit qui se commet actuellement ou qui vient de se commettre, ou lorsque, dans un temps très voisin de l'action, la personne soupçonnée est poursuivie par la clameur publique, trouvée en possession d'objets ou présente des traces ou indices laissant penser qu'elle a participé à l'infraction (art. 53 CPP). L'enquête de flagrance, ouverte pour un crime ou un délit puni d'emprisonnement, dure huit jours et peut être prolongée de huit jours par le procureur pour un crime ou un délit puni d'au moins cinq ans d'emprisonnement lorsque les investigations ne peuvent être différées. Les enquêteurs y disposent de pouvoirs coercitifs propres (perquisitions sans assentiment, réquisitions, interdiction de s'éloigner). L'enquête préliminaire (art. 75 et s.) est menée d'office ou sur instruction du procureur ; depuis la loi n° 2021-1729 du 22 décembre 2021 pour la confiance dans l'institution judiciaire, sa durée est limitée à deux ans à compter du premier acte, prolongeable d'un an par décision écrite et motivée du procureur (trois ans et deux ans pour la criminalité organisée et le terrorisme, art. 75-3). L'information judiciaire, ouverte par réquisitoire ou plainte avec constitution de partie civile, est obligatoire en matière criminelle et facultative pour les délits (art. 79).",
@@ -5181,7 +5217,7 @@ jp:[["Cass. 3e civ., 4 mars 1992","Le droit de jouissance exclusif sur une parti
 ["Cass. 3e civ., 8 mars 2018, n° 14-15.864","Les locations meublées de courte durée de type hôtelier peuvent être interdites comme contraires à la destination de l'immeuble."],
 ["Cass. 3e civ., 12 mai 2016, n° 15-15.166","L'action tendant à faire réputer non écrite une clause de répartition des charges contraire à l'article 10 peut être exercée à tout moment : elle n'est pas soumise au délai de deux mois de l'article 42."],
 ["CJUE, 22 sept. 2020, Cali Apartments, C-724/18 et C-727/18","Le régime d'autorisation des meublés de tourisme est compatible avec la directive services, en ce qu'il est justifié par la lutte contre la pénurie de logements."]]}
-,{id:"im-habitation",n:"Bail d'habitation",c:"#008676",
+,{id:"im-habitation",n:"Bail d'habitation",c:"#00766A",
 sections:[
 {h:"Le cadre de la loi du 6 juillet 1989 et la décence",s:"La loi de 1989 est d'ordre public pour les locations de résidence principale ; le bailleur doit délivrer un logement décent, ce qui inclut désormais un niveau minimal de performance énergétique.",
 d:"La loi n° 89-462 du 6 juillet 1989 s'applique aux locations de locaux à usage d'habitation ou à usage mixte constituant la résidence principale du preneur, vides ou meublés (art. 2 et 25-3) ; ses dispositions sont d'ordre public. Le bail est écrit et respecte un contrat type ; il est conclu pour trois ans au moins lorsque le bailleur est une personne physique, six ans lorsqu'il est une personne morale (art. 10), un an pour un meublé (neuf mois pour un étudiant). Le bailleur doit remettre un logement décent ne laissant pas apparaître de risques manifestes pouvant porter atteinte à la sécurité physique ou à la santé, exempt de toute infestation d'espèces nuisibles et parasites, répondant à un critère de performance énergétique minimale et doté des éléments le rendant conforme à l'usage d'habitation (art. 6). Les critères sont précisés par le décret n° 2002-120 du 30 janvier 2002.",
@@ -5556,7 +5592,7 @@ jp:[["Cass. com., 20 mai 2003, n° 99-17.092, Seusse","La faute séparable des f
 ["Cass. com., 9 juill. 2025, n° 24-10.428","Dans la SAS, une décision collective des associés peut compléter les statuts sur la révocation des dirigeants mais non y déroger, même à l'unanimité."],
 ["Cass. com., 28 sept. 2010, n° 09-66.255","Le défaut de souscription de l'assurance de responsabilité décennale obligatoire constitue une faute séparable engageant le gérant personnellement."]]}
 ,
-{id:"af-cessions",n:"Cessions de parts et d'actions, pactes",c:"#008676",
+{id:"af-cessions",n:"Cessions de parts et d'actions, pactes",c:"#00766A",
 sections:[
 {h:"Agrément et transmission des titres",s:"La cession de parts de SARL à un tiers est soumise par la loi à l'agrément des associés ; dans la SAS, l'agrément est purement statutaire mais sa violation est sanctionnée par la nullité.",
 d:"Les parts sociales de SARL ne peuvent être cédées à des tiers qu'avec le consentement de la majorité des associés représentant au moins la moitié des parts sociales, sauf clause prévoyant une majorité plus forte (art. L. 223-14 C. com.). Le projet est notifié à la société et à chaque associé ; à défaut de réponse dans les trois mois, l'agrément est réputé acquis. En cas de refus, les associés doivent, dans les trois mois, acquérir ou faire acquérir les parts à un prix fixé à défaut d'accord par un expert (art. 1843-4 C. civ.), ou la société peut les racheter en réduisant son capital ; ce délai peut être prolongé une fois par décision de justice, sans excéder six mois. Les cessions entre associés, conjoints, ascendants et descendants sont libres sauf clause contraire (art. L. 223-13 et L. 223-16). Dans la SAS, les statuts peuvent soumettre toute cession à l'agrément préalable de la société (art. L. 227-14), et toute cession effectuée en violation des clauses statutaires est nulle (art. L. 227-15).",
@@ -5886,7 +5922,7 @@ jp:[["CE Sect., 19 janv. 2001, Confédération nationale des radios libres, n° 
 ["CE Sect., 5 févr. 2016, M. Benabdellah, n° 393540","Caractère subsidiaire du référé mesures utiles ; possibilité d'ordonner des mesures en cas de péril grave malgré une décision de refus."]]}
 ,
 
-{id:"pu-responsabilite",n:"Responsabilité administrative",c:"#008676",
+{id:"pu-responsabilite",n:"Responsabilité administrative",c:"#00766A",
 sections:[
 {h:"La responsabilité pour faute",s:"Toute illégalité est fautive, et la faute simple suffit désormais dans la plupart des activités ; la faute lourde ne subsiste que pour quelques missions particulièrement difficiles.",
 d:"La responsabilité de l'administration obéit à des règles propres, distinctes de celles du code civil (TC, 8 févr. 1873, Blanco). Le régime de droit commun est la responsabilité pour faute : mauvais fonctionnement du service, carence, retard, information erronée ou illégalité d'une décision. L'illégalité constitue une faute de nature à engager la responsabilité, à condition qu'elle soit à l'origine d'un préjudice direct et certain ; aucune indemnité n'est due si la même décision aurait pu légalement être prise pour un autre motif ou selon une procédure régulière. La faute lourde a été abandonnée pour l'activité médicale (CE Ass., 10 avr. 1992, Époux V., n° 79027), puis pour de nombreuses activités (services pénitentiaires, secours, services fiscaux), mais demeure pour certaines missions de contrôle et de tutelle (CE Ass., 30 nov. 2001, Kechichian, n° 219562, commission bancaire) ou certaines activités de police particulièrement délicates.",
@@ -6218,7 +6254,7 @@ jp:[["Cass. 2e civ., 7 mars 2024, n° 22-23.522","En appel, la péremption ne co
 ["CEDH, 5 avr. 2018, Zubac c. Croatie, n° 40160/12","Les limitations d'accès à un juge supérieur sont admises si elles poursuivent un but légitime, sont prévisibles et proportionnées."],
 ["CEDH, 19 mars 1997, Hornsby c. Grèce","L'exécution d'un jugement fait partie intégrante du procès au sens de l'article 6 § 1 Conv. EDH."]]}
 ,
-{id:"pc-preuve",n:"Preuve et mesures d'instruction",c:"#008676",
+{id:"pc-preuve",n:"Preuve et mesures d'instruction",c:"#00766A",
 sections:[
 {h:"Les mesures d'instruction in futurum (art. 145 CPC)",s:"S'il existe un motif légitime de conserver ou d'établir avant tout procès la preuve de faits dont pourrait dépendre la solution d'un litige, toute mesure d'instruction légalement admissible peut être ordonnée, en référé ou sur requête.",
 d:"L'article 145 CPC permet d'obtenir, avant tout procès au fond, une expertise, un constat, une production forcée de pièces ou des mesures de saisie de documents par un commissaire de justice. Trois conditions sont exigées : l'absence d'instance au fond déjà engagée sur le même litige, un motif légitime (un litige potentiel plausible, non manifestement voué à l'échec, et l'utilité de la mesure pour la preuve), une mesure légalement admissible, c'est-à-dire circonscrite dans son objet et dans le temps et proportionnée aux intérêts antagonistes. L'urgence n'est pas requise. La voie normale est le référé contradictoire ; la requête n'est ouverte que si les circonstances exigent que la mesure ne soit pas prise contradictoirement, notamment pour ménager un effet de surprise (art. 493 et 875). Le décret n° 2026-683 du 27 juillet 2026, applicable au 1er octobre 2026, impose l'exécution de l'ordonnance sur requête dans un délai de trois mois (sauf délai fixé par le juge), à peine de caducité, et enferme la demande de rétractation dans un délai d'un mois à compter de la signification (texte récent, à vérifier sur Légifrance).",
@@ -6548,7 +6584,7 @@ jp:[["Cass. com., 17 juin 1997, n° 95-14.105, Macron","Responsabilité de la ba
 ["CJUE, 17 mars 1998, Dietzinger, C-45/96","Le cautionnement n'entre dans le champ de la directive sur le démarchage que si l'obligation garantie a elle-même été contractée par un consommateur."]]}
 ,
 
-{id:"bq-suretes-reelles",n:"Sûretés réelles",c:"#008676",
+{id:"bq-suretes-reelles",n:"Sûretés réelles",c:"#00766A",
 sections:[
 {h:"L'hypothèque",s:"L'hypothèque conventionnelle, consentie par acte notarié et publiée au service de la publicité foncière, confère au créancier un droit de préférence et un droit de suite sur l'immeuble.",
 d:"L'hypothèque est l'affectation d'un immeuble en garantie d'une ou plusieurs créances, présentes ou futures, sans dépossession du constituant (art. 2393 C. civ.). Elle est légale, judiciaire ou conventionnelle ; l'hypothèque conventionnelle est consentie par acte notarié (art. 2409) et doit désigner l'immeuble et la créance garantie, déterminée ou déterminable, avec un montant maximal. L'inscription au service de la publicité foncière la rend opposable aux tiers et fixe son rang ; elle produit effet jusqu'à la date fixée par le créancier, dans la limite de cinquante ans (art. 2434). Depuis l'ordonnance du 15 septembre 2021, l'ancien privilège du prêteur de deniers est devenu une hypothèque légale spéciale (art. 2402), et l'hypothèque rechargeable, abrogée en 2014 pour les consommateurs, est de nouveau possible (art. 2422).",
@@ -6878,7 +6914,7 @@ jp:[["CE, sect., 13 juil. 2016, n° 375801, Monte Paschi Banque","Définition de
 ["CJUE, 2 sept. 2015, Groupe Steria, C-386/14","La neutralisation de la quote-part de frais et charges réservée aux dividendes des filiales intégrées, refusée aux filiales établies dans d'autres États membres, méconnaît la liberté d'établissement."],
 ["CJUE, 6 juil. 2006, Kittel, C-439/04","Le droit à déduction peut être refusé à l'assujetti qui savait ou aurait dû savoir qu'il participait à une fraude à la TVA."],
 ["CJUE, 15 sept. 2016, Senatex, C-518/14","La rectification d'une facture irrégulière a un effet rétroactif : le droit à déduction peut être exercé au titre de l'année d'établissement de la facture initiale."]]}
-,{id:"fi-patrimoine",n:"Fiscalité du patrimoine",c:"#008676",
+,{id:"fi-patrimoine",n:"Fiscalité du patrimoine",c:"#00766A",
 sections:[
 {h:"Droits de succession et de donation",s:"Les transmissions à titre gratuit sont taxées sur la part nette de chaque bénéficiaire, après abattement personnel, selon un barème qui dépend du lien de parenté.",
 d:"Les droits de mutation à titre gratuit sont liquidés sur la part nette reçue par chaque ayant droit (art. 777 et s. CGI). Le conjoint survivant et le partenaire de PACS sont exonérés de droits de succession (art. 796-0 bis et 796-0 ter CGI). En ligne directe, un abattement de 100 000 € s'applique sur la part de chaque enfant et de chaque parent (art. 779, I CGI), puis un barème progressif de 5 % à 45 %. Les abattements et tranches se renouvellent tous les quinze ans : les donations consenties depuis moins de quinze ans sont rapportées pour le calcul des droits (art. 784 CGI). La déclaration de succession doit être déposée dans les six mois du décès lorsqu'il est survenu en France métropolitaine (art. 641 CGI).",
@@ -7206,7 +7242,7 @@ jp:[["CJCE, 16 juill. 2009, Infopaq International, C-5/08","L'originalité, noti
 ["Cass. 1re civ., 24 mars 1993, Aréo, n° 91-16.543","La personne morale qui exploite l'œuvre sous son nom est présumée, à l'égard des tiers contrefacteurs, titulaire des droits d'auteur."]]}
 ,
 
-{id:"nu-marques",n:"Marques, dessins et modèles",c:"#008676",
+{id:"nu-marques",n:"Marques, dessins et modèles",c:"#00766A",
 sections:[
 {h:"Dépôt et enregistrement : INPI, EUIPO, OMPI",s:"La propriété de la marque s'acquiert par l'enregistrement, pour dix ans indéfiniment renouvelables ; le déposant choisit entre la marque française (INPI), la marque de l'Union européenne (EUIPO) et l'enregistrement international (OMPI).",
 d:"La marque est un signe servant à distinguer les produits ou services d'une personne de ceux d'autres personnes, qui doit pouvoir être représenté dans le registre de manière à permettre de déterminer précisément et clairement l'objet de la protection (art. L. 711-1 CPI, issu de l'ordonnance n° 2019-1169 du 13 novembre 2019). L'exigence de représentation graphique a disparu : marques sonores, de mouvement, multimédias ou de position sont admises. La propriété s'acquiert par l'enregistrement, qui produit ses effets à compter de la date de dépôt pour dix ans indéfiniment renouvelables (art. L. 712-1). Le dépôt s'effectue en ligne auprès de l'INPI, avec désignation des produits et services selon la classification de Nice ; la demande est publiée au Bulletin officiel de la propriété industrielle (BOPI). La marque de l'Union européenne, déposée auprès de l'EUIPO, produit des effets uniformes dans les vingt-sept États membres (règlement (UE) 2017/1001), et le système de Madrid permet d'étendre une marque de base à d'autres pays par une demande unique auprès de l'OMPI.",
@@ -9232,7 +9268,7 @@ comm:[
 ["Portée","À articuler avec l'ancienne exception de préoccupation du code de la construction et de l'habitation."]]]]
 });
 
-M({id:"corporel",y:"M1",n:"Dommage corporel",c:"#008676",w:"fat",
+M({id:"corporel",y:"M1",n:"Dommage corporel",c:"#00766A",w:"fat",
 fiche:{lead:"L'indemnisation des victimes de dommages corporels : expertise, nomenclature des préjudices, recours des tiers payeurs et régimes spéciaux.",
 pts:[
 ["Les principes","Réparation intégrale, sans perte ni profit pour la victime ; pas d'obligation pour la victime de minimiser son dommage (Cass. 2e civ., 19 juin 2003) ; évaluation au jour de la décision."],
@@ -10926,7 +10962,7 @@ D("fiscint",[
 ]);
 
 /* ===================== PROCÉDURE ET CONTENTIEUX FISCAL ===================== */
-M({id:"contfisc",y:"M2",spe:"fiscal",n:"Procédure et contentieux fiscal",c:"#008676",
+M({id:"contfisc",y:"M2",spe:"fiscal",n:"Procédure et contentieux fiscal",c:"#00766A",
 fiche:{lead:"Le contrôle fiscal permet à l'administration de rectifier les impositions dans des délais limités, sous réserve de garanties procédurales dont la méconnaissance entraîne la décharge.",
 pts:[
 ["Les procédures de contrôle","La vérification de comptabilité vise les entreprises (art. L. 13 LPF), l'examen contradictoire de la situation fiscale personnelle (ESFP) les particuliers (art. L. 12) ; s'y ajoutent le contrôle sur pièces, l'examen de comptabilité à distance et le droit de communication."],
@@ -12414,7 +12450,7 @@ D("finloc",[
 ["Piège","Le taux communal de foncier bâti a été rebasé en 2021 par addition de l'ancien taux départemental : comparer un taux actuel à un taux antérieur à 2021 sans tenir compte de ce rebasage fausse l'analyse de la pression fiscale."]]
 ]);
 
-M({id:"spl",y:"M2",spe:"public",n:"Services publics locaux et modes de gestion",c:"#008676",
+M({id:"spl",y:"M2",spe:"public",n:"Services publics locaux et modes de gestion",c:"#00766A",
 fiche:{lead:"Les collectivités choisissent librement de gérer leurs services publics elles-mêmes ou de les confier à un tiers, sous réserve des règles de mise en concurrence, de tarification et de bonne gestion des deniers publics.",
 pts:[
 ["La régie","La collectivité peut exploiter directement le service en régie simple, en régie dotée de la seule autonomie financière ou en régie dotée de la personnalité morale (art. L. 2221-1 et s. CGCT). Les SPIC exploités en régie doivent au moins disposer de l'autonomie financière et d'un budget annexe."],
@@ -15002,8 +15038,8 @@ function applyMetier(){
 }
 
 function initDrawer(){
-  const d=document.getElementById('rdrawer'),open=()=>{d.hidden=false;d.querySelector('.rditem').focus()},close=()=>d.hidden=true;
-  document.getElementById('burger').onclick=open;document.getElementById('rbtn').onclick=open;document.getElementById('rdx').onclick=close;
+  const d=document.getElementById('rdrawer'),bg=document.getElementById('burger'),open=()=>{d.hidden=false;d.querySelector('.rditem').focus()},close=()=>{if(d.hidden)return;d.hidden=true;bg.focus({preventScroll:true})};
+  bg.onclick=open;document.getElementById('rdx').onclick=close;
   d.onclick=e=>{if(e.target===d)close()};document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
   d.querySelectorAll('[data-rgo]').forEach(b=>b.onclick=()=>{close();const g=b.dataset.rgo;
     if(g==='aud'){document.querySelector('.aud').scrollIntoView({behavior:'smooth',block:'center'});return}
@@ -15843,7 +15879,7 @@ setInterval(()=>{const y=scrollY;RD.fast=Math.abs(y-RD.y)>innerHeight*0.85;RD.y=
   const vis=arts.filter(el=>{const r=el.getBoundingClientRect();const v=Math.min(r.bottom,innerHeight)-Math.max(r.top,0);return v>=Math.min(r.height,innerHeight)*0.5});
   if(!vis.length)return;const share=1/vis.length;let changed=false;
   vis.forEach(el=>{const mid=el.closest('.flvwrap').dataset.m,i=+el.dataset.pt;if(rOk(mid,i))return;const r=(LP.read[mid]=LP.read[mid]||{t:[],ok:[]});r.t[i]=(r.t[i]||0)+share;
-    const req=+el.dataset.req||30;if(r.t[i]>=req){r.ok[i]=true;changed=true;xpAdd(5,'partie lue');badgeCheck()}rdDecorate(el,mid,i)});
+    const req=+el.dataset.req||30;if(r.t[i]>=req){r.ok[i]=true;changed=true;xpAdd(5,'partie lue');badgeCheck();const qn=document.querySelector('#t-quiz .n');if(qn&&cur&&cur.id===mid)qn.textContent=quizBadge(cur)}rdDecorate(el,mid,i)});
   if(changed)lpSave();else if(Math.random()<0.1)lpSaveQuiet();
 },1000);
 function lpSaveQuiet(){try{localStorage.setItem(LK,JSON.stringify(LP))}catch(e){}}
@@ -15853,6 +15889,7 @@ function qPt(m,q){if(q.id in QPT)return QPT[q.id];const s=q.id.split(':')[1]||''
   const tok=t=>new Set(norm(t).split(/[^a-z0-9]+/).filter(w=>w.length>4));const Q=tok(q.q+' '+q.e+' '+q.o[q.a]);const e=EXT[m.id]||{dev:[]};
   let best=null,bs=1;m.fiche.pts.forEach((p,i)=>{const T=tok(p[0]+' '+p[1]+' '+(e.dev[i]||''));let n=0;Q.forEach(w=>{if(T.has(w))n++});if(n>bs){bs=n;best=i}});return QPT[q.id]=best}
 function qUnlocked(m,q){const i=qPt(m,q);return i==null?m.fiche.pts.every((_,k)=>rOk(m.id,k)):rOk(m.id,i)}
+function quizBadge(m){const u=unlockedBank(m).length,b=quizBank(m).length;return u<b?u+'/'+b:b}
 function unlockedBank(m){return quizBank(m).filter(q=>qUnlocked(m,q))}
 /* carnet d'erreurs (répétition espacée : 1, 3, 7, 14 jours) */
 const BOX=[1,3,7,14,30];
@@ -15893,9 +15930,10 @@ startQuiz=function(body){const m=cur,B=quizBank(m),U=unlockedBank(m),n=m.fiche.p
   const cnt=l=>U.filter(q=>l==='mix'||q.lvl===+l).length;
   const status=`<div class="lockbox"><b>${r} partie${r>1?'s':''} lue${r>1?'s':''} sur ${n}</b> · ${U.length} question${U.length>1?'s':''} débloquée${U.length>1?'s':''} sur ${B.length}
     <div class="specs" style="margin-top:8px">${m.fiche.pts.map((p,i)=>rOk(m.id,i)?`<span class="chip on">✓ ${esc(cut(p[0],38))}</span>`:`<button class="chip" data-rd="${i}">Lire : ${esc(cut(p[0],38))}</button>`).join('')}</div>
-    <p class="note" style="margin-top:6px">Chaque partie se débloque après une lecture attentive : le temps de lecture est mesuré pendant que la partie est à l'écran, au rythme d'une lecture normale. Un survol rapide ne compte pas.</p></div>`;
-  if(!U.length){body.innerHTML=`<div class="pane qstart"><span class="eyebrow">Quiz verrouillé</span><h3 style="font-size:30px;margin:8px 0 6px">Lisez d'abord la fiche</h3>${status}</div>`}
-  else body.innerHTML=`<div class="pane qstart"><span class="eyebrow">Quiz · ${U.length} questions débloquées</span><h3 style="font-size:30px;margin:8px 0 6px">Choisissez votre partie</h3>${status}
+    <p class="note" style="margin-top:6px">Le temps de lecture est mesuré quand la partie est à l'écran, au rythme d'une lecture normale ; un survol rapide ne compte pas. Les parties lues restent acquises.</p></div>`;
+  const nx=m.fiche.pts.findIndex((_,i)=>!rOk(m.id,i));
+  if(!U.length){body.innerHTML=`<div class="pane qstart"><h3 style="font-size:30px;margin:0 0 8px">Le quiz s'ouvre au fil de votre lecture</h3><p style="max-width:62ch">Chaque partie de la fiche lue jusqu'au bout ouvre ses questions. Vous pouvez répondre dès la première partie lue, sans attendre la fin de la fiche.</p>${nx>=0?`<div class="actions" style="margin:14px 0 4px"><button class="btn" data-rd="${nx}">Commencer la lecture : ${esc(cut(m.fiche.pts[nx][0],40))}</button></div>`:''}${status}</div>`}
+  else body.innerHTML=`<div class="pane qstart"><h3 style="font-size:30px;margin:0 0 8px">Choisissez votre partie</h3>${status}
     <h4 class="subh">Niveau</h4><div class="specs">${[["mix","Tous niveaux"],["1","Découverte"],["2","Intermédiaire"],["3","Expert"]].map(([k,l])=>`<button class="chip" data-ql="${k}" aria-pressed="${qLvl===k}">${l} <span class="cn">${cnt(k)}</span></button>`).join('')}</div>
     <h4 class="subh">Nombre de questions</h4><div class="specs">${[10,20,30].map(x=>`<button class="chip" data-qn="${x}" aria-pressed="${qLen===x}">${x}</button>`).join('')}</div>
     <div class="actions" style="margin-top:18px"><button class="btn" id="qgo">Commencer</button></div></div>`;
@@ -15970,9 +16008,10 @@ function renderProg(){const el=document.getElementById('progp');if(!el)return;co
 const WKREQ=90;
 function renderWeekCard(p,pre){pre=pre||'wk-';const box=document.getElementById(pre+p);if(!box||typeof WEEKLY==='undefined')return;
   const L=WEEKLY[p]||[],w=(LP.weekly[WEEKLY.sem]||{})[p],rd=((LP.wkread[WEEKLY.sem]||{})[p])||0,open=rd>=WKREQ||(w&&w.n);
-  box.innerHTML=`<section class="pcard wkc"><span class="eyebrow">Quiz de la semaine · du ${pD(WEEKLY.du)} au ${pD(WEEKLY.au)}</span><h4>${p==='reformes'?'Réformes':'Jurisprudence récente'} : ${L.length} questions</h4>
+  const left=Math.max(0,WKREQ-rd),lt=left<60?left+' s':Math.floor(left/60)+' min'+(left%60?' '+(left%60)+' s':'');
+  box.innerHTML=`<section class="pcard wkc"><h3 class="wkh">Quiz de la semaine : ${p==='reformes'?'réformes':'jurisprudence récente'}, ${L.length} questions</h3><p class="note">Sur l'actualité publiée du ${pD(WEEKLY.du)} au ${pD(WEEKLY.au)}.</p>
     ${w&&w.n?`<p>Votre score : <b>${w.s}/${w.n}</b> (${w.pc} %).</p><button class="btn ghost" data-wk="1">Refaire</button>`:open?`<p class="note">Vous avez parcouru l'actualité de la semaine : le quiz est ouvert.</p><button class="btn" data-wk="1">Commencer</button>`:
-     `<p class="note">Le quiz s'ouvre après une minute et demie de lecture active de l'onglet ${p==='reformes'?'Réformes':'Jurisprudence'} (${Math.round(rd/WKREQ*100)} %).</p><div class="pbar"><i style="width:${Math.round(rd/WKREQ*100)}%"></i></div>${pre==='wk-'?'':`<button class="btn ghost" data-wkgo="1">Lire l'actualité</button>`}`}</section>`;
+     `<p class="note">Verrouillé : encore ${lt} de lecture ${p==='reformes'?'des réformes':'de la jurisprudence'} pour l'ouvrir. Le temps compte quand l'onglet ${p==='reformes'?'Réformes':'Jurisprudence'} est affiché et que vous le parcourez.</p><div class="pbar"><i style="width:${Math.round(rd/WKREQ*100)}%"></i></div>${pre==='wk-'?'':`<button class="btn ghost" data-wkgo="1">Lire l'actualité</button>`}`}</section>`;
   const g=box.querySelector('[data-wkgo]');if(g)g.onclick=()=>showPanel(p,true);
   const b=box.querySelector('[data-wk]');if(b)b.onclick=()=>{const Q=L.map((q,i)=>({...q,id:'W:'+WEEKLY.sem+':'+p+':'+i,_m:'W'}));
     lqRun(box,qShuffle(Q),{title:'Quiz de la semaine',onEnd:(s,n)=>{const pc=Math.round(s/n*100),W=(LP.weekly[WEEKLY.sem]=LP.weekly[WEEKLY.sem]||{});const first=!W[p];W[p]={s,n,pc};lpSave();if(first&&pc>=70)xpAdd(50,'quiz de la semaine')},again:()=>renderWeekCard(p,pre)})}}
@@ -16331,6 +16370,11 @@ function setYear(y){
 function list(){return MAT.filter(m=>m.y===year&&(spec==="all"||m.spe===spec||(year!=="M2"&&!m.spe)))}
 function countDone(m){return [...m.cas,...m.diss,...m.comm].filter((_,i)=>done[m.id+'-'+i]).length}
 const shelf=document.getElementById('shelf');
+/* titres de tranche trop longs : deux lignes, puis réduction jusqu'à 11 px au plus */
+function fitSpines(root){(document.fonts?document.fonts.ready:Promise.resolve()).then(()=>root.querySelectorAll('.spine').forEach(sp=>{
+  const l=sp.querySelector('.label');if(!l)return;l.classList.remove('wrap');l.style.fontSize='';
+  if(sp.scrollHeight<=sp.clientHeight+1)return;l.classList.add('wrap');
+  let f=parseFloat(getComputedStyle(l).fontSize);while(sp.scrollHeight>sp.clientHeight+1&&f>11){f-=1;l.style.fontSize=f+'px'}}))}
 function renderShelf(openFirst){
   const L=list();
   shelf.innerHTML='';
@@ -16345,6 +16389,7 @@ function renderShelf(openFirst){
     b.onclick=()=>openMat(m.id,'fiche',true);
     shelf.appendChild(b);
   });
+  fitSpines(shelf);
   if(openFirst&&L.length)openMat(L[0].id,'fiche',false);
 }
 
@@ -16355,7 +16400,7 @@ function openMat(id,t,scroll){
   document.querySelectorAll('.spine').forEach(s=>s.setAttribute('aria-selected',s.id==='s-'+id));
   const m=cur, total=m.cas.length+m.diss.length+m.comm.length;
   book.style.setProperty('--c',m.c);
-  const tabs=[["fiche","Fiche",null],["quiz","Quiz",quizBank(m).length],["cas","Cas pratiques",m.cas.length],["diss","Dissertations",m.diss.length],["comm","Commentaires",m.comm.length],...(procFor('mat',m.id).length?[["proc","Saisir le juge",procFor('mat',m.id).length]]:[]),...(calcsForMat(m).length?[["calc","Calculs",calcsForMat(m).length]]:[])];
+  const tabs=[["fiche","Fiche",null],["quiz","Quiz",quizBadge(m)],["cas","Cas pratiques",m.cas.length],["diss","Dissertations",m.diss.length],["comm","Commentaires",m.comm.length],...(procFor('mat',m.id).length?[["proc","Saisir le juge",procFor('mat',m.id).length]]:[]),...(calcsForMat(m).length?[["calc","Calculs",calcsForMat(m).length]]:[])];
   book.innerHTML=`<div class="book-head">
      <span class="eyebrow">${m.y}${m.spe?' · '+(SPECS[m.spe]||PARC[m.spe]):''}</span>
      <h2>${esc(m.n)}</h2>
@@ -16428,10 +16473,10 @@ function ficheInner(m){
   const sw=`<div class="lvl-sw fl-sw" role="group" aria-label="Niveau de lecture"><span class="eyebrow" style="align-self:center;margin-right:4px">Niveau</span>${lv.map(([k,l])=>`<button class="chip" data-flv="${k}" data-m="${m.id}" aria-pressed="${k===L}">${l}</button>`).join('')}</div>`;
   const pts=m.fiche.pts.map((p,i)=>{
     const id=`pt-${m.id}-${i}`;
-    if(L==='s')return `<div class="art" data-pt="${i}"><h3><a href="#" data-flv="d" data-m="${m.id}" data-i="${i}">Art. ${i+1} — ${esc(p[0])} <span aria-hidden="true">→</span></a></h3><p class="short">${esc(p[1])}</p>${calcLink(calcsForPoint(m,i,p))}</div>`;
-    if(L==='d')return `<div class="art" data-pt="${i}"><h3>Art. ${i+1} — ${esc(p[0])}</h3><p class="short">${esc(p[1])}</p>${calcLink(calcsForPoint(m,i,p))}${e.dev[i]?`<p class="dev">${esc(e.dev[i])}</p>`:''}<a href="#" class="more" data-flv="x" data-m="${m.id}" data-i="${i}">Tout le détail →</a></div>`;
+    if(L==='s')return `<div class="art" data-pt="${i}"><h3><a href="#" data-flv="d" data-m="${m.id}" data-i="${i}"><span class="artn">Art. ${i+1}</span> ${esc(p[0])} <span aria-hidden="true">→</span></a></h3><p class="short">${esc(p[1])}</p>${calcLink(calcsForPoint(m,i,p))}</div>`;
+    if(L==='d')return `<div class="art" data-pt="${i}"><h3><span class="artn">Art. ${i+1}</span> ${esc(p[0])}</h3><p class="short">${esc(p[1])}</p>${calcLink(calcsForPoint(m,i,p))}${e.dev[i]?`<p class="dev">${esc(e.dev[i])}</p>`:''}<a href="#" class="more" data-flv="x" data-m="${m.id}" data-i="${i}">Tout le détail →</a></div>`;
     const dx=det&&det[i];
-    return `<div class="art" data-pt="${i}"><h3>Art. ${i+1} — ${esc(p[0])}</h3><p class="short">${esc(p[1])}</p>${calcLink(calcsForPoint(m,i,p))}${e.dev[i]?`<p class="dev">${esc(e.dev[i])}</p>`:''}${dx?dx.map(q=>!Array.isArray(q)?`<p class="dev">${esc(q)}</p>`:q[0]==='Piège'?`<div class="piege" style="margin-top:10px"><b>Piège classique</b>${esc(q[1])}</div>`:`<h4 class="sub4">${esc(q[0])}</h4><p class="dev">${esc(q[1])}</p>`).join(''):`<p class="pending">Contenu détaillé en cours de rédaction pour ce point.</p>`}<a href="#" class="more" data-flv="s" data-m="${m.id}" data-i="${i}">↑ Retour à la synthèse</a></div>`;
+    return `<div class="art" data-pt="${i}"><h3><span class="artn">Art. ${i+1}</span> ${esc(p[0])}</h3><p class="short">${esc(p[1])}</p>${calcLink(calcsForPoint(m,i,p))}${e.dev[i]?`<p class="dev">${esc(e.dev[i])}</p>`:''}${dx?dx.map(q=>!Array.isArray(q)?`<p class="dev">${esc(q)}</p>`:q[0]==='Piège'?`<div class="piege" style="margin-top:10px"><b>Piège classique</b>${esc(q[1])}</div>`:`<h4 class="sub4">${esc(q[0])}</h4><p class="dev">${esc(q[1])}</p>`).join(''):`<p class="pending">Contenu détaillé en cours de rédaction pour ce point.</p>`}<a href="#" class="more" data-flv="s" data-m="${m.id}" data-i="${i}">↑ Retour à la synthèse</a></div>`;
   }).join('');
   const fam=FAMLINK[m.id]?`<div class="methode"><b>Approfondir</b>Le module Famille traite ces questions en trois niveaux, avec procédure, pièces, actes et cas pratiques : ${FAMLINK[m.id].map(t=>{const f=FAM.find(x=>x.id===t);return f?esc(f.n):''}).join(' · ')}. <button class="lnk" data-gomod="famille" data-back="mat:${m.id}">Ouvrir le module Famille →</button></div>`:'';
   const tl=aud==='pro'?calcsForMat(m).filter(c=>toolOk(c.tool)):[];const tb=tl.length?`<div class="toolbar-mat"><span class="eyebrow">Outils de calcul</span>${tl.map(c=>`<button class="chip" data-gotool="${c.tool}">${esc(c.t)} ↗</button>`).join('')}</div>`:'';
@@ -16468,11 +16513,11 @@ function ficheDoc(d){
   return `﻿<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>${esc(d.titre)}</title><style>
 @page{margin:2cm}body{font:11pt Calibri,Arial,sans-serif;color:#1D1D1B;line-height:1.4}
 h1{font:bold 24pt Georgia,serif;color:#01476A;margin:0 0 8pt}
-h2{font:bold 14pt Georgia,serif;color:#008676;margin:18pt 0 4pt;border-bottom:1pt solid #D0DBD8;padding-bottom:2pt}
-h3{font:bold 11pt Calibri,Arial,sans-serif;color:#008676;margin:8pt 0 2pt}
+h2{font:bold 14pt Georgia,serif;color:#00766A;margin:18pt 0 4pt;border-bottom:1pt solid #D0DBD8;padding-bottom:2pt}
+h3{font:bold 11pt Calibri,Arial,sans-serif;color:#00766A;margin:8pt 0 2pt}
 .ou{color:#56615F;font-size:9pt;text-transform:uppercase;letter-spacing:1pt;margin:0}
 .lead{font:italic 12pt Georgia,serif}.court{font-weight:bold}
-.piege{border:1pt dashed #008676;padding:6pt;background:#F2F8F7}
+.piege{border:1pt dashed #00766A;padding:6pt;background:#F2F8F7}
 </style></head><body>${body}</body></html>`;
 }
 let JSPDF=null;
@@ -16567,6 +16612,8 @@ function startQuizLegacy(body){
 /* public et onglets principaux */
 let aud=store.get('bp-aud','etudiant');
 const PANELS={etudiant:["revisions","procedures","reformes","jurisprudence","prog","concours","partage","ressources"],pro:["matieres","metier","mres","procedures","reformes","jurisprudence","prog","concours","partage","ressources"]};
+/* Partiels et cas partagés reposent sur la base de données de claude.ai : hors claude.ai, l'onglet est masqué */
+if(!(window.claude&&typeof window.claude.use==='function')){Object.values(PANELS).forEach(L=>{const i=L.indexOf('partage');if(i>=0)L.splice(i,1)});document.getElementById('mt-partage').hidden=true}
 const ALLP=["revisions","matieres","metier","mres","procedures","ressources","reformes","jurisprudence","prog","concours","partage"];
 let curPanel="revisions";
 function setAud(a,keepPanel){
@@ -16576,6 +16623,7 @@ function setAud(a,keepPanel){
   t.dataset.p=aud==="pro"?"matieres":"revisions";
 
   document.getElementById('mt1b').textContent=aud==="pro"?"Matières":"Révisions";
+  document.getElementById('spacelbl').textContent=aud==="pro"?"Espace pro":"Espace étudiants";
   document.getElementById('mt1s').textContent=aud==="pro"?"Fiches, cas de cabinet, jurisprudence":"Licence et master, par matière";
   document.getElementById('h1').innerHTML=aud==="pro"?'Droit <em>au But</em>':'Droit <em>au But</em>';
   document.getElementById('eyebrow').textContent=aud==="pro"?"Espace professionnels · Avocats, notaires, juristes, CGP":"Espace étudiants · Licence, master, partiels";
@@ -16610,6 +16658,7 @@ V.forEach((d,i)=>{
   b.innerHTML=`<span class="band"></span><span class="label">${esc(d.n.split(/,| et /)[0])}</span><span class="yr">${(n=>{const r=[[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];let o='';for(const[v,l]of r)while(n>=v){o+=l;n-=v}return o})(i+1)}</span><span class="band"></span>`;
   b.setAttribute('aria-label',d.n);b.onclick=()=>openDom(d.id,null,true);pshelf.appendChild(b);
 });
+  fitSpines(pshelf);
   if(V.length&&(!pcur||!V.includes(pcur)))openDom(V[0].id,null,false);else if(pcur)openDom(pcur.id,ptab,false);
 }
 

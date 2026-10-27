@@ -234,6 +234,12 @@ a{color:var(--accent)}
 
 /* PUBLIC */
 .aud{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.hub{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}.hub>.aud,.hub>.hubnav{display:contents}
+.audb .cnt{display:inline-block;font:500 12px/1 var(--mono);background:var(--accent);color:var(--on-accent);border-radius:999px;padding:4px 7px;margin-left:8px;vertical-align:3px}
+.hub .audb{padding:16px 18px;align-items:flex-start}.hub .audb svg{width:36px;height:36px;margin-top:2px}.hub .audb .t{display:block;font-size:20px}.hub .audb .d{display:block;margin-top:4px}
+.hubc[aria-current="page"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.hometab{flex:none;align-self:stretch;display:inline-flex;align-items:center;gap:7px;border:0;border-right:1px solid var(--line);background:transparent;color:var(--ink);font:600 15px/1.2 var(--body);padding:0 16px 0 4px;margin-right:4px}
+.hometab svg{width:20px;height:20px}.hometab:hover{color:var(--accent)}
 .audb{border:1.5px solid var(--line);background:var(--paper);border-radius:4px;padding:18px 20px;text-align:left;display:flex;gap:16px;align-items:center;transition:border-color .2s,transform .2s,background .2s}
 .audb:hover{transform:translateY(-2px)}
 .audb svg{flex:none;width:44px;height:44px;color:var(--accent)}
@@ -521,9 +527,12 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 /* Téléphone : le contenu de révision arrive plus vite, zones à toucher de 44 px */
 @media (max-width:640px){
   .wrap{gap:28px;padding-block:20px 60px}
+  .srow,.gres{margin-bottom:-14px}
   #eyebrow{display:none}
   .hero .lede{font-size:15px;margin-top:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-  .aud{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .hub{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .hub .audb{padding:10px 12px;align-items:center}.hub .audb .t{font-size:16px;white-space:normal;text-align:center}.hub .audb .cnt{margin-left:6px;padding:3px 6px;font-size:11px}
+  .hometab{padding:0 12px 0 2px}
   .audb{padding:10px 12px;min-height:52px;justify-content:center}.audb svg{display:none}.audb .t{font-size:17px;white-space:nowrap}.audb .d{display:none!important}
   .years{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
   .plate{padding:8px 4px;align-items:center;min-height:48px;justify-content:center}.plate .yr{font-size:21px}.plate .sub{display:none}
@@ -550,9 +559,8 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 <div class="wrap">
   <header class="hero">
     <div>
-      <div class="eyebrow" id="eyebrow">Licence · Master · Préparation aux partiels</div>
       <h1 id="h1">Droit <em>au But</em></h1>
-      <p class="lede" id="lede">Choisissez votre année, tirez une matière de l'étagère et révisez : fiche synthétique, quiz, cas pratiques, dissertations et commentaires d'arrêts, chacun avec son corrigé à part. Les onglets Réformes et Jurisprudence rassemblent l'actualité à connaître.</p>
+      <p class="lede" id="lede">De la L1 au M2, tirez une matière de l'étagère et révisez : fiches en trois niveaux de lecture, quiz, cas pratiques, dissertations et commentaires d'arrêts, chacun avec son corrigé à part. Chaque fiche se télécharge en PDF ou en Word.</p>
     </div>
     <svg class="copy" viewBox="0 0 220 200" aria-hidden="true">
       <rect x="18" y="14" width="160" height="176" rx="3" fill="var(--paper)" stroke="var(--line)" stroke-width="2"/>
@@ -578,9 +586,20 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
   </div>
   <div class="gres" id="gres" hidden></div>
 
-  <div class="aud" role="group" aria-label="Je suis">
+  <div class="hub">
+  <div class="aud" role="group" aria-label="Votre espace">
     <button class="audb" id="aud-etudiant" data-a="etudiant"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><path d="M4 18 24 9l20 9-20 9z"/><path d="M12 22v10c4 4 20 4 24 0V22"/><path d="M44 18v12"/></svg><span><span class="t">Étudiant·e</span><span class="d" style="display:block">Révisions par année, fiches, quiz, sujets et corrigés</span></span></button>
     <button class="audb" id="aud-pro" data-a="pro"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="16" width="36" height="24" rx="2"/><path d="M18 16v-5h12v5"/><path d="M6 26h36"/></svg><span><span class="t">Professionnel·le</span><span class="d" style="display:block">Matières, cas pratiques de cabinet, jurisprudence et actualité</span></span></button>
+  </div>
+  <nav class="hubnav" aria-label="Rubriques">
+    <button class="audb hubc" id="mt-procedures" data-p="procedures"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M27 7 41 21"/><path d="M21 13l14 14"/><path d="M24 10 14 20l14 14 10-10"/><path d="M19 25 6 38l4 4 13-13"/></svg><span><span class="t">Procédures</span><span class="d">Saisir le juge, exécuter, indemniser : délais et pièces</span></span></button>
+    <button class="audb hubc" id="mt-reformes" data-p="reformes"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6h18l8 8v28H12z"/><path d="M30 6v8h8"/><path d="M18 24h14M18 30h14M18 36h8"/></svg><span><span class="t">Réformes<span class="cnt" id="c-ref"></span></span><span class="d">Lois, ordonnances et décrets récents, par matière</span></span></button>
+    <button class="audb hubc" id="mt-jurisprudence" data-p="jurisprudence"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 8v32M14 40h20M9 14h30"/><path d="M9 14 4 28h10z"/><path d="M39 14l-5 14h10z"/></svg><span><span class="t">Jurisprudence<span class="cnt" id="c-jur"></span></span><span class="d">Cour de cassation, Conseil d'État, cours d'appel</span></span></button>
+    <button class="audb hubc" id="mt-concours" data-p="concours"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="30" r="10"/><path d="M17 22 12 6h8l4 10 4-10h8l-5 16"/></svg><span><span class="t">Concours</span><span class="d">Examens, programmes et examens blancs corrigés</span></span></button>
+    <button class="audb hubc" id="mt-partage" data-p="partage"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="17" cy="16" r="6"/><path d="M5 40c0-7 5-12 12-12s12 5 12 12"/><path d="M31 10a6 6 0 0 1 0 12M33 28c6 1 10 6 10 12"/></svg><span><span class="t" id="mt-pa-b">Partiels</span><span class="d" id="mt-pa-s">Sujets partagés par fac</span></span></button>
+    <button class="audb hubc" id="mt-prog" data-p="prog"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="10" width="32" height="30" rx="2"/><path d="M8 18h32M16 6v8M32 6v8"/><path d="M17 29l5 5 9-10"/></svg><span><span class="t">Mon programme<span class="cnt" id="c-prog" hidden></span></span><span class="d">Révisions du jour, défis, carnet d'erreurs</span></span></button>
+    <button class="audb hubc" id="burger" aria-haspopup="dialog" aria-controls="rdrawer"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8h8v32H8zM18 8h8v32h-8z"/><path d="M29 10l7-2 8 30-7 2z"/></svg><span><span class="t">Ressources</span><span class="d">Dictionnaire, codes, modèles d'actes, calculateurs</span></span></button>
+  </nav>
   </div>
 
   <div class="metsel" id="metsel" hidden></div>
@@ -595,23 +614,11 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 
   <div class="navstack">
   <nav class="maintabs" role="tablist" aria-label="Votre espace">
-    <span class="spacelbl" id="spacelbl">Espace étudiants</span>
+    <button class="hometab" id="hometab" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Accueil</button>
     <button class="mtab" role="tab" id="mt-revisions" data-p="revisions"><span class="big" id="mt1b">Révisions</span><span class="small" id="mt1s">Licence et master, par matière</span></button>
     <button class="mtab" role="tab" id="mt-metier" data-p="metier" hidden><span class="big">Mon métier</span><span class="small">Réflexes et raccourcis</span></button>
     <button class="mtab" role="tab" id="mt-mres" data-p="mres" hidden><span class="big">Ressources métier</span><span class="small">Propres à votre profession</span></button>
   </nav>
-  <div class="commonbar">
-    <span class="cmlbl" id="cmlbl">Pour tous</span>
-    <nav class="commontabs" role="tablist" aria-labelledby="cmlbl">
-    <button class="mtab ctab" role="tab" id="mt-procedures" data-p="procedures"><span class="big">Procédures</span><span class="small">Saisir, exécuter, indemniser</span></button>
-    <button class="mtab ctab" role="tab" id="mt-reformes" data-p="reformes"><span class="big">Réformes<span class="cnt" id="c-ref"></span></span><span class="small">Lois, ordonnances, décrets</span></button>
-    <button class="mtab ctab" role="tab" id="mt-jurisprudence" data-p="jurisprudence"><span class="big">Jurisprudence<span class="cnt" id="c-jur"></span></span><span class="small">Arrêts et décisions récents</span></button>
-    <button class="mtab ctab" role="tab" id="mt-concours" data-p="concours"><span class="big">Concours</span><span class="small">Examens, programmes, examens blancs</span></button>
-    <button class="mtab ctab" role="tab" id="mt-partage" data-p="partage"><span class="big" id="mt-pa-b">Partiels</span><span class="small" id="mt-pa-s">Sujets partagés par fac</span></button>
-    <button class="mtab ctab" role="tab" id="mt-prog" data-p="prog"><span class="big">Mon programme<span class="cnt" id="c-prog" hidden></span></span><span class="small">Révision, défis, carnet</span></button>
-    </nav>
-    <button class="rtab" id="burger" aria-haspopup="dialog" aria-controls="rdrawer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="rtl">Ressources</span></button>
-  </div>
   </div>
 
   <div class="panel" id="p-revisions">
@@ -674,9 +681,9 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 
   <section class="panel" id="p-reformes" hidden aria-labelledby="r-title">
     <div class="section-head" style="margin:0">
-      <div class="eyebrow">À jour au 2 octobre 2026</div>
       <h2 id="r-title">Les réformes à connaître</h2>
       <p>Lois, ordonnances et décrets récents, classés par matière. Chaque fiche renvoie à sa source : vérifiez le texte intégral avant de le citer.</p>
+      <p class="note majdate">Mise à jour chaque lundi à partir de Légifrance.</p>
     </div>
     <div class="toolnav jtabs" role="tablist"><button class="chip" data-rv="rec" aria-pressed="true">Réformes récentes</button><button class="chip" data-rv="av" aria-pressed="false">Réformes à venir <span class="n" id="c-av"></span></button></div>
     <div id="rv-rec"><div class="bfilters" id="f-reformes"></div><div class="news" id="n-reformes"></div><div id="x-reformes"></div></div>
@@ -685,9 +692,9 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 
   <section class="panel" id="p-jurisprudence" hidden aria-labelledby="j-title">
     <div class="section-head" style="margin:0">
-      <div class="eyebrow">À jour au 2 octobre 2026</div>
       <h2 id="j-title">La jurisprudence récente</h2>
       <p>Arrêts de la Cour de cassation, décisions du Conseil d'État et des cours administratives d'appel, classés par juridiction, par chambre et par matière.</p>
+      <p class="note majdate">Mise à jour chaque lundi à partir de Judilibre et des données ouvertes de la justice administrative.</p>
     </div>
     <div class="toolnav jtabs" role="tablist"><button class="chip" data-jv="rec" aria-pressed="true">Jurisprudence récente</button><button class="chip" data-jv="all" aria-pressed="false">Toute la jurisprudence</button></div>
     <div id="jv-rec"><div class="bfilters" id="f-jurisprudence"></div><div class="news" id="n-jurisprudence"></div><div id="x-jurisprudence"></div></div>
@@ -710,8 +717,9 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
   </section>
 
   <footer>
-    <span>Contenus de révision rédigés pour l'entraînement. Les plans proposés sont des pistes, pas des corrigés officiels. Vérifiez textes et arrêts sur Légifrance et Judilibre.</span>
-    <span>Votre progression (lectures, quiz, carnet d'erreurs, points) est enregistrée sur votre compte lorsque la page le permet, sinon dans ce navigateur. Les exemples pratiques sont pédagogiques et ne constituent pas une consultation.</span>
+    <span>Droit au But rassemble des contenus de révision et de pratique rédigés pour l'entraînement. Les plans proposés sont des pistes, pas des corrigés officiels, et les exemples pratiques sont pédagogiques : ils ne constituent pas une consultation.</span>
+    <span>Réformes, jurisprudence et quiz de la semaine sont mis à jour chaque lundi à partir des sources officielles (Légifrance, Judilibre, données ouvertes du Conseil d'État et des cours administratives d'appel)<span class="majfoot"></span>. Vérifiez toujours le texte intégral sur Légifrance ou Judilibre avant de le citer.</span>
+    <span>Votre progression (lectures, quiz, carnet d'erreurs, points) est enregistrée dans ce navigateur, ou sur votre compte lorsque la page est ouverte depuis claude.ai.</span>
   </footer>
 </div>
 
@@ -16340,6 +16348,11 @@ const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v)
 let done=store.get("bp-done",{}), best=store.get("bp-best",{});
 let year="L1", spec="all", cur=null, tab="fiche";
 
+/* date de la dernière mise à jour des données (bloc PISTE, renouvelé chaque lundi) */
+{const d=typeof PISTE!=='undefined'&&PISTE.date?new Date(PISTE.date):null;
+ if(d&&!isNaN(d)){const t=d.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+  document.querySelectorAll('.majdate').forEach(e=>e.textContent=e.textContent.replace(/\.$/,'')+' · dernière mise à jour le '+t+'.');
+  document.querySelectorAll('.majfoot').forEach(e=>e.textContent=', dernière mise à jour le '+t)}}
 /* ticker */
 const run=document.getElementById('run');
 const items=[...NEWS].sort((a,b)=>b.d.localeCompare(a.d)).slice(0,10).map(n=>`<button data-go="${n.k==='reforme'?'reformes':'jurisprudence'}"><b>${n.d.split('-').reverse().join('/')}</b>${esc(n.t)}</button>`).join('');
@@ -16619,16 +16632,14 @@ const ALLP=["revisions","matieres","metier","mres","procedures","ressources","re
 let curPanel="revisions";
 function setAud(a,keepPanel){
   aud=a==="pro"?"pro":"etudiant";store.set('bp-aud',aud);
-  document.querySelectorAll('.audb').forEach(b=>b.setAttribute('aria-pressed',b.dataset.a===aud));
+  document.querySelectorAll('.audb[data-a]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.a===aud));
   const t=document.getElementById('mt-revisions');
   t.dataset.p=aud==="pro"?"matieres":"revisions";
 
   document.getElementById('mt1b').textContent=aud==="pro"?"Matières":"Révisions";
-  document.getElementById('spacelbl').textContent=aud==="pro"?"Espace pro":"Espace étudiants";
   document.getElementById('mt1s').textContent=aud==="pro"?"Fiches, cas de cabinet, jurisprudence":"Licence et master, par matière";
   document.getElementById('h1').innerHTML=aud==="pro"?'Droit <em>au But</em>':'Droit <em>au But</em>';
-  document.getElementById('eyebrow').textContent=aud==="pro"?"Espace professionnels · Avocats, notaires, juristes, CGP":"Espace étudiants · Licence, master, partiels";
-  document.getElementById('lede').textContent=aud==="pro"?"Seize domaines de pratique, un module Famille complet et des outils de calcul : fiches de synthèse, exemples tirés de situations de cabinet avec la jurisprudence correspondante, et l'actualité des réformes et décisions classée par matière.":"Choisissez votre année, tirez une matière de l'étagère et révisez : fiches développées, quiz, cas pratiques, dissertations et commentaires d'arrêts, chacun avec son corrigé à part. Les onglets Réformes et Jurisprudence rassemblent l'actualité classée par matière.";
+  document.getElementById('lede').textContent=aud==="pro"?PRO.length+" domaines de pratique, un module Famille complet et des outils de calcul : fiches de synthèse, situations de cabinet avec la jurisprudence correspondante, procédures, délais et modèles d'actes à compléter.":"De la L1 au M2, tirez une matière de l'étagère et révisez : fiches en trois niveaux de lecture, quiz, cas pratiques, dissertations et commentaires d'arrêts, chacun avec son corrigé à part. Chaque fiche se télécharge en PDF ou en Word.";
   renderNews('reformes');renderNews('jurisprudence');
   if(typeof applyMetier==='function'&&!setAud._in){setAud._in=true;try{applyMetier()}finally{setAud._in=false}}
   if(aud==='pro'&&!curMetier)return;
@@ -16640,11 +16651,14 @@ function showPanel(p,scroll){
   curPanel=p;
   ALLP.forEach(x=>{document.getElementById('p-'+x).hidden=x!==p});
   document.querySelectorAll('.mtab').forEach(b=>b.setAttribute('aria-selected',b.dataset.p===p));
+  document.querySelectorAll('.hubc[data-p]').forEach(b=>b.dataset.p===p?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current'));
   try{history.replaceState(null,'','#'+p)}catch(e){}
   if(scroll)document.querySelector('.maintabs').scrollIntoView({behavior:'smooth',block:'start'});
 }
 document.querySelectorAll('.mtab').forEach(b=>b.onclick=()=>showPanel(b.dataset.p,false));
-document.querySelectorAll('.audb').forEach(b=>b.onclick=()=>setAud(b.dataset.a,true));
+document.querySelectorAll('.hubc[data-p]').forEach(b=>b.onclick=()=>showPanel(b.dataset.p,true));
+document.getElementById('hometab').onclick=()=>document.querySelector('.hub').scrollIntoView({behavior:'smooth',block:'center'});
+document.querySelectorAll('.audb[data-a]').forEach(b=>b.onclick=()=>setAud(b.dataset.a,true));
 run.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>showPanel(b.dataset.go,true));
 
 /* espace pro */

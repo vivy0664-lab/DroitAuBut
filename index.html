@@ -501,6 +501,11 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);paddin
 .pdays{display:flex;gap:6px;flex-wrap:wrap}.pday{width:30px;height:30px;border-radius:4px;border:1px solid var(--line);display:grid;place-items:center;font:500 12px var(--mono);color:var(--muted)}.pday.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .errlist{display:flex;flex-direction:column;gap:10px}.errc{border:1px solid var(--line);border-left:4px solid var(--ko);border-radius:4px;background:var(--paper);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
 .wkc .wkh{font:700 20px/1.25 var(--body);margin:0}
+.apre mark.todo{background:color-mix(in srgb,var(--gold) 45%,transparent);color:inherit;border-radius:2px;padding:0 3px}.apre mark.todo::before{content:"["}.apre mark.todo::after{content:" à compléter]"}
+.acalc{margin-top:18px;border-top:1px solid var(--line);padding-top:4px}.acalc .toolcard{margin-top:12px}.acpick{margin-top:10px;align-items:center}
+.amiss{font-size:14px;color:var(--muted);margin:0 0 8px}.amiss.ok{color:var(--ok)}
+.aopts{border:1px solid var(--line);border-radius:4px;padding:10px 14px;display:flex;flex-direction:column;gap:8px}.aopts legend{font-weight:600;font-size:14px;padding:0 4px}
+.fld input[type=date],.fld input[type=text]{font:inherit;padding:9px 10px;border:1px solid var(--line);border-radius:3px;background:var(--bg);color:var(--ink)}
 .contact{margin-top:14px;border:1px solid var(--line);border-radius:6px;background:var(--soft);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;color:var(--ink);font-size:15px}
 .contact p{margin:0;max-width:62ch}.contact .btn{text-decoration:none;white-space:nowrap}.credit{color:var(--ink)}
 .rt tr.on td{background:color-mix(in srgb,var(--accent) 12%,transparent);font-weight:600}.wkslot{margin:16px 0}.wkslot .pcard{max-width:720px}
@@ -15490,6 +15495,101 @@ function renderProcPanel(){
 
 /* Lot 4 : onglet Ressources (dictionnaire, codes, actes) et liens du dictionnaire dans les textes */
 let rVals={};const aval=(a,k,v)=>{const o=rVals[a.id];return o&&o[k]!=null?o[k]:v};
+/* Modèles d'actes : montants en lettres, dates, champs à compléter, clauses à cocher, export Word et PDF */
+const actIsMoney=l=>/\(€/.test(l);
+const actIsDate=l=>/^Date\b/.test(l)&&!/ et |naissance/.test(l);
+const actIsLett=l=>/en (toutes )?lettres$/i.test(l);
+const NBU=['zéro','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','douze','treize','quatorze','quinze','seize'];
+const NBT=['','dix','vingt','trente','quarante','cinquante','soixante'];
+function nb100(n,fin){if(n<17)return NBU[n];if(n<20)return 'dix-'+NBU[n-10];const t=Math.floor(n/10),u=n%10;
+  if(t===7)return u===1?'soixante et onze':'soixante-'+nb100(10+u,fin);
+  if(t===8)return u?'quatre-vingt-'+NBU[u]:(fin?'quatre-vingts':'quatre-vingt');
+  if(t===9)return 'quatre-vingt-'+nb100(10+u,fin);
+  return NBT[t]+(u===0?'':u===1?' et un':'-'+NBU[u])}
+function nb1000(n,fin){const h=Math.floor(n/100),r=n%100;let s='';
+  if(h)s=(h===1?'cent':NBU[h]+' cent'+(r===0&&fin?'s':''));
+  if(r)s+=(s?' ':'')+nb100(r,fin);return s}
+function nbLettres(n){n=Math.floor(n);if(!n)return 'zéro';const p=[];
+  const gm=Math.floor(n/1e9),mm=Math.floor(n/1e6)%1000,km=Math.floor(n/1000)%1000,r=n%1000;
+  if(gm)p.push(gm===1?'un milliard':nb1000(gm,true)+' milliards');
+  if(mm)p.push(mm===1?'un million':nb1000(mm,true)+' millions');
+  if(km)p.push(km===1?'mille':nb1000(km,false)+' mille');
+  if(r)p.push(nb1000(r,true));return p.join(' ')}
+function eurLettres(x){const v=Math.round(x*100)/100,e=Math.floor(v),c=Math.round((v-e)*100);
+  const de=e>=1e6&&e%1e6===0?" d'euros":' euro'+(e>1?'s':'');
+  return (e?nbLettres(e)+de:'')+(c?(e?' et ':'')+nbLettres(c)+' centime'+(c>1?'s':''):'')||'zéro euro'}
+function actNum(s){const t=String(s||'').replace(/[\s  ]/g,'').replace(',','.');return /^\d+(\.\d{1,2})?$/.test(t)?+t:null}
+const actFmtNum=v=>v.toLocaleString('fr-FR',{minimumFractionDigits:v%1?2:0,maximumFractionDigits:2});
+function actFmtDate(iso){if(!/^\d{4}-\d{2}-\d{2}$/.test(iso||''))return iso||'';const d=new Date(iso+'T12:00:00');
+  const t=d.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});return d.getDate()===1?t.replace(/^1 /,'1er '):t}
+const actToday=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+function actVals(a){return rVals[a.id]=rVals[a.id]||{}}
+/* texte de l'acte : rend {txt} pour l'export et {html} pour l'aperçu (champs manquants surlignés) */
+function actRender(a){
+  const V=actVals(a),MISS='\u0001',END='\u0002';let t=actInsert(a,a.b,actOf(a)),miss=0;
+  (a.opt||[]).forEach(([id,,txt,def])=>{const on=V['opt:'+id]!=null?V['opt:'+id]:!!def;t=t.split('{opt:'+id+'}').join(on?txt:'')});
+  t=t.replace(/\{\?(\w+)\}([\s\S]*?)\{\/\1\}/g,(_,k,inner)=>String(V[k]||'').trim()?inner:'');
+  const lettF=a.f.find(([,l])=>actIsLett(l)),chifF=a.f.find(([,l])=>actIsMoney(l));
+  a.f.forEach(([k,l])=>{let v=String(V[k]==null?'':V[k]).trim();
+    if(!v&&actIsLett(l)&&chifF){const n=actNum(V[chifF[0]]);if(n!=null)v=eurLettres(n)}
+    if(!v){miss++;t=t.split('{'+k+'}').join(MISS+l.replace(/\s*\(.*?\)\s*$/,'')+END);return}
+    if(actIsDate(l))v=actFmtDate(v);
+    else if(actIsMoney(l)){const n=actNum(v);if(n!=null){const f=actFmtNum(n);
+      if(!lettF){t=t.split('{'+k+'} euros').join(f+' euros ('+eurLettres(n)+')').split('{'+k+'} €').join(f+' € ('+eurLettres(n)+')')}
+      v=f}}
+    t=t.split('{'+k+'}').join(v)});
+  if(a.post)t=a.post(t);t=t.replace(/\n{3,}/g,'\n\n');
+  const txt=t.replace(/\u0001([^\u0002]*)\u0002/g,'[à compléter : $1]');
+  const html=esc(t).replace(/\u0001([^\u0002]*)\u0002/g,'<mark class="todo">$1</mark>');
+  return {txt,html,miss}}
+function actDocWord(a,txt){const P=txt.split(/\n{2,}/).map(p=>`<p>${esc(p).replace(/\n/g,'<br>').replace(/\[à compléter : ([^\]]*)\]/g,'<span style="background:#fff2a8">[à compléter : $1]</span>')}</p>`).join('');
+  return `﻿<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>${esc(a.t)}</title><style>@page{margin:2.5cm}body{font:12pt "Times New Roman",serif;line-height:1.4;text-align:justify}p{margin:0 0 10pt}</style></head><body>${P}</body></html>`}
+async function actDocPdf(a,txt){const jsPDF=await loadJsPDF(),doc=new jsPDF({unit:'mm',format:'a4'}),M=25,CW=210-2*M,BOT=297-22,h=11.5*.3528*1.4;let y=M;
+  doc.setFont('times','normal');doc.setFontSize(11.5);doc.setTextColor(20,20,20);
+  txt.split('\n').forEach(line=>{if(!line.trim()){y+=h*.6;return}doc.splitTextToSize(pdfTxt(line),CW).forEach(l=>{if(y+h>BOT){doc.addPage();y=M}doc.text(l,M,y+h*.8);y+=h})});
+  const n=doc.getNumberOfPages();for(let i=1;i<=n;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(110,110,110);doc.text(pdfTxt(a.t),M,297-12);doc.text(i+' / '+n,210-M,297-12,{align:'right'})}
+  return doc.output('blob')}
+const FRMOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+function frDateIso(t){const m=String(t||'').match(/(\d{1,2})(?:er)?\s+([a-zéû]+)\s+(\d{4})/i);if(!m)return '';const mo=FRMOIS.indexOf(m[2].toLowerCase());return mo<0?'':m[3]+'-'+String(mo+1).padStart(2,'0')+'-'+m[1].padStart(2,'0')}
+function actFields(a){const V=actVals(a);return a.f.map(([k,l,v])=>{const cur=V[k]==null?'':V[k],lab=`<span style="min-height:0">${esc(l)}</span>`;
+  if(actIsDate(l)){if(V[k]==null&&l==='Date')V[k]=actToday();return `<label class="fld">${lab}<input type="date" id="af-${k}" value="${esc(V[k]||'')}"></label>`}
+  if(actIsMoney(l))return `<label class="fld">${lab}<input type="text" inputmode="decimal" id="af-${k}" value="${esc(cur)}" placeholder="Ex. : ${esc(v)}"><small id="al-${k}"></small></label>`;
+  if(actIsLett(l))return `<label class="fld">${lab}<textarea id="af-${k}" rows="2" placeholder="Rempli automatiquement d'après le montant en chiffres">${esc(cur)}</textarea></label>`;
+  return `<label class="fld">${lab}<textarea id="af-${k}" rows="${String(v).length>70?3:1}" placeholder="Ex. : ${esc(v)}">${esc(cur)}</textarea></label>`}).join('')}
+/* calculateurs reliés aux modèles d'actes : ouverture sous le formulaire, pré-remplissage, report du résultat */
+const acKpi=()=>{const b=document.querySelector('#acalc .kpis b');return b?b.textContent.replace(/\s*€\s*$/,'').trim():''};
+const acTable=()=>{const t=document.querySelector('#acalc #dc-res table.rt');if(!t)return '';return [...t.querySelectorAll('tbody tr')].map(tr=>{const c=[...tr.cells].map(x=>x.innerText.trim()).filter(Boolean);
+    if(c.length===3)return `${c[0]} : ${c[1]}, restant dû ${c[2]}`;if(/^total dû$/i.test(c[0]||''))return 'Total dû : '+c[c.length-1];return c.join(' : ')}).filter(Boolean).join('\n')};
+const acJur=lab=>()=>{const r=[...document.querySelectorAll('#acalc #jur-r .jprow')].find(x=>x.firstElementChild&&x.firstElementChild.textContent.trim()===lab);return r?r.children[1].innerText.trim():''};
+const ACTCALC={
+ 'md-payer':[{tool:'decompte',lab:'Calculer le montant dû avec les intérêts au taux légal',to:'mt',pick:acKpi}],
+ 'declaration-creance':[{tool:'decompte',lab:'Calculer la créance échue (principal, intérêts, frais)',to:'ech',pick:acKpi}],
+ 'requete-ip':[{tool:'decompte',lab:'Établir le décompte détaillé',to:'decompte',pick:acTable},{tool:'jur',lab:'Trouver le tribunal du domicile du débiteur',to:'juridiction',pick:acJur('Tribunal judiciaire')}],
+ 'assignation':[{tool:'jur',lab:'Trouver le tribunal judiciaire compétent selon la commune',to:'trib',pick:acJur('Tribunal judiciaire')}],
+ 'decl-appel':[{tool:'delai',lab:"Calculer le délai d'appel (un mois à compter de la signification)",pre:{'dl-n':1,'dl-u':'m'}}],
+ 'conge-locataire':[{tool:'delai',lab:'Calculer la fin du préavis (à compter de la réception du congé)',pre:{'dl-d':'@date','dl-n':3,'dl-u':'m'}}],
+ 'retractation':[{tool:'delai',lab:'Vérifier le délai de rétractation de 14 jours',pre:{'dl-d':'@recu','dl-n':14,'dl-u':'j'}}],
+ 'precision-motifs':[{tool:'delai',lab:'Vérifier le délai de 15 jours pour demander des précisions',pre:{'dl-d':'@dl','dl-n':15,'dl-u':'j'}}],
+ 'transaction':[{tool:'lic',lab:'Estimer les indemnités de rupture du contrat de travail'}],
+ 'honoraires':[{tool:'etatfrais',lab:'Établir un état de frais et émoluments'}],
+ 'md-titulaire':[{tool:'imor',lab:'Calculer les intérêts moratoires du marché'}],
+ 'rc-mapa':[{tool:'seuilsmp',lab:'Vérifier les seuils de procédure selon le montant estimé'}]};
+function actCalcHtml(a){const L=(ACTCALC[a.id]||[]).filter(c=>TOOLFN[c.tool]);if(!L.length)return '';
+  return `<div class="acalc"><h4 class="subh">Calculateurs utiles</h4><div class="specs">${L.map((c,i)=>`<button class="chip" data-acalc="${i}" aria-pressed="false">${esc(c.lab)}</button>`).join('')}</div><div id="acalc"></div></div>`}
+function actCalcBind(a,V,fill){const L=(ACTCALC[a.id]||[]).filter(c=>TOOLFN[c.tool]),box=document.getElementById('acalc');if(!box)return;
+  document.querySelectorAll('[data-acalc]').forEach(b=>b.onclick=()=>{const open=b.getAttribute('aria-pressed')==='true';
+    document.querySelectorAll('[data-acalc]').forEach(x=>x.setAttribute('aria-pressed','false'));if(open){box.innerHTML='';return}
+    b.setAttribute('aria-pressed','true');const c=L[+b.dataset.acalc],fl=c.to&&a.f.find(f=>f[0]===c.to);
+    box.innerHTML=`<div class="toolcard"></div>${c.pick?`<div class="actions acpick"><button class="btn" id="acpick">Reporter dans « ${esc(fl?fl[1].replace(/\s*\(.*?\)\s*$/,''):c.to)} »</button><span class="note" id="acmsg" aria-live="polite"></span></div>`:''}`;
+    const card=box.firstChild;TOOLFN[c.tool](card);
+    Object.entries(c.pre||{}).forEach(([id,v])=>{const e=card.querySelector('#'+id);if(!e)return;const val=typeof v==='string'&&v[0]==='@'?(V[v.slice(1)]||''):v;if(val==='')return;e.value=val;e.dispatchEvent(new Event('input',{bubbles:true}))});
+    const pk=document.getElementById('acpick');if(pk)pk.onclick=()=>{const v=c.pick(),m=document.getElementById('acmsg');
+      if(!v){m.textContent='Aucun résultat à reporter : complétez d\'abord le calculateur.';return}
+      const e=document.getElementById('af-'+c.to);V[c.to]=v;if(e){e.value=v;flash(e)}fill();m.textContent='Reporté dans l\'acte ✓'};
+    box.scrollIntoView({behavior:'smooth',block:'nearest'})})}
+function actOptHtml(a){if(!a.opt||!a.opt.length)return '';const V=actVals(a);
+  return `<fieldset class="aopts"><legend>Clauses à inclure</legend>${a.opt.map(([id,lab,,def])=>{const on=V['opt:'+id]!=null?V['opt:'+id]:!!def;return `<label class="chk"><input type="checkbox" data-aopt="${id}"${on?' checked':''}> ${esc(lab)}</label>`}).join('')}</fieldset>`}
+
 let rSub='dico',rQ='',rCat='all',rCode=null,rActe=null;
 const RSUBALL=[["dico","Dictionnaire"],["modules","Modules approfondis"],["codes","Par code"],["actes","Modèles d'actes"],["calc","Calculateurs"],["delais","Délais clés"],["liens","Liens officiels"],["adages","Adages"],["methodo","Méthodologie"],["metiers","Par profession"]];
 let rAll=false;
@@ -15556,8 +15656,8 @@ function renderRess(){
     const a=ACTES.find(x=>x.id===rActe), cats=[...new Set(AV.map(x=>x.cat))];
     h=`<label class="fld" style="max-width:520px;margin-bottom:16px"><span style="min-height:0">Modèle</span><select id="asel">${cats.map(c=>`<optgroup label="${esc(c)}">${AV.filter(x=>x.cat===c).map(x=>`<option value="${x.id}"${x.id===rActe?' selected':''}>${esc(x.t)}</option>`).join('')}</optgroup>`).join('')}</select></label>${actSelect(a)}
      <div class="toolcard"><h3>${esc(a.t)}</h3><p class="lead2">${esc(a.pour)}</p>
-     <div class="acols"><div class="fgrid1">${a.f.map(([k,l,v])=>`<label class="fld"><span style="min-height:0">${esc(l)}</span><textarea id="af-${k}" rows="${aval(a,k,v).length>70?3:1}">${esc(aval(a,k,v))}</textarea></label>`).join('')}</div>
-     <div><div class="actions" style="margin-bottom:8px"><button class="btn" id="acopy">Copier le texte</button><button class="btn ghost" id="adl">Télécharger (.txt)</button></div><pre class="apre" id="apre"></pre></div></div>
+     <div class="acols"><div class="fgrid1"><div class="actions"><button class="btn ghost" id="aex">Remplir avec l'exemple</button><button class="btn ghost" id="aclr">Tout effacer</button></div>${actFields(a)}${actOptHtml(a)}</div>
+     <div><div class="actions" style="margin-bottom:8px"><button class="btn" id="acopy">Copier le texte</button><button class="btn ghost" id="aword">Télécharger en Word</button><button class="btn ghost" id="apdf">PDF</button></div><p class="amiss" id="amiss" aria-live="polite"></p><pre class="apre" id="apre"></pre></div></div>${actCalcHtml(a)}
      <h4 class="subh">Points à vérifier</h4><ul class="flist check">${(actOf(a)?actOf(a).ch.map(x=>`<li class="actpt"><span class="acttag">${esc(actOf(a).n)}</span> ${esc(x)}</li>`):[]).join('')}${a.ch.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
      ${actOf(a)&&actOf(a).piege?`<div class="piege"><b>Piège propre à l'activité</b>${esc(actOf(a).piege)}</div>`:''}<div class="piege"><b>Piège classique</b>${esc(a.piege)}</div><p class="ptxt"><b>Textes</b>${esc(a.txt)}</p>
      <p class="disc">Modèle indicatif à adapter à chaque situation ; il ne remplace pas le conseil d'un professionnel du droit.</p></div>`;
@@ -15588,15 +15688,20 @@ function renderRess(){
     const asx=document.getElementById('aact');if(asx)asx.onchange=e=>{rActv[rActe]=e.target.value;const A_=ACTES.find(x=>x.id===rActe),act=actOf(A_),V=(rVals[rActe]=rVals[rActe]||{});
       A_.f.forEach(([k])=>{const el=document.getElementById('af-'+k);if(el)V[k]=el.value});
       if(act&&act.obj&&A_.f.some(f=>f[0]==='obj'))V.obj=act.obj;if(act&&act.prof&&A_.f.some(f=>f[0]==='prof'))V.prof=act.prof;renderRess();flash(document.querySelector('#ress .toolcard'))};
-    const a=ACTES.find(x=>x.id===rActe);
-    const fill=()=>{let t=actInsert(a,a.b,actOf(a));a.f.forEach(([k])=>{const v=document.getElementById('af-'+k).value;(rVals[a.id]=rVals[a.id]||{})[k]=v;t=t.split('{'+k+'}').join(v)});if(a.post)t=a.post(t);document.getElementById('apre').textContent=t;return t};
-    a.f.forEach(([k])=>document.getElementById('af-'+k).addEventListener('input',fill));fill();
+    const a=ACTES.find(x=>x.id===rActe),V=actVals(a);
+    const fill=()=>{a.f.forEach(([k])=>{const e=document.getElementById('af-'+k);V[k]=e.value;const sm=document.getElementById('al-'+k);if(sm){const n=actNum(e.value);sm.textContent=n!=null?'Soit '+eurLettres(n):''}});
+      document.querySelectorAll('[data-aopt]').forEach(c=>V['opt:'+c.dataset.aopt]=c.checked);
+      const r=actRender(a);document.getElementById('apre').innerHTML=r.html;const mi=document.getElementById('amiss');
+      mi.textContent=r.miss?r.miss+(r.miss>1?' champs à compléter, surlignés':' champ à compléter, surligné')+' dans le texte.':'Tous les champs sont remplis.';mi.classList.toggle('ok',!r.miss);return r.txt};
+    a.f.forEach(([k])=>document.getElementById('af-'+k).addEventListener('input',fill));
+    document.querySelectorAll('[data-aopt]').forEach(c=>c.addEventListener('change',fill));fill();actCalcBind(a,V,fill);
+    document.getElementById('aex').onclick=()=>{a.f.forEach(([k,l,v])=>V[k]=actIsDate(l)?(frDateIso(v)||actToday()):actIsLett(l)?'':v);renderRess()};
+    document.getElementById('aclr').onclick=()=>{a.f.forEach(([k,l])=>V[k]=l==='Date'?actToday():'');renderRess()};
     document.getElementById('acopy').onclick=async e=>{const t=fill(),b=e.currentTarget;
-      try{await navigator.clipboard.writeText(t);b.textContent='Copié ✓'}catch(_){const r=document.createRange();r.selectNodeContents(document.getElementById('apre'));const s=getSelection();s.removeAllRanges();s.addRange(r);try{document.execCommand('copy');b.textContent='Copié ✓'}catch(__){b.textContent='Texte sélectionné : copiez-le'}}
+      try{await navigator.clipboard.writeText(t);b.textContent='Copié ✓'}catch(_){const r=document.createRange();r.selectNodeContents(document.getElementById('apre'));const sl=getSelection();sl.removeAllRanges();sl.addRange(r);try{document.execCommand('copy');b.textContent='Copié ✓'}catch(__){b.textContent='Texte sélectionné : copiez-le'}}
       setTimeout(()=>b.textContent='Copier le texte',2000)};
-    const adl=document.getElementById('adl');adl.hidden=true;
-    getDownloads().then(dl=>{if(!dl||!document.body.contains(adl))return;adl.hidden=false;
-      adl.onclick=async()=>{try{await dl.save({filename:a.id+'.txt',data:fill()});}catch(e){if(e&&['unavailable','not_granted','capability_disabled','capability_removed'].includes(e.code))adl.hidden=true;}}});
+    document.getElementById('aword').onclick=()=>dlBlob(a.id+'.doc',new Blob([actDocWord(a,fill())],{type:'application/msword'}));
+    document.getElementById('apdf').onclick=async e=>{const b=e.currentTarget;b.disabled=true;b.textContent='Préparation…';try{dlBlob(a.id+'.pdf',await actDocPdf(a,fill()));b.textContent='PDF ✓'}catch(_){b.textContent='Échec, réessayez'}setTimeout(()=>{b.textContent='PDF';b.disabled=false},2000)};
   }
 }
 let DLP=null;

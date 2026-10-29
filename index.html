@@ -523,6 +523,13 @@ main#contenu{display:flex;flex-direction:column;gap:56px;min-width:0;outline:non
 }
 .copy .grade2{transform-origin:168px 150px;animation:grade 6s ease-out infinite}
 body:not(.aud-pro) .copy-pro,body.aud-pro .copy-etu{display:none}
+.libshelf{margin:4px 0 18px}.libshelf .eyebrow{margin-bottom:-18px}
+.libsh .spine{width:52px}.libsh .spine.fat{width:62px}.libsh .spine .label{font-size:13px}
+.libsh .spine[aria-pressed="true"]{transform:translateY(-26px);filter:drop-shadow(0 12px 12px rgba(0,0,0,.3))}
+.reghead{font-size:clamp(22px,3vw,28px);margin:6px 0 4px}
+.plist{counter-reset:reg}.plist .pcard{counter-increment:reg}.plist .pcard h3::before{content:"N° " counter(reg,decimal-leading-zero);display:block;font:500 12px/1.4 var(--mono);letter-spacing:.06em;color:var(--accent);margin-bottom:4px}
+.jall.libmode{display:block}
+.fgridx.recueil{counter-reset:pg}.fgridx.recueil .fcard{counter-increment:pg}.fgridx.recueil .fcard .meta::before{content:"p. " counter(pg);font:500 12px var(--mono);color:var(--muted);margin-right:4px}
 .contact{margin-top:14px;border:1px solid var(--line);border-radius:6px;background:var(--soft);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;color:var(--ink);font-size:15px}
 .contact p{margin:0;max-width:62ch}.contact .btn{text-decoration:none;white-space:nowrap}.credit{color:var(--ink)}
 .rt tr.on td{background:color-mix(in srgb,var(--accent) 12%,transparent);font-weight:600}.wkslot{margin:16px 0}.wkslot .pcard{max-width:720px}
@@ -15464,14 +15471,19 @@ function renderJV(v,box,L){
    <label class="chk"><input type="checkbox" id="js-${v}"${S.sig?' checked':''}> Décisions signalées (rapport, lettre, Lebon A)</label></div>`;
   const R=jFilter(v,L,false);
   let body='';
-  if(S.g){body=`<h3 class="jgh">${esc(JNAMES[S.j])} › ${esc((jGroups(S.j,L).find(x=>x[0]===S.g)||[0,S.g])[1])} <span class="fcount">${R.length} décision${R.length>1?'s':''}</span></h3><div class="fgridx">${R.slice(0,S.shown).map(jCard).join('')||'<p>Aucune décision pour ce filtre.</p>'}</div>${R.length>S.shown?`<button class="btn ghost" id="jm-${v}">Afficher plus (${R.length-S.shown} restantes)</button>`:''}`}
+  if(S.g){body=`<h3 class="jgh">Recueil · ${esc(JNAMES[S.j])} › ${esc((jGroups(S.j,L).find(x=>x[0]===S.g)||[0,S.g])[1])} <span class="fcount">${R.length} décision${R.length>1?'s':''}</span></h3><div class="fgridx recueil">${R.slice(0,S.shown).map(jCard).join('')||'<p>Aucune décision pour ce filtre.</p>'}</div>${R.length>S.shown?`<button class="btn ghost" id="jm-${v}">Afficher plus (${R.length-S.shown} restantes)</button>`:''}`}
   else{const js=S.j==='all'?['cass','ce','caa']:[S.j],k=S.j==='all'?2:4;
     body=js.map(j=>{const gs=jGroups(j,L).map(([g,l])=>[g,l,R.filter(r=>r.j===j&&r.g===g)]).filter(x=>x[2].length);if(!gs.length)return'';
       return `<section class="jsec"><h3 class="jgh">${JNAMES[j]} <span class="fcount">${gs.reduce((a,x)=>a+x[2].length,0)}</span></h3>${gs.map(([g,l,X])=>`<div class="jgrp"><h4 class="jgt"><span>${esc(l)}</span><button class="lnk" data-jj="${j}" data-jg="${esc(g)}">Voir les ${X.length} décision${X.length>1?'s':''} →</button></h4><div class="fgridx">${X.slice(0,k).map(jCard).join('')}</div></div>`).join('')}</section>`}).join('')||'<p>Aucune décision pour ce filtre.</p>'}
   const opt=(j,g,l,c)=>`<option value="${j}|${esc(g)}"${S.j===j&&(S.g||'')===g?' selected':''}>${l} (${c})</option>`;
   const jsel=`<select class="jsel" id="jsel-${v}" aria-label="Juridiction">${opt('all','','Toutes les juridictions',F.length)}${['cass','ce','caa'].map(j=>`<optgroup label="${JNAMES[j]}">${opt(j,'','Toute la juridiction',cnt(j))}${jGroups(j,L).map(([g,l])=>{const c=cnt(j,g);return c?opt(j,g,esc(l),c):''}).join('')}</optgroup>`).join('')}</select>`;
-  box.innerHTML=`<div class="jall">${nav}<div class="jmain">${jsel}${ctl}${body}</div></div>`;
-  box.querySelector('#jsel-'+v).onchange=e=>{const [j,g]=e.target.value.split('|');S.j=j;S.g=g||null;S.shown=30;renderJV(v,box,L)};
+  const JCOL={cass:'#712B13',ce:'#3C3489',caa:'#534AB7'},JAB={cass:'Cass.',ce:'CE',caa:''};
+  const items=[['all|','Tous les recueils',F.length,'#3C5A55','Tous les recueils']];
+  ['cass','ce','caa'].forEach(j=>jGroups(j,L).forEach(([g,l])=>{const c=cnt(j,g);if(c)items.push([j+'|'+g,(JAB[j]?JAB[j]+' · ':'')+l,c,JCOL[j],'Recueil : '+JNAMES[j]+', '+l])}));
+  const shelf=libShelf('data-jr',items,S.j+'|'+(S.g||''),'Les recueils : un par juridiction et par chambre');
+  box.innerHTML=`${shelf}<div class="jall libmode"><div class="jmain">${ctl}${body}</div></div>`;
+  box.querySelectorAll('[data-jr]').forEach(b=>b.onclick=()=>{const [j,g]=b.dataset.jr.split('|');S.j=j;S.g=g||null;S.shown=30;renderJV(v,box,L);const m=box.querySelector('.jmain');if(m)m.scrollIntoView({behavior:'smooth',block:'start'})});
+  const lsh=box.querySelector('.libsh');if(lsh)fitSpines(lsh);
   const re=()=>renderJV(v,box,L);
   box.querySelectorAll('[data-jj]').forEach(b=>b.onclick=()=>{S.j=b.dataset.jj;S.g=b.dataset.jg||null;S.shown=30;re();const m=box.querySelector('.jmain');if(m&&m.getBoundingClientRect().top<0)m.scrollIntoView({block:'start'})});
   const qi=box.querySelector('#jq-'+v);let tm;qi.oninput=()=>{clearTimeout(tm);tm=setTimeout(()=>{S.q=qi.value;S.shown=30;re();const n=box.querySelector('#jq-'+v);n.focus();n.setSelectionRange(n.value.length,n.value.length)},180)};
@@ -15593,6 +15605,9 @@ const PSUB=[["orient","Quel juge saisir ?"],["carte","Carte judiciaire"],["exec"
 const ORD={civ:"Ordre judiciaire · civil, commercial, social",pen:"Ordre judiciaire · pénal",adm:"Ordre administratif",aut:"Juridictions de régulation et européennes"};
 const LVL={1:"Premier ressort",2:"Appel",3:"Sommet"};
 function blocks(arr,kind){return arr.map((b,i)=>`<section class="xblock" id="xb-${kind}-${i}"><h3>${esc(b.t)}</h3>${b.pts.map(p=>`<h4 class="sub4">${esc(p[0])}</h4><p class="dev">${esc(p[1])}</p>`).join('')}<div class="piege" style="margin-top:10px"><b>Piège classique</b>${esc(b.piege)}</div></section>`).join('')}
+/* étagère de volumes : items [clé, titre, nombre, couleur, libellé accessible] */
+function libShelf(attr,items,sel,cap){const mx=Math.max(1,...items.map(x=>x[2]));
+  return `<div class="libshelf"><p class="eyebrow">${cap}</p><div class="shelf-scroll"><div class="shelf libsh">${items.map(([k,t,n,c,al],i)=>`<button class="spine${k==='all'?' fat':''}" ${attr}="${esc(k)}" aria-pressed="${k===sel}" aria-label="${esc(al||t)}, ${n}" style="--c:${c};--i:${i};height:${Math.round(150+110*Math.sqrt(n/mx))}px"><span class="band"></span><span class="label">${esc(t)}</span><span class="yr">${n}</span><span class="band"></span></button>`).join('')}</div></div></div>`}
 function renderProcPanel(){
   const el=document.getElementById('procs');if(!el)return;
   const nav=`<div class="toolnav" role="tablist">${PSUB.map(([k,l])=>`<button class="chip" role="tab" id="ps2-${k}" data-ps="${k}" aria-pressed="${k===procSub}">${l}</button>`).join('')}</div>`;
@@ -15602,7 +15617,9 @@ function renderProcPanel(){
     const q=norm(procQ.trim());
     const L=PROC.filter(s=>(procAll||metProcOk(s))&&(procDom==='all'||s.dom.includes(procDom))&&(!q||norm([s.t,s.quand,s.jur,s.sais,s.pieces.join(' '),s.txt].join(' ')).includes(q)));
     h=`<div class="psearch"><label class="fld" style="flex:1"><span style="min-height:0">Rechercher un litige, une juridiction, une pièce</span><input type="search" id="pq" placeholder="ex. loyer, licenciement, permis, saisie…" value="${esc(procQ)}"></label></div>
-      <label class="fld" style="margin:12px 0 16px;max-width:420px"><span style="min-height:0">Domaine</span><select id="pdsel"><option value="all">Tous les domaines</option>${doms.map(d=>`<option value="${d}"${procDom===d?' selected':''}>${esc(DOM[d].n)}</option>`).join('')}</select></label>
+      ${(()=>{const ok=s=>procAll||metProcOk(s),it=doms.map(d=>[d,DOM[d].n,PROC.filter(s=>ok(s)&&s.dom.includes(d)).length,DOM[d].c,'Registre : '+DOM[d].n]).filter(x=>x[2]).sort((a,b)=>b[2]-a[2]);
+        return libShelf('data-pd',[['all','Tous les registres',PROC.filter(ok).length,'#3C5A55','Tous les registres'],...it],procDom,'Les registres du greffe : un par domaine')})()}
+      <h3 class="reghead">Registre · ${procDom==='all'?'toutes les procédures':esc(DOM[procDom].n)}</h3>
       ${metObj()&&metObj().mats?`<label class="note" style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><input type="checkbox" id="pall"${procAll?' checked':''}> Afficher aussi les procédures hors de ma profession</label>`:''}<p class="note" id="pcount">${L.length} fiche${L.length>1?'s':''} de saisine</p><div id="plist">${L.length?procList(L,'po'):'<p>Aucune fiche ne correspond. Essayez un autre mot.</p>'}</div>`;
   } else if(procSub==='carte'){
     const ords=Object.keys(ORD);
@@ -15622,7 +15639,8 @@ function renderProcPanel(){
   el.innerHTML=nav+`<div class="pane" id="psubbody">${h}</div>`;
   el.querySelectorAll('[data-ps]').forEach(b=>b.onclick=()=>{procSub=b.dataset.ps;renderProcPanel()});
   const pa=document.getElementById('pall');if(pa)pa.onchange=()=>{procAll=pa.checked;renderProcPanel()};
-  const sel=document.getElementById('pdsel');if(sel)sel.onchange=()=>{procDom=sel.value;renderProcPanel()};
+  el.querySelectorAll('[data-pd]').forEach(b=>b.onclick=()=>{procDom=b.dataset.pd;renderProcPanel();const h=document.querySelector('#procs .reghead');if(h)h.scrollIntoView({behavior:'smooth',block:'start'})});
+  const lsh=el.querySelector('.libsh');if(lsh)fitSpines(lsh);
   const q=document.getElementById('pq');
   if(q)q.oninput=()=>{procQ=q.value;const qq=norm(procQ.trim());
     const L=PROC.filter(s=>(procAll||metProcOk(s))&&(procDom==='all'||s.dom.includes(procDom))&&(!qq||norm([s.t,s.quand,s.jur,s.sais,s.pieces.join(' '),s.txt].join(' ')).includes(qq)));

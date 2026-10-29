@@ -342,7 +342,7 @@ a{color:var(--accent)}
 .art h3 a{color:inherit;text-decoration:none;border-bottom:1px solid var(--gold)}
 .art .more{font-size:14px;font-weight:600;color:var(--accent);display:inline-block;margin-top:6px}
 .art{scroll-margin-top:110px}
-.methode{border-left:4px solid var(--gold);background:var(--soft);padding:12px 16px;border-radius:0 4px 4px 0;font-size:15px}
+.methode{background:var(--soft);padding:12px 16px;border-radius:6px;font-size:15px}
 .methode b{display:block;font:500 12px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
 .subchips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;align-items:center}
 .exs{display:flex;flex-direction:column;gap:18px}
@@ -365,7 +365,7 @@ a{color:var(--accent)}
 .ngroup+.ngroup{margin-top:30px}
 .ngroup h3{font-size:26px;display:flex;align-items:center;gap:10px}
 .ngroup h3 .sw{width:14px;height:14px;border-radius:2px;flex:none}
-.piege{border:1.5px dashed var(--accent);border-radius:4px;padding:14px 16px;font-size:15px}
+.piege{background:color-mix(in srgb,var(--accent) 9%,var(--paper));border-radius:6px;padding:14px 16px;font-size:15px}
 .piege b{color:var(--accent);font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:4px}
 
 /* sujets */
@@ -506,6 +506,23 @@ footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);paddin
 .amiss{font-size:14px;color:var(--muted);margin:0 0 8px}.amiss.ok{color:var(--ok)}
 .aopts{border:1px solid var(--line);border-radius:4px;padding:10px 14px;display:flex;flex-direction:column;gap:8px}.aopts legend{font-weight:600;font-size:14px;padding:0 4px}
 .fld input[type=date],.fld input[type=text]{font:inherit;padding:9px 10px;border:1px solid var(--line);border-radius:3px;background:var(--bg);color:var(--ink)}
+.skip{position:absolute;left:12px;top:-80px;z-index:100;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:6px;font-weight:600;text-decoration:none}.skip:focus{top:12px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+main#contenu{display:flex;flex-direction:column;gap:56px;min-width:0;outline:none;scroll-margin-top:120px}
+.md{margin:0 .07em}
+.gempty p+p{margin-top:6px}
+.nextnav{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;padding-top:18px;border-top:1px solid var(--line)}
+.backup{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.shelf{width:max-content;margin-inline:auto}
+@media print{
+  .skip,.navstack,.ticker,.hub,.srow,.gres,.hero,.rdrawer,.contact,.fdlbar,.fl-sw,.tabs,.book-head .fbar,.book-head .progress,.acalc,.actions,.rdbar,.nextnav,.floors,.shelf-scroll,.backup,.lvl-sw,.toolbar-mat{display:none!important}
+  body{background:#fff;color:#000;padding:0}.wrap{padding:0;gap:16px}
+  .book{box-shadow:none;border:0}.book-head{background:none!important;padding:0 0 8px}.book-head *{color:#000!important}
+  .book-body{padding:0}.fiche{display:block}.side{margin-top:18px}
+  a{color:#000}.apre{max-height:none;overflow:visible;border:0;padding:0}
+}
+.copy .grade2{transform-origin:168px 150px;animation:grade 6s ease-out infinite}
+body:not(.aud-pro) .copy-pro,body.aud-pro .copy-etu{display:none}
 .contact{margin-top:14px;border:1px solid var(--line);border-radius:6px;background:var(--soft);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;color:var(--ink);font-size:15px}
 .contact p{margin:0;max-width:62ch}.contact .btn{text-decoration:none;white-space:nowrap}.credit{color:var(--ink)}
 .rt tr.on td{background:color-mix(in srgb,var(--accent) 12%,transparent);font-weight:600}.wkslot{margin:16px 0}.wkslot .pcard{max-width:720px}
@@ -535,6 +552,7 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 /* Téléphone : le contenu de révision arrive plus vite, zones à toucher de 44 px */
 @media (max-width:640px){
   .wrap{gap:28px;padding-block:20px 60px}
+  main#contenu{gap:28px}
   .srow,.gres{margin-bottom:-14px}
   #eyebrow{display:none}
   .hero .lede{font-size:15px;margin-top:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
@@ -564,6 +582,8 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
   <button class="rditem" data-rgo="metiers"><b>Par profession</b><span>Trames, contrôles, outils et délais de chaque métier</span></button>
   <hr><button class="rditem" data-rgo="aud"><b>Changer d'espace</b><span>Étudiant ou professionnel, profession</span></button>
 </div></div>
+<a class="skip" href="#contenu">Aller au contenu</a>
+<p id="sr-live" class="sr-only" aria-live="polite"></p>
 <div class="wrap">
   <div class="navstack">
   <nav class="maintabs" role="tablist" aria-label="Votre espace">
@@ -583,7 +603,7 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
       <h1 id="h1">Droit <em>au But</em></h1>
       <p class="lede" id="lede">De la L1 au M2, tirez une matière de l'étagère et révisez : fiches en trois niveaux de lecture, quiz, cas pratiques, dissertations et commentaires d'arrêts, chacun avec son corrigé à part. Chaque fiche se télécharge en PDF ou en Word.</p>
     </div>
-    <svg class="copy" viewBox="0 0 220 200" aria-hidden="true">
+    <svg class="copy copy-etu" viewBox="0 0 220 200" aria-hidden="true">
       <rect x="18" y="14" width="160" height="176" rx="3" fill="var(--paper)" stroke="var(--line)" stroke-width="2"/>
       <line x1="44" y1="14" x2="44" y2="190" stroke="var(--corr-line)" stroke-width="2"/>
       <path class="ln" d="M54 48 H150" fill="none"/>
@@ -594,6 +614,22 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
       <g class="grade">
         <ellipse cx="168" cy="52" rx="38" ry="26" fill="none" stroke="var(--accent)" stroke-width="3"/>
         <text x="168" y="61" text-anchor="middle" font-family="Bodoni Moda, Georgia, serif" font-weight="900" font-size="26" fill="var(--accent)">17/20</text>
+      </g>
+    </svg>
+    <svg class="copy copy-pro" viewBox="0 0 220 200" aria-hidden="true">
+      <path d="M22 34 V24 H74 L82 34" fill="var(--soft)" stroke="var(--line)" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="22" y="34" width="176" height="150" rx="4" fill="var(--soft)" stroke="var(--line)" stroke-width="2"/>
+      <rect x="40" y="22" width="140" height="168" rx="3" fill="var(--paper)" stroke="var(--line)" stroke-width="2"/>
+      <text x="54" y="50" font-family="Bodoni Moda, Georgia, serif" font-weight="700" font-size="16" fill="var(--ink)">Art. 1240</text>
+      <rect x="50" y="62" width="112" height="16" rx="2" fill="var(--accent)" opacity=".16"/>
+      <path class="ln" d="M54 70 H156" fill="none"/>
+      <path class="ln" d="M54 94 H160" fill="none"/>
+      <path class="ln" d="M54 118 H142" fill="none"/>
+      <path class="ln" d="M54 142 H150" fill="none"/>
+      <path class="ln" d="M54 166 H118" fill="none"/>
+      <g class="grade2">
+        <circle cx="168" cy="150" r="22" fill="var(--paper)" stroke="var(--accent)" stroke-width="3"/>
+        <path d="M158 150 l7 7 l13 -15" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
       </g>
     </svg>
   </header>
@@ -609,8 +645,8 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 
   <div class="hub">
   <div class="aud" role="group" aria-label="Votre espace">
-    <button class="audb" id="aud-etudiant" data-a="etudiant"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><path d="M4 18 24 9l20 9-20 9z"/><path d="M12 22v10c4 4 20 4 24 0V22"/><path d="M44 18v12"/></svg><span><span class="t">Étudiant·e</span><span class="d" style="display:block">Révisions par année, fiches, quiz, sujets et corrigés</span></span></button>
-    <button class="audb" id="aud-pro" data-a="pro"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="16" width="36" height="24" rx="2"/><path d="M18 16v-5h12v5"/><path d="M6 26h36"/></svg><span><span class="t">Professionnel·le</span><span class="d" style="display:block">Matières, cas pratiques de cabinet, jurisprudence et actualité</span></span></button>
+    <button class="audb" id="aud-etudiant" data-a="etudiant"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><path d="M4 18 24 9l20 9-20 9z"/><path d="M12 22v10c4 4 20 4 24 0V22"/><path d="M44 18v12"/></svg><span><span class="t">Étudiant<span class="md">·</span>e</span><span class="d" style="display:block">Révisions par année, fiches, quiz, sujets et corrigés</span></span></button>
+    <button class="audb" id="aud-pro" data-a="pro"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="16" width="36" height="24" rx="2"/><path d="M18 16v-5h12v5"/><path d="M6 26h36"/></svg><span><span class="t">Professionnel<span class="md">·</span>le</span><span class="d" style="display:block">Matières, cas pratiques de cabinet, jurisprudence et actualité</span></span></button>
   </div>
   <nav class="hubnav" aria-label="Rubriques">
     <button class="audb hubc" id="mt-procedures" data-p="procedures"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M27 7 41 21"/><path d="M21 13l14 14"/><path d="M24 10 14 20l14 14 10-10"/><path d="M19 25 6 38l4 4 13-13"/></svg><span><span class="t">Procédures</span><span class="d">Saisir le juge, exécuter, indemniser : délais et pièces</span></span></button>
@@ -633,6 +669,7 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 
 
 
+  <main id="contenu" tabindex="-1">
   <div class="panel" id="p-revisions">
     <section class="floors" aria-label="Choisir une année">
       <div class="eyebrow">Votre étage</div>
@@ -642,7 +679,7 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
     <section aria-label="Matières">
       <div class="shelf-scroll"><div class="shelf" id="shelf" role="tablist"></div></div>
     </section>
-    <article class="book" id="book" aria-live="polite"></article>
+    <article class="book" id="book"></article>
   </div>
 
   <div class="panel" id="p-matieres" hidden>
@@ -726,7 +763,10 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
     <div class="section-head" style="margin:0"><div class="eyebrow" id="pg-eye">Mon programme</div><h2 id="pg-title">Réviser chaque jour</h2>
     <p>Lisez, testez-vous, revenez sur vos erreurs. Les quiz se débloquent au fil de vos lectures ; vos erreurs reviennent jusqu'à ce qu'elles soient sues.</p></div>
     <div id="progp"></div>
+    <div class="backup"><h3 class="subh">Sauvegarder ma progression</h3><p class="note">Votre progression est enregistrée dans ce navigateur. Téléchargez une sauvegarde pour la conserver ou la transférer sur un autre appareil.</p><div class="actions"><button class="btn ghost" id="bk-save">Télécharger ma sauvegarde</button><button class="btn ghost" id="bk-load">Restaurer une sauvegarde</button><input type="file" id="bk-file" accept="application/json,.json" hidden></div><p class="note" id="bk-msg" aria-live="polite"></p></div>
   </section>
+
+  </main>
 
   <footer>
     <span>Droit au But rassemble des contenus de révision et de pratique rédigés pour l'entraînement. Les plans proposés sont des pistes, pas des corrigés officiels, et les exemples pratiques sont pédagogiques : ils ne constituent pas une consultation.</span>
@@ -741,6 +781,8 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 </div>
 
 <script>
+/* adresse demandée, mémorisée avant que l'initialisation ne la réécrive */
+const INITHASH=location.hash;
 const MAT=[]; let NEWS=[]; const EXT={}; const PRO=[];
 function M(o){MAT.push(o)}
 function X(id,dev,met){EXT[id]={dev,met}}
@@ -15945,7 +15987,9 @@ function runSearch(){
    ${aud==='etudiant'?`<select id="gyear" class="gsel" aria-label="Année"><option value="all">Toutes années</option>${YEARS.map(y=>`<option${sYear===y[0]?' selected':''}>${y[0]}</option>`).join('')}</select>`:''}</div>
    <ol class="glist">${shown.map((e,i)=>`<li><button class="gitem" data-gi="${SIDX.indexOf(e)}"><span class="gk">${STYPES.find(t=>t[0]===e.k)[1]}</span><span class="gl">${hl(e.lab,must)}</span><span class="gc">${esc(e.ctx)}</span><span class="gs">${hl(snippet(e.raw,must),must)}</span></button></li>`).join('')}</ol>
    ${L.length>shown.length?`<button class="btn ghost" id="gmore">Afficher les ${L.length-shown.length} autres résultats</button>`:''}
-   ${!L.length?'<p>Aucun résultat. Essayez un mot plus court ou retirez un filtre.</p>':''}`;
+   ${!L.length?'<div class="gempty"><p><b>Aucun résultat.</b> Essayez un mot plus court, une autre orthographe ou un synonyme, ou retirez le filtre choisi.</p><p>Vous pouvez aussi chercher directement dans <button class="lnk" data-gres="codes">les codes</button> ou dans <button class="lnk" data-gres="dico">le dictionnaire</button>.</p></div>':''}`;
+  srSay(L.length?L.length+' résultat'+(L.length>1?'s':''):'Aucun résultat');
+  box.querySelectorAll('[data-gres]').forEach(b=>b.onclick=()=>{box.hidden=true;rSub=b.dataset.gres;rCode=null;showPanel('ressources');renderRess();document.getElementById('p-ressources').scrollIntoView({behavior:'smooth',block:'start'})});
   box.querySelectorAll('[data-st]').forEach(b=>b.onclick=()=>{sType=b.dataset.st;sMore=false;runSearch()});
   const gy=document.getElementById('gyear');if(gy)gy.onchange=()=>{sYear=gy.value;runSearch()};
   const gm=document.getElementById('gmore');if(gm)gm.onclick=()=>{sMore=true;runSearch()};
@@ -16068,7 +16112,7 @@ const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth
 const addDays=(s,n)=>{const d=new Date(s+'T12:00:00');d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)};
 const isPro=()=>aud==='pro';
 /* points et échelons */
-const RK_ST=[[0,'Bizuth·e'],[150,'Auditeur·rice libre'],[400,'Plume de TD'],[800,'Major de TD'],[1400,'Licencié·e en herbe'],[2200,'Major de promo'],[3200,'Lauréat·e du concours'],[4500,'Docteur·e en devenir'],[6000,'Agrégé·e honoris causa']];
+const RK_ST=[[0,'Débutant·e'],[150,'Initié·e'],[400,'Régulier·e'],[800,'Assidu·e'],[1400,'Confirmé·e'],[2200,'Aguerri·e'],[3200,'Avancé·e'],[4500,'Expert·e'],[6000,'Émérite']];
 const RK_PRO=[[0,'Échelon 1 · Veille'],[200,'Échelon 2 · Pratique'],[600,'Échelon 3 · Maîtrise'],[1200,'Échelon 4 · Expertise'],[2000,'Échelon 5 · Référence'],[3200,'Échelon 6 · Autorité']];
 function rank(){const R=isPro()?RK_PRO:RK_ST;let i=0;R.forEach((r,k)=>{if(LP.xp>=r[0])i=k});return {i,n:R[i][1],min:R[i][0],next:R[i+1]||null,R}}
 const XPN=()=>isPro()?'crédits de veille':'points';
@@ -16194,7 +16238,7 @@ function renderProg(){const el=document.getElementById('progp');if(!el)return;co
       D.length>=3?`<h4>${D.length} questions vous attendent</h4><p class="note">${due.length?`Dont ${Math.min(due.length,Math.ceil((LP.plan.n||10)/2))} erreur(s) à revoir. `:''}Questions tirées des parties que vous avez lues dans vos matières.</p><button class="btn" id="pgo">Commencer le test du jour</button>`:
       `<h4>Lisez d'abord quelques parties</h4><p class="note">Les questions se débloquent au fil de vos lectures. Commencez par les lectures conseillées.</p>`}</section>
      <section class="pcard"><span class="eyebrow">Lectures conseillées</span>${R.length?`<ol class="flist">${R.map(([m,i,tt])=>`<li><button class="lnk" data-gopt="${m.id}|${i}">${esc(m.n)} · ${esc(tt)}</button></li>`).join('')}</ol>`:'<p class="note">Toutes les parties de vos matières sont lues. Bravo.</p>'}</section></div>
-     <h4 class="subh">Les 14 derniers jours</h4><div class="pdays">${days.map(d=>{const x=LP.days[d];return `<span class="pday${x&&x.done?' on':''}" title="${d}${x&&x.done?' : '+x.score+'/'+x.n:''}">${+d.slice(8)}</span>`}).join('')}</div>`}
+     <h4 class="subh">Les 14 derniers jours</h4><div class="pdays">${days.map(d=>{const x=LP.days[d];return `<span class="pday${x&&x.done?' on':''}" title="${d}${x&&x.done?' : '+x.score+'/'+x.n:''}">${+d.slice(8)}</span>`}).join('')}</div>${days.some(d=>LP.days[d]&&LP.days[d].done)?'':'<p class="note">Votre série commence avec votre premier test du jour : il prend environ cinq minutes. Chaque jour réussi s\'affichera ici.</p>'}`}
   else if(progView==='week'){h=`<div class="pgrid"><div id="wk-p-reformes"></div><div id="wk-p-jurisprudence"></div></div>`}
   else if(progView==='errs'){const L=LP.errs.filter(e=>e.box<3),M=[...new Set(L.map(e=>e.m))];
     h=`<div class="actions" style="margin-bottom:12px">${due.length?`<button class="btn" id="perr">${due.length>1?'Réviser mes '+due.length+' erreurs du jour':'Réviser mon erreur du jour'}</button>`:''}${L.length?`<button class="btn ghost" id="pall">Réviser tout le carnet (${L.length})</button><button class="btn ghost" id="pexp">Exporter mes notes</button>`:''}</div>
@@ -16648,6 +16692,8 @@ function openMat(id,t,scroll){
 function updateProg(){const m=cur;const p=document.getElementById('prog');if(p)p.textContent=`${countDone(m)} / ${m.cas.length+m.diss.length+m.comm.length} sujets travaillés${best[m.id]!=null?` · meilleur quiz ${typeof best[m.id]==='string'?best[m.id]:best[m.id]+'/'+m.quiz.length}`:''}`;const sp=document.getElementById('s-'+m.id);if(sp){const d=countDone(m);let b=sp.querySelector('.done');if(d){if(!b){b=document.createElement('span');b.className='done';sp.prepend(b)}b.textContent=d+'✓'}else if(b)b.remove()}}
 function renderTab(){
   const body=document.getElementById('body');const m=cur;
+  srSay(m.n+' : '+({fiche:'Fiche',quiz:'Quiz',cas:'Cas pratiques',diss:'Dissertations',comm:'Commentaires',proc:'Saisir le juge',calc:'Calculs'}[tab]||tab));
+  if(curPanel==='revisions')try{history.replaceState(null,'','#revisions/'+m.id+'/'+tab)}catch(e){}
   if(tab==='module'){const md=(m.id==='personnes'||m.id==='patrifam')?null:modOf(m.id);const open=tid=>famTheme(body,tid,()=>famSommaire(body,open,md),null,md);famSommaire(body,open,md);return}
   if(tab==='fiche'){
     const f=m.fiche;
@@ -16658,6 +16704,10 @@ function renderTab(){
         <div><h4>Arrêts et repères clés</h4><ul>${f.arr.map(a=>`<li><span class="ref">${esc(a[0])}</span> : ${esc(a[1])}</li>`).join('')}</ul></div>
         <div class="piege"><b>Piège classique</b>${esc(f.piege)}</div>
       </aside></div>`;
+    {const L=list(),k=L.findIndex(x=>x.id===m.id),nx=k>=0?L[k+1]:null;
+     body.insertAdjacentHTML('beforeend',`<nav class="nextnav" aria-label="Suite de la révision"><button class="btn" data-ntab="quiz">S'entraîner : quiz de la matière</button>${nx?`<button class="btn ghost" data-nmat="${nx.id}">Matière suivante : ${esc(nx.n)} →</button>`:''}</nav>`);
+     body.querySelector('[data-ntab]').onclick=()=>{tab='quiz';book.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x.dataset.k==='quiz'));renderTab();book.scrollIntoView({behavior:'smooth',block:'start'})};
+     const nb=body.querySelector('[data-nmat]');if(nb)nb.onclick=()=>openMat(nb.dataset.nmat,'fiche',true)}
   } else if(tab==='quiz'){ startQuiz(body); }
   else if(tab==='calc'){ renderCalcTab(body,calcsForMat(m)); }
   else if(tab==='proc'){ body.innerHTML=`<p class="note" style="margin-bottom:16px">Juridiction, saisine, délais et pièces pour les contentieux de cette matière. Tous les contentieux sont dans l'onglet Procédures.</p>`+procList(procFor('mat',m.id),'pm'); }
@@ -16847,7 +16897,7 @@ if(!(window.claude&&typeof window.claude.use==='function')){Object.values(PANELS
 const ALLP=["revisions","matieres","metier","mres","procedures","ressources","reformes","jurisprudence","prog","concours","partage"];
 let curPanel="revisions";
 function setAud(a,keepPanel){
-  aud=a==="pro"?"pro":"etudiant";store.set('bp-aud',aud);
+  aud=a==="pro"?"pro":"etudiant";store.set('bp-aud',aud);document.body.classList.toggle('aud-pro',aud==='pro');
   document.querySelectorAll('.audb[data-a]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.a===aud));
   const t=document.getElementById('mt-revisions');
   t.dataset.p=aud==="pro"?"matieres":"revisions";
@@ -16972,7 +17022,21 @@ setYear("L1");
 renderPShelf();
 renderProcPanel();renderRess();renderMetier();renderMRes();initSearch();initDrawer();initDico();initJuris();initLearn();
 setAud(aud,false);
-{const h=(location.hash||"").slice(1);if(h)showPanel(h,false);}
+/* annonces pour les lecteurs d'écran */
+function srSay(t){const e=document.getElementById('sr-live');if(!e)return;e.textContent='';setTimeout(()=>{e.textContent=t},60)}
+/* sauvegarde et restauration de la progression (clés bp-) */
+{const sv=document.getElementById('bk-save'),ld=document.getElementById('bk-load'),fi=document.getElementById('bk-file'),msg=document.getElementById('bk-msg');
+ if(sv)sv.onclick=()=>{const data={};try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('bp-'))data[k]=localStorage.getItem(k)}}catch(e){}
+   const d=new Date().toISOString().slice(0,10);dlBlob('droit-au-but-sauvegarde-'+d+'.json',new Blob([JSON.stringify({app:'droit-au-but',v:1,date:d,data},null,1)],{type:'application/json'}));msg.textContent='Sauvegarde téléchargée.'};
+ if(ld)ld.onclick=()=>fi.click();
+ if(fi)fi.onchange=()=>{const f=fi.files[0];if(!f)return;f.text().then(t=>{const o=JSON.parse(t);if(!o||o.app!=='droit-au-but'||!o.data)throw new Error('format');
+   if(!confirm('Remplacer la progression enregistrée dans ce navigateur par celle de la sauvegarde du '+o.date+' ?'))return;
+   Object.entries(o.data).forEach(([k,v])=>{if(k.startsWith('bp-'))localStorage.setItem(k,v)});location.reload()}).catch(()=>{msg.textContent='Ce fichier n\'est pas une sauvegarde de Droit au But.'});fi.value=''}}
+/* texte d'aide de la recherche raccourci sur téléphone */
+{const q=document.getElementById('gq');if(q&&matchMedia('(max-width:640px)').matches)q.placeholder='Rechercher : notion, article, arrêt…'}
+/* adresse : #panneau ou #revisions/matière/onglet */
+{const h=(INITHASH||"").slice(1);if(h){const [p,mid,t]=h.split('/');const m=p==='revisions'&&mid&&MAT.find(x=>x.id===mid);
+  if(m&&aud!=='pro'){showPanel('revisions',false);setYear(m.y);if(m.spe){spec=m.spe;renderSpecs();renderShelf(false)}openMat(m.id,t||'fiche',false)}else showPanel(p,false)}}
 </script>
 
 </body></html>

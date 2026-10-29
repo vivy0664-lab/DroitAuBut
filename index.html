@@ -530,6 +530,18 @@ body:not(.aud-pro) .copy-pro,body.aud-pro .copy-etu{display:none}
 .plist{counter-reset:reg}.plist .pcard{counter-increment:reg}.plist .pcard h3::before{content:"N° " counter(reg,decimal-leading-zero);display:block;font:500 12px/1.4 var(--mono);letter-spacing:.06em;color:var(--accent);margin-bottom:4px}
 .jall.libmode{display:block}
 .fgridx.recueil{counter-reset:pg}.fgridx.recueil .fcard{counter-increment:pg}.fgridx.recueil .fcard .meta::before{content:"p. " counter(pg);font:500 12px var(--mono);color:var(--muted);margin-right:4px}
+.navrow{display:flex;align-items:stretch;border-bottom:3px solid var(--ink)}
+.navrow .maintabs{border-bottom:0;flex:1;min-width:0}
+.navbtn{border-left:1px solid var(--line);border-right:0;padding:0 14px;margin:0}
+.navpop{position:absolute;right:0;top:100%;z-index:6;background:var(--paper);border:1px solid var(--line);border-radius:6px;box-shadow:0 12px 28px -12px rgba(0,0,0,.35);padding:6px;display:flex;flex-direction:column;min-width:220px}
+.navpop[hidden]{display:none}.navstack{position:sticky}
+.navpop button{border:0;background:none;text-align:left;padding:10px 12px;border-radius:4px;font:500 15px/1.3 var(--body);color:var(--ink)}.navpop button:hover,.navpop button:focus-visible{background:var(--soft)}
+.hubnav{display:contents}.hubgrp{grid-column:1/-1;display:flex;flex-direction:column;gap:10px}
+.hubh{font:600 14px/1.3 var(--body);color:var(--muted);margin:10px 0 0}
+.hubg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.afhits{list-style:none;margin:0 0 12px;padding:0;max-width:520px;display:flex;flex-direction:column;gap:4px}
+.afhits button{width:100%;text-align:left;border:1px solid var(--line);border-radius:4px;background:var(--paper);padding:8px 12px;display:flex;justify-content:space-between;gap:10px}
+.afhits button span{color:var(--muted);font-size:13px}
 .contact{margin-top:14px;border:1px solid var(--line);border-radius:6px;background:var(--soft);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;color:var(--ink);font-size:15px}
 .contact p{margin:0;max-width:62ch}.contact .btn{text-decoration:none;white-space:nowrap}.credit{color:var(--ink)}
 .rt tr.on td{background:color-mix(in srgb,var(--accent) 12%,transparent);font-weight:600}.wkslot{margin:16px 0}.wkslot .pcard{max-width:720px}
@@ -564,6 +576,8 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
   #eyebrow{display:none}
   .hero .lede{font-size:15px;margin-top:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
   .hub{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .hubg{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .navbtn .nbl{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.navbtn{padding:0 10px}
   .hub .audb{padding:10px 12px;align-items:center}.hub .audb .t{font-size:16px;white-space:normal;text-align:center}.hub .audb .cnt{margin-left:6px;padding:3px 6px;font-size:11px}
   .hometab{padding:0 12px 0 2px}
   .audb{padding:10px 12px;min-height:52px;justify-content:center}.audb svg{display:none}.audb .t{font-size:17px;white-space:nowrap}.audb .d{display:none!important}
@@ -593,12 +607,17 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 <p id="sr-live" class="sr-only" aria-live="polite"></p>
 <div class="wrap">
   <div class="navstack">
-  <nav class="maintabs" role="tablist" aria-label="Votre espace">
+  <div class="navrow">
     <button class="hometab" id="hometab" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Accueil</button>
+  <nav class="maintabs" role="tablist" aria-label="Votre espace">
     <button class="mtab" role="tab" id="mt-revisions" data-p="revisions"><span class="big" id="mt1b">Révisions</span><span class="small" id="mt1s">Licence et master, par matière</span></button>
     <button class="mtab" role="tab" id="mt-metier" data-p="metier" hidden><span class="big">Mon métier</span><span class="small">Réflexes et raccourcis</span></button>
     <button class="mtab" role="tab" id="mt-mres" data-p="mres" hidden><span class="big">Ressources métier</span><span class="small">Propres à votre profession</span></button>
   </nav>
+    <button class="hometab navbtn" id="navmenu" type="button" aria-expanded="false" aria-controls="navpop"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="nbl">Rubriques</span></button>
+    <button class="hometab navbtn" id="navsearch" type="button" aria-label="Rechercher"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+  </div>
+  <div class="navpop" id="navpop" hidden></div>
   </div>
   <div class="ticker" aria-label="Dernière minute">
     <span class="tag">Dernière minute</span>
@@ -656,14 +675,18 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
     <button class="audb" id="aud-pro" data-a="pro"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="16" width="36" height="24" rx="2"/><path d="M18 16v-5h12v5"/><path d="M6 26h36"/></svg><span><span class="t">Professionnel<span class="md">·</span>le</span><span class="d" style="display:block">Matières, cas pratiques de cabinet, jurisprudence et actualité</span></span></button>
   </div>
   <nav class="hubnav" aria-label="Rubriques">
+    <section class="hubgrp" aria-labelledby="hg-prat"><h2 class="hubh" id="hg-prat">Pratiquer</h2><div class="hubg">
     <button class="audb hubc" id="mt-procedures" data-p="procedures"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M27 7 41 21"/><path d="M21 13l14 14"/><path d="M24 10 14 20l14 14 10-10"/><path d="M19 25 6 38l4 4 13-13"/></svg><span><span class="t">Procédures</span><span class="d">Saisir le juge, exécuter, indemniser : délais et pièces</span></span></button>
     <button class="audb hubc" id="mt-reformes" data-p="reformes"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6h18l8 8v28H12z"/><path d="M30 6v8h8"/><path d="M18 24h14M18 30h14M18 36h8"/></svg><span><span class="t">Réformes<span class="cnt" id="c-ref"></span></span><span class="d">Lois, ordonnances et décrets récents, par matière</span></span></button>
     <button class="audb hubc" id="mt-jurisprudence" data-p="jurisprudence"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 8v32M14 40h20M9 14h30"/><path d="M9 14 4 28h10z"/><path d="M39 14l-5 14h10z"/></svg><span><span class="t">Jurisprudence<span class="cnt" id="c-jur"></span></span><span class="d">Cour de cassation, Conseil d'État, cours d'appel</span></span></button>
+    <button class="audb hubc" id="burger" aria-haspopup="dialog" aria-controls="rdrawer"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8h8v32H8zM18 8h8v32h-8z"/><path d="M29 10l7-2 8 30-7 2z"/></svg><span><span class="t">Ressources</span><span class="d">Dictionnaire, codes, modèles d'actes, calculateurs</span></span></button>
+    </div></section>
+    <section class="hubgrp" aria-labelledby="hg-rev"><h2 class="hubh" id="hg-rev">Réviser</h2><div class="hubg">
     <button class="audb hubc" id="mt-modules" data-sub="modules"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6 4 16l20 10 20-10z"/><path d="M4 24l20 10 20-10"/><path d="M4 32l20 10 20-10"/></svg><span><span class="t">Modules</span><span class="d">Chaque grande matière en trois niveaux, avec procédure, actes et cas</span></span></button>
     <button class="audb hubc" id="mt-concours" data-p="concours"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="30" r="10"/><path d="M17 22 12 6h8l4 10 4-10h8l-5 16"/></svg><span><span class="t">Concours</span><span class="d">Examens, programmes et examens blancs corrigés</span></span></button>
     <button class="audb hubc" id="mt-partage" data-p="partage"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="17" cy="16" r="6"/><path d="M5 40c0-7 5-12 12-12s12 5 12 12"/><path d="M31 10a6 6 0 0 1 0 12M33 28c6 1 10 6 10 12"/></svg><span><span class="t" id="mt-pa-b">Partiels</span><span class="d" id="mt-pa-s">Sujets partagés par fac</span></span></button>
     <button class="audb hubc" id="mt-prog" data-p="prog"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="10" width="32" height="30" rx="2"/><path d="M8 18h32M16 6v8M32 6v8"/><path d="M17 29l5 5 9-10"/></svg><span><span class="t">Mon programme<span class="cnt" id="c-prog" hidden></span></span><span class="d">Révisions du jour, défis, carnet d'erreurs</span></span></button>
-    <button class="audb hubc" id="burger" aria-haspopup="dialog" aria-controls="rdrawer"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8h8v32H8zM18 8h8v32h-8z"/><path d="M29 10l7-2 8 30-7 2z"/></svg><span><span class="t">Ressources</span><span class="d">Dictionnaire, codes, modèles d'actes, calculateurs</span></span></button>
+    </div></section>
   </nav>
   </div>
 
@@ -15650,7 +15673,7 @@ function renderProcPanel(){
 }
 
 /* Lot 4 : onglet Ressources (dictionnaire, codes, actes) et liens du dictionnaire dans les textes */
-let rVals={};const aval=(a,k,v)=>{const o=rVals[a.id];return o&&o[k]!=null?o[k]:v};
+let rVals=(()=>{try{return JSON.parse(localStorage.getItem('bp-actes'))||{}}catch(e){return {}}})(),actUndo=null;const aval=(a,k,v)=>{const o=rVals[a.id];return o&&o[k]!=null?o[k]:v};
 /* Modèles d'actes : montants en lettres, dates, champs à compléter, clauses à cocher, export Word et PDF */
 const actIsMoney=l=>/\(€/.test(l);
 const actIsDate=l=>/^Date\b/.test(l)&&!/ et |naissance/.test(l);
@@ -15712,6 +15735,7 @@ const FRMOIS=['janvier','février','mars','avril','mai','juin','juillet','août'
 function frDateIso(t){const m=String(t||'').match(/(\d{1,2})(?:er)?\s+([a-zéû]+)\s+(\d{4})/i);if(!m)return '';const mo=FRMOIS.indexOf(m[2].toLowerCase());return mo<0?'':m[3]+'-'+String(mo+1).padStart(2,'0')+'-'+m[1].padStart(2,'0')}
 function actFields(a){const V=actVals(a);return a.f.map(([k,l,v])=>{const cur=V[k]==null?'':V[k],lab=`<span style="min-height:0">${esc(l)}</span>`;
   if(actIsDate(l)){if(V[k]==null&&l==='Date')V[k]=actToday();return `<label class="fld">${lab}<input type="date" id="af-${k}" value="${esc(V[k]||'')}"></label>`}
+  if(/^Lieu$|\(jours\)|^Formule d'appel$/.test(l))return `<label class="fld">${lab}<input type="text"${/jours/.test(l)?' inputmode="numeric"':''} id="af-${k}" value="${esc(cur)}" placeholder="Ex. : ${esc(v)}"></label>`;
   if(actIsMoney(l))return `<label class="fld">${lab}<input type="text" inputmode="decimal" id="af-${k}" value="${esc(cur)}" placeholder="Ex. : ${esc(v)}"><small id="al-${k}"></small></label>`;
   if(actIsLett(l))return `<label class="fld">${lab}<textarea id="af-${k}" rows="2" placeholder="Rempli automatiquement d'après le montant en chiffres">${esc(cur)}</textarea></label>`;
   return `<label class="fld">${lab}<textarea id="af-${k}" rows="${String(v).length>70?3:1}" placeholder="Ex. : ${esc(v)}">${esc(cur)}</textarea></label>`}).join('')}
@@ -15813,7 +15837,7 @@ function renderRess(){
   } else {
     const AV=actesVis();if(!rActe||!AV.some(x=>x.id===rActe))rActe=(AV[0]||ACTES[0]).id;
     const a=ACTES.find(x=>x.id===rActe), cats=[...new Set(AV.map(x=>x.cat))];
-    h=`<label class="fld" style="max-width:520px;margin-bottom:16px"><span style="min-height:0">Modèle</span><select id="asel">${cats.map(c=>`<optgroup label="${esc(c)}">${AV.filter(x=>x.cat===c).map(x=>`<option value="${x.id}"${x.id===rActe?' selected':''}>${esc(x.t)}</option>`).join('')}</optgroup>`).join('')}</select></label>${actSelect(a)}
+    h=`<label class="fld" style="max-width:520px;margin-bottom:8px"><span style="min-height:0">Trouver un modèle</span><input type="search" id="afind" placeholder="Ex. : bail, licenciement, mise en demeure"></label><ul class="afhits" id="afhits" hidden></ul><label class="fld" style="max-width:520px;margin-bottom:16px"><span style="min-height:0">Ou choisir dans la liste</span><select id="asel">${cats.map(c=>`<optgroup label="${esc(c)}">${AV.filter(x=>x.cat===c).map(x=>`<option value="${x.id}"${x.id===rActe?' selected':''}>${esc(x.t)}</option>`).join('')}</optgroup>`).join('')}</select></label>${actSelect(a)}
      <div class="toolcard"><h3>${esc(a.t)}</h3><p class="lead2">${esc(a.pour)}</p>
      <div class="acols"><div class="fgrid1"><div class="actions"><button class="btn ghost" id="aex">Remplir avec l'exemple</button><button class="btn ghost" id="aclr">Tout effacer</button></div>${actFields(a)}${actOptHtml(a)}</div>
      <div><div class="actions" style="margin-bottom:8px"><button class="btn" id="acopy">Copier le texte</button><button class="btn ghost" id="aword">Télécharger en Word</button><button class="btn ghost" id="apdf">PDF</button></div><p class="amiss" id="amiss" aria-live="polite"></p><pre class="apre" id="apre"></pre></div></div>${actCalcHtml(a)}
@@ -15844,6 +15868,10 @@ function renderRess(){
   }
   if(rSub==='actes'){
     document.getElementById('asel').onchange=e=>{rActe=e.target.value;renderRess()};
+    {const fi=document.getElementById('afind'),ul=document.getElementById('afhits');fi.oninput=()=>{const q=norm(fi.value.trim());if(q.length<2){ul.hidden=true;return}
+      const H=actesVis().filter(x=>norm(x.t+' '+x.cat+' '+x.pour).includes(q)).slice(0,8);ul.hidden=false;
+      ul.innerHTML=H.length?H.map(x=>`<li><button type="button" data-af="${x.id}"><b>${esc(x.t)}</b> <span>${esc(x.cat)}</span></button></li>`).join(''):'<li class="note">Aucun modèle ne correspond.</li>';
+      ul.querySelectorAll('[data-af]').forEach(b=>b.onclick=()=>{rActe=b.dataset.af;renderRess()});srSay(H.length+' modèle'+(H.length>1?'s':''))}}
     const asx=document.getElementById('aact');if(asx)asx.onchange=e=>{rActv[rActe]=e.target.value;const A_=ACTES.find(x=>x.id===rActe),act=actOf(A_),V=(rVals[rActe]=rVals[rActe]||{});
       A_.f.forEach(([k])=>{const el=document.getElementById('af-'+k);if(el)V[k]=el.value});
       if(act&&act.obj&&A_.f.some(f=>f[0]==='obj'))V.obj=act.obj;if(act&&act.prof&&A_.f.some(f=>f[0]==='prof'))V.prof=act.prof;renderRess();flash(document.querySelector('#ress .toolcard'))};
@@ -15851,16 +15879,20 @@ function renderRess(){
     const fill=()=>{a.f.forEach(([k])=>{const e=document.getElementById('af-'+k);V[k]=e.value;const sm=document.getElementById('al-'+k);if(sm){const n=actNum(e.value);sm.textContent=n!=null?'Soit '+eurLettres(n):''}});
       document.querySelectorAll('[data-aopt]').forEach(c=>V['opt:'+c.dataset.aopt]=c.checked);
       const r=actRender(a);document.getElementById('apre').innerHTML=r.html;const mi=document.getElementById('amiss');
+      try{localStorage.setItem('bp-actes',JSON.stringify(rVals))}catch(e){}
       mi.textContent=r.miss?r.miss+(r.miss>1?' champs à compléter, surlignés':' champ à compléter, surligné')+' dans le texte.':'Tous les champs sont remplis.';mi.classList.toggle('ok',!r.miss);return r.txt};
     a.f.forEach(([k])=>document.getElementById('af-'+k).addEventListener('input',fill));
     document.querySelectorAll('[data-aopt]').forEach(c=>c.addEventListener('change',fill));fill();actCalcBind(a,V,fill);
     document.getElementById('aex').onclick=()=>{a.f.forEach(([k,l,v])=>V[k]=actIsDate(l)?(frDateIso(v)||actToday()):actIsLett(l)?'':v);renderRess()};
-    document.getElementById('aclr').onclick=()=>{a.f.forEach(([k,l])=>V[k]=l==='Date'?actToday():'');renderRess()};
+    document.getElementById('aclr').onclick=()=>{actUndo={id:a.id,v:JSON.parse(JSON.stringify(V))};a.f.forEach(([k,l])=>V[k]=l==='Date'?actToday():'');renderRess()};
+    if(actUndo&&actUndo.id!==a.id)actUndo=null;
+    if(actUndo){const ab=document.getElementById('aclr');ab.insertAdjacentHTML('afterend','<button class="btn" id="aundo">Annuler l\'effacement</button>');document.getElementById('aundo').onclick=()=>{rVals[a.id]=actUndo.v;actUndo=null;renderRess()}}
+    const actOk=()=>{const r=actRender(a);return !r.miss||confirm(r.miss+(r.miss>1?' champs sont encore vides : ils apparaîtront':' champ est encore vide : il apparaîtra')+' « [à compléter] » dans le fichier. Exporter quand même ?')};
     document.getElementById('acopy').onclick=async e=>{const t=fill(),b=e.currentTarget;
       try{await navigator.clipboard.writeText(t);b.textContent='Copié ✓'}catch(_){const r=document.createRange();r.selectNodeContents(document.getElementById('apre'));const sl=getSelection();sl.removeAllRanges();sl.addRange(r);try{document.execCommand('copy');b.textContent='Copié ✓'}catch(__){b.textContent='Texte sélectionné : copiez-le'}}
       setTimeout(()=>b.textContent='Copier le texte',2000)};
-    document.getElementById('aword').onclick=()=>dlBlob(a.id+'.doc',new Blob([actDocWord(a,fill())],{type:'application/msword'}));
-    document.getElementById('apdf').onclick=async e=>{const b=e.currentTarget;b.disabled=true;b.textContent='Préparation…';try{dlBlob(a.id+'.pdf',await actDocPdf(a,fill()));b.textContent='PDF ✓'}catch(_){b.textContent='Échec, réessayez'}setTimeout(()=>{b.textContent='PDF';b.disabled=false},2000)};
+    document.getElementById('aword').onclick=()=>actOk()&&dlBlob(a.id+'.doc',new Blob([actDocWord(a,fill())],{type:'application/msword'}));
+    document.getElementById('apdf').onclick=async e=>{if(!actOk())return;const b=e.currentTarget;b.disabled=true;b.textContent='Préparation…';try{dlBlob(a.id+'.pdf',await actDocPdf(a,fill()));b.textContent='PDF ✓'}catch(_){b.textContent='Échec, réessayez'}setTimeout(()=>{b.textContent='PDF';b.disabled=false},2000)};
   }
 }
 let DLP=null;
@@ -16723,8 +16755,10 @@ function renderTab(){
         <div class="piege"><b>Piège classique</b>${esc(f.piege)}</div>
       </aside></div>`;
     {const L=list(),k=L.findIndex(x=>x.id===m.id),nx=k>=0?L[k+1]:null;
-     body.insertAdjacentHTML('beforeend',`<nav class="nextnav" aria-label="Suite de la révision"><button class="btn" data-ntab="quiz">S'entraîner : quiz de la matière</button>${nx?`<button class="btn ghost" data-nmat="${nx.id}">Matière suivante : ${esc(nx.n)} →</button>`:''}</nav>`);
-     body.querySelector('[data-ntab]').onclick=()=>{tab='quiz';book.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x.dataset.k==='quiz'));renderTab();book.scrollIntoView({behavior:'smooth',block:'start'})};
+     const nr=m.fiche.pts.findIndex((_,i)=>!rOk(m.id,i)),lk=!unlockedBank(m).length&&nr>=0;
+     body.insertAdjacentHTML('beforeend',`<nav class="nextnav" aria-label="Suite de la révision">${lk?`<button class="btn" data-nread="${nr}">Lire la partie suivante : ${esc(m.fiche.pts[nr][0])}</button>`:`<button class="btn" data-ntab="quiz">S'entraîner : quiz de la matière</button>`}${nx?`<button class="btn ghost" data-nmat="${nx.id}">Matière suivante : ${esc(nx.n)} →</button>`:''}</nav>`);
+     const rd=body.querySelector('[data-nread]');if(rd)rd.onclick=()=>goPoint(m.id,+rd.dataset.nread,'d');
+     const qz=body.querySelector('[data-ntab]');if(qz)qz.onclick=()=>{tab='quiz';book.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x.dataset.k==='quiz'));renderTab();book.scrollIntoView({behavior:'smooth',block:'start'})};
      const nb=body.querySelector('[data-nmat]');if(nb)nb.onclick=()=>openMat(nb.dataset.nmat,'fiche',true)}
   } else if(tab==='quiz'){ startQuiz(body); }
   else if(tab==='calc'){ renderCalcTab(body,calcsForMat(m)); }
@@ -16939,9 +16973,27 @@ function showPanel(p,scroll){
   try{history.replaceState(null,'','#'+p)}catch(e){}
   if(scroll)document.querySelector('.maintabs').scrollIntoView({behavior:'smooth',block:'start'});
 }
-document.querySelectorAll('.mtab').forEach(b=>b.onclick=()=>showPanel(b.dataset.p,false));
-document.querySelectorAll('.hubc[data-p]').forEach(b=>b.onclick=()=>showPanel(b.dataset.p,true));
-document.getElementById('mt-modules').onclick=()=>{rSub='modules';rCode=null;showPanel('ressources');renderRess();document.getElementById('p-ressources').scrollIntoView({behavior:'smooth',block:'start'})};
+document.querySelectorAll('.mtab').forEach(b=>b.onclick=()=>goPanel(b.dataset.p));
+/* ouvrir une section et y emmener le lecteur : défilement sous la barre fixe, focus sur son titre, annonce */
+function goPanel(p){showPanel(p,false);const pn=document.getElementById('p-'+curPanel);if(!pn)return;
+  const h=pn.querySelector('h2')||pn;if(h!==pn)h.tabIndex=-1;
+  const top=pn.getBoundingClientRect().top+scrollY-(document.querySelector('.navstack').offsetHeight+12);
+  const y0=scrollY;scrollTo({top,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  setTimeout(()=>{if(Math.abs(scrollY-y0)<2&&Math.abs(scrollY-top)>2)scrollTo(0,top)},700);
+  try{h.focus({preventScroll:true})}catch(e){}srSay((h.textContent||'').trim())}
+document.querySelectorAll('.hubc[data-p]').forEach(b=>b.onclick=()=>goPanel(b.dataset.p));
+/* menu Rubriques de la barre fixe : reprend les cartes visibles */
+{const mb=document.getElementById('navmenu'),pop=document.getElementById('navpop');
+ const close=()=>{pop.hidden=true;mb.setAttribute('aria-expanded','false')};
+ mb.onclick=e=>{e.stopPropagation();if(!pop.hidden){close();return}
+   const cards=[...document.querySelectorAll('.hubnav .hubc')].filter(c=>!c.hidden);
+   pop.innerHTML=cards.map((c,i)=>`<button type="button" data-ci="${i}">${esc(c.querySelector('.t').childNodes[0].textContent.trim())}</button>`).join('');
+   pop.querySelectorAll('[data-ci]').forEach(b=>b.onclick=()=>{close();cards[+b.dataset.ci].click()});
+   pop.hidden=false;mb.setAttribute('aria-expanded','true');pop.querySelector('button').focus()};
+ document.addEventListener('click',e=>{if(!pop.hidden&&!pop.contains(e.target))close()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!pop.hidden){close();mb.focus()}});
+ document.getElementById('navsearch').onclick=()=>{const q=document.getElementById('gq');q.scrollIntoView({behavior:'smooth',block:'center'});q.focus({preventScroll:true})}}
+document.getElementById('mt-modules').onclick=()=>{rSub='modules';rCode=null;renderRess();goPanel('ressources')};
 document.getElementById('hometab').onclick=()=>document.querySelector('.hub').scrollIntoView({behavior:'smooth',block:'center'});
 document.querySelectorAll('.audb[data-a]').forEach(b=>b.onclick=()=>setAud(b.dataset.a,true));
 run.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>showPanel(b.dataset.go,true));

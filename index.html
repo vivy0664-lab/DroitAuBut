@@ -233,21 +233,38 @@ a{color:var(--accent)}
 @media (max-width:640px){.gsearch kbd{display:none}.gsearch input{font-size:16px}.gitem{grid-template-columns:1fr}.gk{grid-row:auto;width:auto;padding:0}.gres{padding:14px}}
 
 /* PUBLIC */
-.aud{display:inline-flex;align-items:center;gap:4px;margin-top:20px;padding:4px;border:1.5px solid var(--line);border-radius:999px;background:var(--paper);max-width:100%}
-.audl{font-size:14px;color:var(--muted);padding:0 8px 0 10px;white-space:nowrap}
-.audsw{border:0;background:none;color:var(--ink);font:600 15px/1.2 var(--body);padding:9px 16px;border-radius:999px;min-height:40px;white-space:nowrap;transition:background .2s,color .2s}
-.audsw:hover{background:var(--soft)}
-.audsw[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
-.hubgrp.prat{--cat:var(--accent)}.hubgrp.rev{--cat:var(--navy)}
-body:not(.aud-pro) .hubgrp.rev{order:-1}
-.hubc{box-shadow:inset 0 3px 0 var(--cat)}.hubc svg{color:var(--cat)!important}
-.hubc .cat{display:block;font:500 11px/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cat);margin-bottom:6px}
+.aud{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px;max-width:760px}
+.audsw{display:flex;align-items:center;gap:14px;text-align:left;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:6px;padding:14px 18px;min-height:64px;transition:background .2s,color .2s,border-color .2s}
+.audsw svg{flex:none;width:34px;height:34px;color:var(--accent)}
+.audsw .t{display:block;font:700 21px/1.15 var(--display)}
+.audsw .d{display:block;font-size:14px;color:var(--muted);margin-top:2px}
+.audsw:hover{border-color:var(--ink)}
+.audsw[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.audsw[aria-pressed="true"] .d{color:var(--bg);opacity:.8}
+.audsw[aria-pressed="true"] svg{color:var(--gold)}
+.hubh{margin:0}
+.hubt{width:100%;display:flex;align-items:center;gap:16px;text-align:left;border:1.5px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);padding:16px 20px;box-shadow:inset 4px 0 0 var(--cat)}
+.hubt>svg:not(.chev){flex:none;width:34px;height:34px;color:var(--cat)}
+.hubt>span:not(.minishelf){flex:1;min-width:0}
+.hubt .t{display:block;font:700 24px/1.1 var(--display)}
+.hubt .d{display:block;font:400 14px/1.4 var(--body);color:var(--muted);margin-top:3px}
+.hubt .chev{flex:none;width:24px;height:24px;color:var(--muted);transition:transform .25s}
+.hubt[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.hubt[aria-expanded="true"] .d{display:none}
+.hubt:hover{border-color:var(--cat)}
+.hubgrp{gap:10px}
+.hubgrp.lib{--cat:var(--ink)}.hubgrp.a{--cat:var(--accent)}.hubgrp.b{--cat:var(--navy)}
+body.aud-pro .ico-etu,body:not(.aud-pro) .ico-pro{display:none}
+.minishelf{display:flex;align-items:flex-end;gap:3px;height:34px;flex:none}.minishelf i{display:block;width:9px;border-radius:2px 2px 1px 1px}
+.vlist{list-style:none;padding:0;margin:8px 0 12px;display:flex;flex-direction:column}.vlist li{padding:10px 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:3px;align-items:flex-start}
+.vlist .mat{font-size:13px;color:var(--muted)}.vlist .vseen{font-size:13px}
+.hubc svg{color:var(--cat)!important}
 .bh-title{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap}
 .ypill{margin-top:.5em;font:500 12px/1 var(--mono);letter-spacing:.06em;color:#F3F8F7;border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:5px 10px;white-space:nowrap}
 .hub{display:flex;flex-direction:column;gap:12px}.hub>.hubnav{display:contents}
 .audb .cnt{display:inline-block;font:500 12px/1 var(--mono);background:var(--accent);color:var(--on-accent);border-radius:999px;padding:4px 7px;margin-left:8px;vertical-align:3px}
 .hub .audb{padding:16px 18px;align-items:flex-start}.hub .audb svg{width:36px;height:36px;margin-top:2px}.hub .audb .t{display:block;font-size:20px}.hub .audb .d{display:block;margin-top:4px}
-.hubc[aria-current="page"]{border-color:var(--cat);box-shadow:inset 0 3px 0 var(--cat),inset 0 0 0 1px var(--cat)}
+.hubc[aria-current="page"]{border-color:var(--cat);box-shadow:inset 0 0 0 1px var(--cat)}
 .hometab{flex:none;align-self:stretch;display:inline-flex;align-items:center;gap:7px;border:0;border-right:1px solid var(--line);background:transparent;color:var(--ink);font:600 15px/1.2 var(--body);padding:0 16px 0 4px;margin-right:4px}
 .hometab svg{width:20px;height:20px}.hometab:hover{color:var(--accent)}
 .audb{border:1.5px solid var(--line);background:var(--paper);border-radius:4px;padding:18px 20px;text-align:left;display:flex;gap:16px;align-items:center;transition:border-color .2s,transform .2s,background .2s}
@@ -584,8 +601,8 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
   .srow,.gres{margin-bottom:-14px}
   #eyebrow{display:none}
   .hero .lede{font-size:15px;margin-top:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-  .hub{gap:8px}.aud{margin-top:14px}.audl{display:none}.audsw{padding:8px 12px;font-size:14px}
-  .hubc .cat{font-size:10px;margin-bottom:3px;text-align:center}
+  .hub{gap:8px}.aud{margin-top:16px;gap:8px}.audsw{padding:10px 12px;gap:10px;min-height:56px}.audsw svg{display:none}.audsw>span{min-width:0}.audsw .t{font-size:17px;white-space:nowrap}.audsw .d{font-size:12px}
+  .hubt{padding:12px 14px;gap:12px}.minishelf{display:none}.hubt>svg:not(.chev){width:28px;height:28px}.hubt .t{font-size:20px}.hubt .d{font-size:13px}
   .hubg{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .navbtn .nbl{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.navbtn{padding:0 10px}
   .hub .audb{padding:10px 12px;align-items:center}.hub .audb .t{font-size:16px;white-space:normal;text-align:center}.hub .audb .cnt{margin-left:6px;padding:3px 6px;font-size:11px}
@@ -602,7 +619,6 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
   <div class="rdh"><b>Ressources</b><button class="dx" id="rdx" aria-label="Fermer">×</button></div>
   <p class="note">Accessibles à tous. En espace professionnel, elles sont filtrées selon votre profession (option pour tout afficher) ; en Général, tout est affiché.</p>
   <button class="rditem" data-rgo="dico"><b>Dictionnaire</b><span>140 termes reliés aux textes</span></button>
-  <button class="rditem" data-rgo="modules"><b>Modules approfondis</b><span>Chaque matière en trois niveaux, avec procédure, actes et cas</span></button>
   <button class="rditem" data-rgo="codes"><b>Par code</b><span>Sommaires, articles clés, jurisprudence, doctrine</span></button>
   <button class="rditem" data-rgo="actes"><b>Modèles d'actes</b><span>Lettres, contrats, statuts, CGV</span></button>
   <button class="rditem" data-rgo="calc"><b>Calculateurs</b><span>Famille, patrimoine, travail, fiscal, corporel, délais</span></button>
@@ -632,7 +648,7 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
   <header class="hero">
     <div>
       <h1 id="h1">Droit <em>au But</em></h1>
-      <div class="aud" role="group" aria-label="Votre espace"><span class="audl" aria-hidden="true">Je suis</span><button type="button" class="audsw" id="aud-etudiant" data-a="etudiant">Étudiant<span class="md">·</span>e</button><button type="button" class="audsw" id="aud-pro" data-a="pro">Professionnel<span class="md">·</span>le</button></div>
+      <div class="aud" role="group" aria-label="Votre espace"><button type="button" class="audsw" id="aud-etudiant" data-a="etudiant"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18 24 9l20 9-20 9z"/><path d="M12 22v10c4 4 20 4 24 0V22"/><path d="M44 18v12"/></svg><span><span class="t">Étudiant<span class="md">·</span>e</span><span class="d">Licence, master, concours</span></span></button><button type="button" class="audsw" id="aud-pro" data-a="pro"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="16" width="36" height="24" rx="2"/><path d="M18 16v-5h12v5"/><path d="M6 26h36"/></svg><span><span class="t">Professionnel<span class="md">·</span>le</span><span class="d">Cabinet, étude, entreprise</span></span></button></div>
       <p class="lede" id="lede">De la L1 au M2, tirez une matière de l'étagère et révisez : fiches en trois niveaux de lecture, quiz, cas pratiques, dissertations et commentaires d'arrêts, chacun avec son corrigé à part. Chaque fiche se télécharge en PDF ou en Word.</p>
     </div>
     <svg class="copy copy-etu" viewBox="0 0 220 200" aria-hidden="true">
@@ -682,18 +698,23 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 
   <div class="hub">
   <nav class="hubnav" aria-label="Rubriques">
-    <section class="hubgrp prat" aria-labelledby="hg-prat"><h2 class="hubh sr-only" id="hg-prat">Pratiquer</h2><div class="hubg">
-    <button class="audb hubc" id="mt-procedures" data-p="procedures"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M27 7 41 21"/><path d="M21 13l14 14"/><path d="M24 10 14 20l14 14 10-10"/><path d="M19 25 6 38l4 4 13-13"/></svg><span><span class="cat">Pratiquer</span><span class="t">Procédures</span><span class="d" data-etu="Saisir le juge, délais et recours, expliqués pas à pas" data-pro="Saisine, délais, pièces et exécution : la marche à suivre">Saisir le juge, délais et recours, expliqués pas à pas</span></span></button>
-    <button class="audb hubc" id="mt-reformes" data-p="reformes"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6h18l8 8v28H12z"/><path d="M30 6v8h8"/><path d="M18 24h14M18 30h14M18 36h8"/></svg><span><span class="cat">Pratiquer</span><span class="t">Réformes<span class="cnt" id="c-ref"></span></span><span class="d" data-etu="Ce qui a changé récemment dans vos matières" data-pro="Lois, ordonnances et décrets récents, par domaine">Ce qui a changé récemment dans vos matières</span></span></button>
-    <button class="audb hubc" id="mt-jurisprudence" data-p="jurisprudence"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 8v32M14 40h20M9 14h30"/><path d="M9 14 4 28h10z"/><path d="M39 14l-5 14h10z"/></svg><span><span class="cat">Pratiquer</span><span class="t">Jurisprudence<span class="cnt" id="c-jur"></span></span><span class="d" data-etu="Les arrêts à connaître, classés par chambre" data-pro="Décisions récentes : Cour de cassation, Conseil d'État, cours d'appel">Les arrêts à connaître, classés par chambre</span></span></button>
-    <button class="audb hubc" id="burger" aria-haspopup="dialog" aria-controls="rdrawer"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8h8v32H8zM18 8h8v32h-8z"/><path d="M29 10l7-2 8 30-7 2z"/></svg><span><span class="cat">Pratiquer</span><span class="t">Ressources</span><span class="d" data-etu="Dictionnaire, codes, méthodes et calculateurs" data-pro="Codes, modèles d'actes, calculateurs, dictionnaire">Dictionnaire, codes, méthodes et calculateurs</span></span></button>
-    </div></section>
-    <section class="hubgrp rev" aria-labelledby="hg-rev"><h2 class="hubh sr-only" id="hg-rev">Réviser</h2><div class="hubg">
-    <button class="audb hubc" id="mt-modules" data-sub="modules"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6 4 16l20 10 20-10z"/><path d="M4 24l20 10 20-10"/><path d="M4 32l20 10 20-10"/></svg><span><span class="cat">Réviser</span><span class="t">Modules</span><span class="d" data-etu="Chaque grande matière en trois niveaux de lecture" data-pro="Approfondir un domaine : fiches, procédure, actes et cas">Chaque grande matière en trois niveaux de lecture</span></span></button>
-    <button class="audb hubc" id="mt-concours" data-p="concours"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="30" r="10"/><path d="M17 22 12 6h8l4 10 4-10h8l-5 16"/></svg><span><span class="cat">Réviser</span><span class="t">Concours</span><span class="d" data-etu="Examens et concours : programmes et examens blancs corrigés" data-pro="Examens professionnels : programmes et sujets corrigés">Examens et concours : programmes et examens blancs corrigés</span></span></button>
+    <section class="hubgrp lib" aria-labelledby="hg-lib"><h2 class="hubh"><button type="button" class="hubt" id="hg-lib" aria-expanded="false" aria-controls="hg-lib-l"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8h8v32H8zM18 8h8v32h-8z"/><path d="M29 10l7-2 8 30-7 2z"/></svg><span><span class="t"></span><span class="d"></span></span><span class="minishelf" aria-hidden="true"><i style="background:#0F6E56;height:30px"></i><i style="background:#3C3489;height:24px"></i><i style="background:#712B13;height:34px"></i><i style="background:#185FA5;height:27px"></i><i style="background:#5F5E5A;height:31px"></i><i style="background:#854F0B;height:22px"></i><i style="background:#3C5A55;height:29px"></i></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h2><div class="hubg" id="hg-lib-l" hidden></div></section>
+    <section class="hubgrp a" aria-labelledby="hg-a"><h2 class="hubh"><button type="button" class="hubt" id="hg-a" aria-expanded="false" aria-controls="hg-a-l"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="ico-etu"><path d="M30 8l10 10-20 20H10V28z"/><path d="M26 12l10 10"/></svg><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="ico-pro"><rect x="6" y="16" width="36" height="24" rx="2"/><path d="M18 16v-5h12v5"/><path d="M6 26h36"/></svg><span><span class="t"></span><span class="d"></span></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h2><div class="hubg" id="hg-a-l" hidden></div></section>
+    <section class="hubgrp b" aria-labelledby="hg-b"><h2 class="hubh"><button type="button" class="hubt" id="hg-b" aria-expanded="false" aria-controls="hg-b-l"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="ico-etu"><path d="M10 8h24v32H10z"/><path d="M34 16h6v20a4 4 0 0 1-8 0"/><path d="M16 16h12M16 23h12M16 30h8"/></svg><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="ico-pro"><circle cx="24" cy="24" r="16"/><path d="M24 14v10l7 5"/></svg><span><span class="t"></span><span class="d"></span></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h2><div class="hubg" id="hg-b-l" hidden></div></section>
+    <div class="hubpool" hidden>
+    <button class="audb hubc" id="mt-procedures" data-p="procedures"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M27 7 41 21"/><path d="M21 13l14 14"/><path d="M24 10 14 20l14 14 10-10"/><path d="M19 25 6 38l4 4 13-13"/></svg><span><span class="t">Procédures</span><span class="d" data-etu="Saisir le juge, délais et recours, expliqués pas à pas" data-pro="Saisine, délais, pièces et exécution : la marche à suivre">Saisir le juge, délais et recours, expliqués pas à pas</span></span></button>
+    <button class="audb hubc" id="mt-reformes" data-p="reformes"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6h18l8 8v28H12z"/><path d="M30 6v8h8"/><path d="M18 24h14M18 30h14M18 36h8"/></svg><span><span class="t">Réformes<span class="cnt" id="c-ref"></span></span><span class="d" data-etu="Ce qui a changé récemment dans vos matières" data-pro="Lois, ordonnances et décrets récents, par domaine">Ce qui a changé récemment dans vos matières</span></span></button>
+    <button class="audb hubc" id="mt-jurisprudence" data-p="jurisprudence"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 8v32M14 40h20M9 14h30"/><path d="M9 14 4 28h10z"/><path d="M39 14l-5 14h10z"/></svg><span><span class="t">Jurisprudence<span class="cnt" id="c-jur"></span></span><span class="d" data-etu="Les arrêts à connaître, classés par chambre" data-pro="Décisions récentes : Cour de cassation, Conseil d'État, cours d'appel">Les arrêts à connaître, classés par chambre</span></span></button>
+    <button class="audb hubc" id="burger" aria-haspopup="dialog" aria-controls="rdrawer"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8h8v32H8zM18 8h8v32h-8z"/><path d="M29 10l7-2 8 30-7 2z"/></svg><span><span class="t">Ressources</span><span class="d" data-etu="Dictionnaire, codes, méthodes et calculateurs" data-pro="Codes, modèles d'actes, calculateurs, dictionnaire">Dictionnaire, codes, méthodes et calculateurs</span></span></button>
+    <button class="audb hubc" id="mt-modules" data-sub="modules"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6 4 16l20 10 20-10z"/><path d="M4 24l20 10 20-10"/><path d="M4 32l20 10 20-10"/></svg><span><span class="t">Modules</span><span class="d" data-etu="Chaque grande matière en trois niveaux de lecture" data-pro="Approfondir un domaine : fiches, procédure, actes et cas">Chaque grande matière en trois niveaux de lecture</span></span></button>
+    <button class="audb hubc" id="mt-concours" data-p="concours"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="30" r="10"/><path d="M17 22 12 6h8l4 10 4-10h8l-5 16"/></svg><span><span class="t">Concours</span><span class="d" data-etu="Examens et concours : programmes et examens blancs corrigés" data-pro="Examens professionnels : programmes et sujets corrigés">Examens et concours : programmes et examens blancs corrigés</span></span></button>
     <button class="audb hubc" id="mt-partage" data-p="partage"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="17" cy="16" r="6"/><path d="M5 40c0-7 5-12 12-12s12 5 12 12"/><path d="M31 10a6 6 0 0 1 0 12M33 28c6 1 10 6 10 12"/></svg><span><span class="t" id="mt-pa-b">Partiels</span><span class="d" id="mt-pa-s">Sujets partagés par fac</span></span></button>
-    <button class="audb hubc" id="mt-prog" data-p="prog"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="10" width="32" height="30" rx="2"/><path d="M8 18h32M16 6v8M32 6v8"/><path d="M17 29l5 5 9-10"/></svg><span><span class="cat">Réviser</span><span class="t">Mon programme<span class="cnt" id="c-prog" hidden></span></span><span class="d" data-etu="Révisions du jour, défis, carnet d'erreurs" data-pro="Un test court chaque jour pour entretenir ses connaissances">Révisions du jour, défis, carnet d'erreurs</span></span></button>
-    </div></section>
+    <button class="audb hubc" id="mt-prog" data-p="prog"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="10" width="32" height="30" rx="2"/><path d="M8 18h32M16 6v8M32 6v8"/><path d="M17 29l5 5 9-10"/></svg><span><span class="t">Mon programme<span class="cnt" id="c-prog" hidden></span></span><span class="d" data-etu="Révisions du jour, défis, carnet d'erreurs" data-pro="Nouveautés de vos domaines, échéances, défis de la semaine">Révisions du jour, défis, carnet d'erreurs</span></span></button>
+    <button class="audb hubc" id="mt-hrev" data-p="revisions"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8h8v32H8zM18 8h8v32h-8z"/><path d="M29 10l7-2 8 30-7 2z"/></svg><span><span class="t">Révisions</span><span class="d" data-etu="L'étagère des matières, de la L1 au M2" data-pro="L'étagère des matières, de la L1 au M2">L'étagère des matières, de la L1 au M2</span></span></button>
+    <button class="audb hubc" id="mt-hmat" data-p="matieres"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8h8v32H8zM18 8h8v32h-8z"/><path d="M29 10l7-2 8 30-7 2z"/></svg><span><span class="t">Matières</span><span class="d" data-etu="Les domaines de pratique, en volumes : fiches, cas, jurisprudence" data-pro="Les domaines de pratique, en volumes : fiches, cas, jurisprudence">Les domaines de pratique, en volumes : fiches, cas, jurisprudence</span></span></button>
+    <button class="audb hubc" id="mt-hmet" data-p="metier"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="16" width="36" height="24" rx="2"/><path d="M18 16v-5h12v5"/><path d="M6 26h36"/></svg><span><span class="t">Mon métier</span><span class="d" data-etu="Les réflexes et raccourcis de votre profession" data-pro="Les réflexes et raccourcis de votre profession">Les réflexes et raccourcis de votre profession</span></span></button>
+    <button class="audb hubc" id="mt-hmres" data-p="mres"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M30 8l10 10-20 20H10V28z"/><path d="M26 12l10 10"/></svg><span><span class="t">Ressources métier</span><span class="d" data-etu="Trames, listes de contrôle et délais de votre profession" data-pro="Trames, listes de contrôle et délais de votre profession">Trames, listes de contrôle et délais de votre profession</span></span></button>
+    </div>
   </nav>
   </div>
 
@@ -798,7 +819,7 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
   </section>
   <section class="panel" id="p-prog" hidden aria-labelledby="pg-title">
     <div class="section-head" style="margin:0"><div class="eyebrow" id="pg-eye">Mon programme</div><h2 id="pg-title">Réviser chaque jour</h2>
-    <p>Lisez, testez-vous, revenez sur vos erreurs. Les quiz se débloquent au fil de vos lectures ; vos erreurs reviennent jusqu'à ce qu'elles soient sues.</p></div>
+    <p id="pg-lead">Lisez, testez-vous, revenez sur vos erreurs. Les quiz se débloquent au fil de vos lectures ; vos erreurs reviennent jusqu'à ce qu'elles soient sues.</p></div>
     <div id="progp"></div>
     <div class="backup"><h3 class="subh">Sauvegarder ma progression</h3><p class="note">Votre progression est enregistrée dans ce navigateur. Téléchargez une sauvegarde pour la conserver ou la transférer sur un autre appareil.</p><div class="actions"><button class="btn ghost" id="bk-save">Télécharger ma sauvegarde</button><button class="btn ghost" id="bk-load">Restaurer une sauvegarde</button><input type="file" id="bk-file" accept="application/json,.json" hidden></div><p class="note" id="bk-msg" aria-live="polite"></p></div>
   </section>
@@ -15231,6 +15252,7 @@ function applyMetier(){
   if(M)mt.querySelector('.big').textContent=M.n;
   const mr=document.getElementById('mt-mres');if(mr){mr.hidden=mt.hidden;if(M){mr.querySelector('.small').textContent='Propres : '+M.n.toLowerCase();const e=document.getElementById('mr-eye');if(e)e.textContent='Ressources · '+M.n}}
   if(typeof renderMRes==='function')renderMRes();
+  if(document.querySelector('.hubpool'))hubLayout(false);
   renderPShelf();renderMetier();renderProcPanel();renderMetSel();
 }
 
@@ -15784,7 +15806,7 @@ let rSub='dico',rQ='',rCat='all',rCode=null,rActe=null;
 const RSUBALL=[["dico","Dictionnaire"],["modules","Modules approfondis"],["codes","Par code"],["actes","Modèles d'actes"],["calc","Calculateurs"],["delais","Délais clés"],["liens","Liens officiels"],["adages","Adages"],["methodo","Méthodologie"],["metiers","Par profession"]];
 let rAll=false;
 const rMet=()=>{const M=typeof metObj==='function'?metObj():null;return M&&!rAll?M:null};
-const RSUB_=()=>RSUBALL.filter(([k])=>(k!=='methodo'||aud!=='pro'||!rMet())&&(k!=='metiers'||!rMet()));
+const RSUB_=()=>RSUBALL.filter(([k])=>(k!=='modules'||rSub==='modules')&&(k!=='methodo'||aud!=='pro'||!rMet())&&(k!=='metiers'||!rMet()));
 let DICOMET={};
 function dicoVis(){const M=rMet();if(!M||!M.mats)return DICO;if(DICOMET[M.id])return DICOMET[M.id];
   const txt=norm(M.mats.map(id=>{const m=MAT.find(x=>x.id===id);return m?JSON.stringify(m.fiche)+JSON.stringify(DET[id]||[]):''}).join(' '));
@@ -16155,7 +16177,7 @@ jurisprudence:[
 /* Lot 9 : lecture minutée, quiz débloqués par la lecture, programme de révision, carnet d'erreurs, points et échelons, quiz de la semaine */
 const LK='bp-learn';
 let LP=(()=>{try{return JSON.parse(localStorage.getItem(LK))||{}}catch(e){return {}}})();
-function lpDef(){LP.xp=LP.xp||0;LP.read=LP.read||{};LP.errs=LP.errs||[];LP.plan=LP.plan||{mats:[],n:10};LP.days=LP.days||{};LP.weekly=LP.weekly||{};LP.wkread=LP.wkread||{};LP.ts=LP.ts||0;LP.badges=LP.badges||[]}
+function lpDef(){LP.seen=LP.seen||{};LP.xp=LP.xp||0;LP.read=LP.read||{};LP.errs=LP.errs||[];LP.plan=LP.plan||{mats:[],n:10};LP.days=LP.days||{};LP.weekly=LP.weekly||{};LP.wkread=LP.wkread||{};LP.ts=LP.ts||0;LP.badges=LP.badges||[]}
 lpDef();
 let LDOC=null,lwT=null,lwBusy=false,lwAgain=false,LSYNC='local';
 function lpSave(){LP.ts=Date.now();try{localStorage.setItem(LK,JSON.stringify(LP))}catch(e){}clearTimeout(lwT);lwT=setTimeout(lpPush,2500)}
@@ -16282,13 +16304,27 @@ function dailySet(){const n=LP.plan.n||10;const Q=qShuffle(errDue()).slice(0,Mat
   const fresh=qShuffle(U.filter(q=>!seen.has(q.id))),old=qShuffle(U.filter(q=>seen.has(q.id)));
   return [...Q,...fresh,...old].slice(0,n)}
 let progView='today';
+/* veille pro : nouveautés non lues des 60 derniers jours, échéances repérées dans l'actualité */
+const VMOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+function veilleItems(){if(!LP.vstart){LP.vstart=addDays(today(),-14);lpSaveQuiet()}const l60=addDays(today(),-60),lim=LP.vstart>l60?LP.vstart:l60,S=LP.seen||{},out=[];
+  NEWS.filter(n=>n.d>=lim&&metNewsOk(n)).forEach(n=>out.push({id:'n:'+n.d+':'+n.t.slice(0,40),d:n.d,t:n.t,kind:n.k==='reforme'?'Réforme':'Décision',k:n.k==='reforme'?'r':'l',dom:n.dom,news:NEWS.indexOf(n)}));
+  if(typeof PISTE_OK!=='undefined'&&PISTE_OK){
+    (PISTE.jo||[]).filter(n=>n.d>=lim&&n.nat!=='DECRET'&&metNewsOk(n)).forEach(n=>out.push({id:'jo:'+n.cid,d:n.d,t:n.t.replace(/\s*\(\d\)\s*$/,''),kind:n.nat==='LOI'?'Loi':n.nat==='ORDONNANCE'?'Ordonnance':'Décret',k:'r',dom:n.dom,lk:'https://www.legifrance.gouv.fr/jorf/id/'+n.cid}));
+    (PISTE.jp||[]).filter(n=>n.d>=lim&&(n.src==='ce'?n.p==='A':/[rl]/.test(n.p||''))&&metNewsOk(n)).forEach(n=>out.push({id:'jp:'+(n.id||n.n),d:n.d,t:n.h+' · '+n.ch+(n.n?', n° '+n.n:'')+(n.sol&&SOL[n.sol]?' ('+SOL[n.sol].toLowerCase()+')':''),kind:n.src==='ce'?'CE':'Cass.',k:'l',dom:n.dom,lk:n.lk||(n.src!=='ce'&&n.id?'https://www.courdecassation.fr/decision/'+n.id:null)}))}
+  return out.filter(x=>!S[x.id]).sort((a,b)=>b.d.localeCompare(a.d))}
+function veilleEch(){const t=today(),max=addDays(t,540),re=/(\d{1,2})(?:er)? (janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre) (20\d\d)/g,out=[];
+  NEWS.filter(n=>metNewsOk(n)).forEach(n=>{let best=null;for(const m of (n.t+' '+n.r).matchAll(re)){const d=m[3]+'-'+String(VMOIS.indexOf(m[2])+1).padStart(2,'0')+'-'+m[1].padStart(2,'0');if(d>t&&d<=max&&(!best||d<best[0]))best=[d,m[0]]}
+    if(best)out.push({d:best[0],lb:best[1].replace(/^1 /,'1er '),t:n.t,news:NEWS.indexOf(n)})});
+  return out.sort((a,b)=>a.d.localeCompare(b.d)).slice(0,8)}
 function renderProg(){const el=document.getElementById('progp');if(!el)return;const r=rank(),st=streak(),t=today(),dd=LP.days[t],due=errDue();
   const pc=r.next?Math.round((LP.xp-r.min)/(r.next[0]-r.min)*100):100;
   const head=`<div class="phead"><div class="prank"><span class="eyebrow">${isPro()?'Votre échelon':'Votre rang'}</span><h3>${esc(r.n)}</h3><div class="pbar"><i style="width:${pc}%"></i></div>
      <p class="note">${LP.xp.toLocaleString('fr-FR')} ${XPN()}${r.next?` · encore ${(r.next[0]-LP.xp).toLocaleString('fr-FR')} pour « ${esc(r.next[1])} »`:' · échelon maximal'}</p></div>
     <div class="pstats"><div><b>${st}</b><span>jour${st>1?'s':''} de suite</span></div><div><b>${readCount()}</b><span>parties lues</span></div><div><b>${due.length}</b><span>erreur${due.length>1?'s':''} à revoir</span></div></div></div>
     <p class="note">${LSYNC==='cloud'?'Progression enregistrée sur votre compte : elle vous suit d\'un appareil à l\'autre.':'Progression enregistrée dans ce navigateur.'}${isPro()?' Les crédits de veille sont indicatifs et ne valent pas attestation de formation continue.':''}</p>`;
-  const tabs=`<div class="toolnav" role="tablist">${[['today','Aujourd\'hui'],['week','Défis de la semaine'],['errs','Carnet d\'erreurs ('+LP.errs.filter(e=>e.box<3).length+')'],['plan','Mes matières'],['ranks',isPro()?'Échelons':'Rangs et badges']].map(([k,l])=>`<button class="chip" data-pv="${k}" aria-pressed="${progView===k}">${l}</button>`).join('')}</div>`;
+  if(renderProg._a!==aud){renderProg._a=aud;progView=isPro()?'veille':'today'}
+  {const e=document.getElementById('pg-title'),l=document.getElementById('pg-lead');if(e)e.textContent=isPro()?'Rester à jour':'Réviser chaque jour';if(l)l.textContent=isPro()?'Les nouveautés de vos domaines à lire, les échéances à venir et les défis de la semaine ; le test du jour entretient vos connaissances.':'Lisez, testez-vous, revenez sur vos erreurs. Les quiz se débloquent au fil de vos lectures ; vos erreurs reviennent jusqu\'à ce qu\'elles soient sues.'}
+  const tabs=`<div class="toolnav" role="tablist">${[...(isPro()?[['veille','Veille']]:[]),['today',isPro()?'Test du jour':'Aujourd\'hui'],['week','Défis de la semaine'],['errs','Carnet d\'erreurs ('+LP.errs.filter(e=>e.box<3).length+')'],['plan','Mes matières'],['ranks',isPro()?'Échelons':'Rangs et badges']].map(([k,l])=>`<button class="chip" data-pv="${k}" aria-pressed="${progView===k}">${l}</button>`).join('')}</div>`;
   let h='';
   if(progView==='today'){const D=dailySet(),R=nextReads(3),days=[...Array(14)].map((_,i)=>addDays(t,i-13));
     h=`<div class="pgrid"><section class="pcard"><span class="eyebrow">Test du jour</span>${dd&&dd.done?`<h4>Fait : ${dd.score}/${dd.n}</h4><p class="note">Revenez demain pour garder votre série. Vous pouvez refaire un test libre.</p><button class="btn ghost" id="pgo">Test supplémentaire</button>`:
@@ -16296,6 +16332,13 @@ function renderProg(){const el=document.getElementById('progp');if(!el)return;co
       `<h4>Lisez d'abord quelques parties</h4><p class="note">Les questions se débloquent au fil de vos lectures. Commencez par les lectures conseillées.</p>`}</section>
      <section class="pcard"><span class="eyebrow">Lectures conseillées</span>${R.length?`<ol class="flist">${R.map(([m,i,tt])=>`<li><button class="lnk" data-gopt="${m.id}|${i}">${esc(m.n)} · ${esc(tt)}</button></li>`).join('')}</ol>`:'<p class="note">Toutes les parties de vos matières sont lues. Bravo.</p>'}</section></div>
      <h4 class="subh">Les 14 derniers jours</h4><div class="pdays">${days.map(d=>{const x=LP.days[d];return `<span class="pday${x&&x.done?' on':''}" title="${d}${x&&x.done?' : '+x.score+'/'+x.n:''}">${+d.slice(8)}</span>`}).join('')}</div>${days.some(d=>LP.days[d]&&LP.days[d].done)?'':'<p class="note">Votre série commence avec votre premier test du jour : il prend environ cinq minutes. Chaque jour réussi s\'affichera ici.</p>'}`}
+  else if(progView==='veille'){const U=veilleItems(),A=veilleEch();
+    h=`<div class="pgrid"><section class="pcard"><span class="eyebrow">Nouveautés de vos domaines</span>${U.length?`<h4>${U.length} à lire</h4><ul class="vlist">${U.slice(0,12).map(x=>`<li><div class="meta"><span class="kind ${x.k==='r'?'reforme':'arret'}">${esc(x.kind)}</span><span class="date">${pD(x.d)}</span></div>
+      ${x.news>=0&&x.news!==undefined?`<button class="lnk" data-vnews="${x.news}">${esc(x.t)}</button>`:x.lk?`<a href="${esc(x.lk)}" target="_blank" rel="noopener">${esc(x.t)} ↗</a>`:`<button class="lnk" data-vgo="jurisprudence">${esc(x.t)}</button>`}
+      <span class="mat">${x.dom.map(d=>DOM[d]?esc(DOM[d].n):'').filter(Boolean).join(' · ')}</span> <button class="lnk vseen" data-vseen="${esc(x.id)}">Marquer comme lu</button></li>`).join('')}</ul>
+      ${U.length>12?`<p class="note">Et ${U.length-12} de plus : marquez celles-ci comme lues pour voir la suite.</p>`:''}<div class="actions"><button class="btn ghost" id="vall">Tout marquer comme lu</button></div>`:'<h4>Vous êtes à jour</h4><p class="note">Aucune nouveauté non lue dans vos domaines : revenez après la prochaine mise à jour du lundi.</p>'}</section>
+     <section class="pcard"><span class="eyebrow">À venir</span>${A.length?`<ol class="flist">${A.map(x=>`<li><b>${esc(x.lb)}</b> · <button class="lnk" data-vnews="${x.news}">${esc(x.t)}</button></li>`).join('')}</ol>`:'<p class="note">Aucune échéance repérée dans l\'actualité de vos domaines.</p>'}
+      <span class="eyebrow" style="margin-top:18px">Défis de la semaine</span><p class="note">Quelques questions sur les réformes et décisions récentes.</p><div class="actions"><button class="btn" data-pv="week">Faire les défis</button></div></section></div>`}
   else if(progView==='week'){h=`<div class="pgrid"><div id="wk-p-reformes"></div><div id="wk-p-jurisprudence"></div></div>`}
   else if(progView==='errs'){const L=LP.errs.filter(e=>e.box<3),M=[...new Set(L.map(e=>e.m))];
     h=`<div class="actions" style="margin-bottom:12px">${due.length?`<button class="btn" id="perr">${due.length>1?'Réviser mes '+due.length+' erreurs du jour':'Réviser mon erreur du jour'}</button>`:''}${L.length?`<button class="btn ghost" id="pall">Réviser tout le carnet (${L.length})</button><button class="btn ghost" id="pexp">Exporter mes notes</button>`:''}</div>
@@ -16325,6 +16368,10 @@ function renderProg(){const el=document.getElementById('progp');if(!el)return;co
   el.querySelectorAll('[data-enote]').forEach(ta=>{let tt;ta.oninput=()=>{clearTimeout(tt);tt=setTimeout(()=>{const e=errFind(ta.dataset.enote);if(e){e.note=ta.value.slice(0,600);lpSave()}},500)}});
   el.querySelectorAll('[data-pn]').forEach(b=>b.onclick=()=>{LP.plan.n=+b.dataset.pn;lpSave();renderProg()});
   el.querySelectorAll('[data-pm]').forEach(b=>b.onclick=()=>{const s=new Set(planMats());if(!LP.plan.mats||!LP.plan.mats.length)LP.plan.mats=[...s];const L=new Set(LP.plan.mats);L.has(b.dataset.pm)?L.delete(b.dataset.pm):L.add(b.dataset.pm);LP.plan.mats=[...L];lpSave();renderProg()});
+  el.querySelectorAll('[data-vseen]').forEach(b=>b.onclick=()=>{LP.seen[b.dataset.vseen]=1;xpAdd(2,'veille');lpSave();renderProg()});
+  el.querySelectorAll('[data-vnews]').forEach(b=>b.onclick=()=>goNews(+b.dataset.vnews));
+  el.querySelectorAll('[data-vgo]').forEach(b=>b.onclick=()=>goPanel(b.dataset.vgo));
+  {const va=el.querySelector('#vall');if(va)va.onclick=()=>{const U=veilleItems();U.forEach(x=>LP.seen[x.id]=1);xpAdd(Math.min(20,2*U.length),'veille');lpSave();renderProg()}}
   if(progView==='week'){renderWeekCard('reformes','wk-p-');renderWeekCard('jurisprudence','wk-p-')}
   lpCount()}
 /* quiz de la semaine (réformes, jurisprudence récente) */
@@ -16954,9 +17001,22 @@ const PANELS={etudiant:["revisions","procedures","reformes","jurisprudence","pro
 if(!(window.claude&&typeof window.claude.use==='function')){Object.values(PANELS).forEach(L=>{const i=L.indexOf('partage');if(i>=0)L.splice(i,1)});document.getElementById('mt-partage').hidden=true}
 const ALLP=["revisions","matieres","metier","mres","procedures","ressources","reformes","jurisprudence","prog","concours","partage"];
 let curPanel="revisions";
+function hubOpen(g,o){const b=g.querySelector('.hubt'),l=g.querySelector('.hubg');b.setAttribute('aria-expanded',o);l.hidden=!o}
+document.querySelectorAll('.hubgrp').forEach(g=>g.querySelector('.hubt').onclick=()=>hubOpen(g,g.querySelector('.hubg').hidden));
+/* accueil : trois catégories nommées selon le profil ; la bibliothèque d'abord */
+var HUBLAY={etudiant:{lib:['Ma bibliothèque',['mt-hrev','mt-modules']],a:["M'entraîner",['mt-prog','mt-concours','mt-partage']],b:["Suivre l'actualité",['mt-reformes','mt-jurisprudence','burger']]},
+  pro:{lib:['Ma bibliothèque',['mt-hmat','mt-modules','mt-hmet']],a:['Au cabinet',['mt-procedures','burger','mt-hmres']],b:['Rester à jour',['mt-prog','mt-reformes','mt-jurisprudence','mt-concours']]}};
+function hubLayout(reset){const L=HUBLAY[aud],pool=document.querySelector('.hubpool'),noMet=document.getElementById('mt-metier').hidden;
+  pool.append(...document.querySelectorAll('.hubgrp .hubc'));
+  Object.entries(L).forEach(([k,[name,ids]])=>{const g=document.querySelector('.hubgrp.'+k),l=g.querySelector('.hubg');
+    ids.forEach(id=>{const c=document.getElementById(id);if(c&&!((id==='mt-hmet'||id==='mt-hmres')&&noMet))l.append(c)});
+    g.querySelector('.hubt .t').textContent=name;
+    g.querySelector('.hubt .d').textContent=[...l.children].filter(c=>!c.hidden).map(c=>c.querySelector('.t').childNodes[0].textContent.trim()).join(' · ');
+    if(reset)hubOpen(g,k==='lib')})}
 function setAud(a,keepPanel){
   aud=a==="pro"?"pro":"etudiant";store.set('bp-aud',aud);document.body.classList.toggle('aud-pro',aud==='pro');
   document.querySelectorAll('.audsw[data-a]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.a===aud));
+  hubLayout(true);
   document.querySelectorAll('.hubc .d[data-etu]').forEach(d=>d.textContent=aud==='pro'?d.dataset.pro:d.dataset.etu);
   const t=document.getElementById('mt-revisions');
   t.dataset.p=aud==="pro"?"matieres":"revisions";
@@ -16993,9 +17053,9 @@ document.querySelectorAll('.hubc[data-p]').forEach(b=>b.onclick=()=>goPanel(b.da
 {const mb=document.getElementById('navmenu'),pop=document.getElementById('navpop');
  const close=()=>{pop.hidden=true;mb.setAttribute('aria-expanded','false')};
  mb.onclick=e=>{e.stopPropagation();if(!pop.hidden){close();return}
-   const cards=[...document.querySelectorAll('.hubnav .hubc')].filter(c=>!c.hidden);
+   const cards=[...document.querySelectorAll('.hubgrp .hubc')].filter(c=>!c.hidden);
    pop.innerHTML=cards.map((c,i)=>`<button type="button" data-ci="${i}">${esc(c.querySelector('.t').childNodes[0].textContent.trim())}</button>`).join('');
-   pop.querySelectorAll('[data-ci]').forEach(b=>b.onclick=()=>{close();cards[+b.dataset.ci].click()});
+   pop.querySelectorAll('[data-ci]').forEach(b=>b.onclick=()=>{close();const c=cards[+b.dataset.ci];hubOpen(c.closest('.hubgrp'),true);c.click()});
    pop.hidden=false;mb.setAttribute('aria-expanded','true');pop.querySelector('button').focus()};
  document.addEventListener('click',e=>{if(!pop.hidden&&!pop.contains(e.target))close()});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!pop.hidden){close();mb.focus()}});

@@ -2,14 +2,14 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..600&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;0,6..96,800;0,6..96,900;1,6..96,500;1,6..96,700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
 <style>
 /* Layout : étages (années) > étagère de matières > volume ouvert avec onglets (fiche, quiz, sujets + corrigés séparés), puis le Bulletin d'actualité. */
 :root{
   --bg:#F2F5F4; --paper:#FFFFFF; --ink:#1D1D1B; --muted:#56615F; --line:#D0DBD8; --on-accent:#FFFFFF;
   --wood:#5F807A; --wood-dark:#3C5A55; --gold:#8EAAA5; --accent:#00766A; --navy:#01476A;
   --ok:#1F7A4D; --ko:#B3261E; --corr:#F2F8F7; --corr-line:#B5D1CB; --soft:#E3ECEA;
-  --display:"Newsreader",Georgia,"Times New Roman",serif;
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
   --body:"Public Sans","Segoe UI",system-ui,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
 }
@@ -35,8 +35,12 @@ a{color:var(--accent)}
 
 /* HERO */
 .hero{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:28px;align-items:end}
-.hero h1{font-size:clamp(42px,7.4vw,92px);font-weight:600;letter-spacing:-.025em}
-.hero h1 em{font-style:normal;font-weight:600;color:var(--accent)}
+.mast{font-size:clamp(42px,7.4vw,92px);font-weight:800;letter-spacing:-.02em;margin:0 0 14px;transition:font-size .25s ease,margin .25s ease}
+body.scrolled .mast{font-size:28px;margin-bottom:6px}
+@media (prefers-reduced-motion:reduce){.mast{transition:none}}
+.navstack+.hero{margin-top:-24px}
+.mast .mlogo{width:.8em;height:.8em;vertical-align:-.06em;margin-right:.2em}
+.mast em{font-style:italic;font-weight:700;color:var(--accent)}
 .hero .lede{max-width:54ch;text-wrap:pretty;color:var(--muted);margin-top:16px;font-size:17px}
 .copy{width:220px;height:200px}
 .copy .ln{stroke:var(--muted);stroke-width:2;stroke-linecap:round;stroke-dasharray:140;stroke-dashoffset:140;animation:write 6s ease-in-out infinite}
@@ -144,7 +148,9 @@ a{color:var(--accent)}
 
 /* PROFESSION ET RESSOURCES */
 .rmet{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;border:1px dashed var(--gold);border-radius:4px;padding:10px 14px;margin-bottom:14px}
-.metsel{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:-40px}.metsel .eyebrow{margin-right:6px}
+@media (max-width:900px){.hero{grid-template-columns:1fr}.hero .copy{display:none}}
+.audsw>span{min-width:0}
+.metsel{margin-top:12px}.metpick{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;font:600 15px/1.2 var(--body)}.metpick select{font:500 15px/1.2 var(--body);color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:6px;padding:9px 12px;min-height:44px;max-width:100%}.metpick select:hover,.metpick select:focus{border-color:var(--ink)}
 .gategrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
 .gatecard{text-align:left;border:1.5px solid var(--line);border-top:6px solid var(--accent);background:var(--paper);border-radius:4px;padding:18px 20px;display:flex;flex-direction:column;gap:6px;transition:transform .2s}
 .gatecard:hover{transform:translateY(-3px)}.gatecard .tt{font:700 22px/1.15 var(--display)}.gatecard .ss{font-size:14px;color:var(--muted)}
@@ -158,7 +164,7 @@ a{color:var(--accent)}
 .rdh{display:flex;align-items:center}.rdh b{font:700 26px/1 var(--display)}
 .rditem{text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:4px;padding:12px 14px;display:flex;flex-direction:column;gap:3px}.rditem b{font:700 18px/1.2 var(--display)}.rditem span{font-size:13px;color:var(--muted)}
 .rdin hr{border:0;border-top:1px solid var(--line);width:100%}
-@media (max-width:640px){.srow{flex-direction:column}.metsel{margin-top:-40px}.spacelbl{display:none}.cmlbl{display:none}.commonbar{padding:6px 0}.rtab{padding:8px 11px;min-width:44px;justify-content:center}.rtab .rtl{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.rtab{position:relative}}
+@media (max-width:640px){.srow{flex-direction:column}.spacelbl{display:none}.cmlbl{display:none}.commonbar{padding:6px 0}.rtab{padding:8px 11px;min-width:44px;justify-content:center}.rtab .rtl{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.rtab{position:relative}}
 
 /* MÉTIER */
 .mgrid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:30px}
@@ -253,6 +259,7 @@ a{color:var(--accent)}
 .hubt[aria-expanded="true"] .d{display:none}
 .hubt:hover{border-color:var(--cat)}
 .hubgrp{gap:10px}
+body.aud-pro .only-etu,body:not(.aud-pro) .only-pro{display:none!important}
 .hubgrp.lib{--cat:var(--ink)}.hubgrp.a{--cat:var(--accent)}.hubgrp.b{--cat:var(--navy)}
 body.aud-pro .ico-etu,body:not(.aud-pro) .ico-pro{display:none}
 .minishelf{display:flex;align-items:flex-end;gap:3px;height:34px;flex:none}.minishelf i{display:block;width:9px;border-radius:2px 2px 1px 1px}
@@ -596,7 +603,7 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 
 /* Téléphone : le contenu de révision arrive plus vite, zones à toucher de 44 px */
 @media (max-width:640px){
-  .wrap{gap:28px;padding-block:20px 60px}
+  .wrap{gap:28px;padding-block:20px 60px}body.scrolled .mast{font-size:22px;margin-bottom:4px}
   main#contenu{gap:28px}
   .srow,.gres{margin-bottom:-14px}
   #eyebrow{display:none}
@@ -617,22 +624,23 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 
 <div class="rdrawer" id="rdrawer" hidden><div class="rdin" role="dialog" aria-label="Ressources">
   <div class="rdh"><b>Ressources</b><button class="dx" id="rdx" aria-label="Fermer">×</button></div>
-  <p class="note">Accessibles à tous. En espace professionnel, elles sont filtrées selon votre profession (option pour tout afficher) ; en Général, tout est affiché.</p>
+  <p class="note only-pro">En espace professionnel, elles sont filtrées selon votre profession (option pour tout afficher) ; en Général, tout est affiché.</p><p class="note only-etu">Les outils de praticien (modèles d'actes, calculateurs, ressources par profession) se trouvent dans l'espace professionnel.</p>
   <button class="rditem" data-rgo="dico"><b>Dictionnaire</b><span>140 termes reliés aux textes</span></button>
   <button class="rditem" data-rgo="codes"><b>Par code</b><span>Sommaires, articles clés, jurisprudence, doctrine</span></button>
-  <button class="rditem" data-rgo="actes"><b>Modèles d'actes</b><span>Lettres, contrats, statuts, CGV</span></button>
-  <button class="rditem" data-rgo="calc"><b>Calculateurs</b><span>Famille, patrimoine, travail, fiscal, corporel, délais</span></button>
+  <button class="rditem only-pro" data-rgo="actes"><b>Modèles d'actes</b><span>Lettres, contrats, statuts, CGV</span></button>
+  <button class="rditem only-pro" data-rgo="calc"><b>Calculateurs</b><span>Famille, patrimoine, travail, fiscal, corporel, délais</span></button>
   <button class="rditem" data-rgo="delais"><b>Délais clés</b><span>Prescriptions, recours, exécution</span></button>
   <button class="rditem" data-rgo="liens"><b>Liens officiels</b><span>Légifrance, Judilibre, greffes, ordres</span></button>
   <button class="rditem" data-rgo="adages"><b>Adages</b><span>Maximes juridiques expliquées</span></button>
   <button class="rditem" data-rgo="methodo"><b>Méthodologie</b><span>Fiche d'arrêt, commentaire, dissertation, cas pratique</span></button>
-  <button class="rditem" data-rgo="metiers"><b>Par profession</b><span>Trames, contrôles, outils et délais de chaque métier</span></button>
+  <button class="rditem only-pro" data-rgo="metiers"><b>Par profession</b><span>Trames, contrôles, outils et délais de chaque métier</span></button>
   <hr><button class="rditem" data-rgo="aud"><b>Changer d'espace</b><span>Étudiant ou professionnel, profession</span></button>
 </div></div>
 <a class="skip" href="#contenu">Aller au contenu</a>
 <p id="sr-live" class="sr-only" aria-live="polite"></p>
 <div class="wrap">
   <div class="navstack">
+  <h1 id="h1" class="mast"><svg class="mlogo" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="var(--accent)"/><path d="M32 16c-6-4-14-5-22-3v34c8-2 16-1 22 3 6-4 14-5 22-3V13c-8-2-16-1-22 3z" fill="none" stroke="var(--on-accent)" stroke-width="3.5" stroke-linejoin="round"/><path d="M32 16v34" stroke="var(--on-accent)" stroke-width="2.5"/><circle cx="32" cy="31" r="12" fill="var(--accent)" stroke="var(--on-accent)" stroke-width="3.5"/><circle cx="32" cy="31" r="5.5" fill="none" stroke="var(--on-accent)" stroke-width="3"/><circle cx="32" cy="31" r="1.8" fill="var(--on-accent)"/></svg>Droit <em>au But</em></h1>
   <div class="navrow">
     <button class="hometab" id="hometab" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Accueil</button>
   <nav class="maintabs" role="tablist" aria-label="Votre espace">
@@ -647,8 +655,8 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
   </div>
   <header class="hero">
     <div>
-      <h1 id="h1">Droit <em>au But</em></h1>
-      <div class="aud" role="group" aria-label="Votre espace"><button type="button" class="audsw" id="aud-etudiant" data-a="etudiant"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18 24 9l20 9-20 9z"/><path d="M12 22v10c4 4 20 4 24 0V22"/><path d="M44 18v12"/></svg><span><span class="t">Étudiant<span class="md">·</span>e</span><span class="d">Licence, master, concours</span></span></button><button type="button" class="audsw" id="aud-pro" data-a="pro"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="16" width="36" height="24" rx="2"/><path d="M18 16v-5h12v5"/><path d="M6 26h36"/></svg><span><span class="t">Professionnel<span class="md">·</span>le</span><span class="d">Cabinet, étude, entreprise</span></span></button></div>
+      <div class="aud" role="group" aria-label="Votre espace"><button type="button" class="audsw" id="aud-etudiant" data-a="etudiant"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18 24 9l20 9-20 9z"/><path d="M12 22v10c4 4 20 4 24 0V22"/><path d="M44 18v12"/></svg><span><span class="t">Étudiant<span class="md">·</span>e</span><span class="d">Licence, master, concours</span></span></button><button type="button" class="audsw" id="aud-pro" data-a="pro"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="16" width="36" height="24" rx="2"/><path d="M18 16v-5h12v5"/><path d="M6 26h36"/></svg><span><span class="t">Professionnel<span class="md">·</span>le</span><span class="d">Cabinet, étude, entreprise, collectivité</span></span></button></div>
+      <div class="metsel" id="metsel" hidden></div>
       <p class="lede" id="lede">De la L1 au M2, tirez une matière de l'étagère et révisez : fiches en trois niveaux de lecture, quiz, cas pratiques, dissertations et commentaires d'arrêts, chacun avec son corrigé à part. Chaque fiche se télécharge en PDF ou en Word.</p>
     </div>
     <svg class="copy copy-etu" viewBox="0 0 220 200" aria-hidden="true">
@@ -661,14 +669,14 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
       <path class="ln" d="M54 144 H120" fill="none"/>
       <g class="grade">
         <ellipse cx="168" cy="52" rx="38" ry="26" fill="none" stroke="var(--accent)" stroke-width="3"/>
-        <text x="168" y="61" text-anchor="middle" font-family="Newsreader, Georgia, serif" font-weight="900" font-size="26" fill="var(--accent)">17/20</text>
+        <text x="168" y="61" text-anchor="middle" font-family="Bodoni Moda, Georgia, serif" font-weight="900" font-size="26" fill="var(--accent)">17/20</text>
       </g>
     </svg>
     <svg class="copy copy-pro" viewBox="0 0 220 200" aria-hidden="true">
       <path d="M22 34 V24 H74 L82 34" fill="var(--soft)" stroke="var(--line)" stroke-width="2" stroke-linejoin="round"/>
       <rect x="22" y="34" width="176" height="150" rx="4" fill="var(--soft)" stroke="var(--line)" stroke-width="2"/>
       <rect x="40" y="22" width="140" height="168" rx="3" fill="var(--paper)" stroke="var(--line)" stroke-width="2"/>
-      <text x="54" y="50" font-family="Newsreader, Georgia, serif" font-weight="700" font-size="16" fill="var(--ink)">Art. 1240</text>
+      <text x="54" y="50" font-family="Bodoni Moda, Georgia, serif" font-weight="700" font-size="16" fill="var(--ink)">Art. 1240</text>
       <rect x="50" y="62" width="112" height="16" rx="2" fill="var(--accent)" opacity=".16"/>
       <path class="ln" d="M54 70 H156" fill="none"/>
       <path class="ln" d="M54 94 H160" fill="none"/>
@@ -705,7 +713,7 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
     <button class="audb hubc" id="mt-procedures" data-p="procedures"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M27 7 41 21"/><path d="M21 13l14 14"/><path d="M24 10 14 20l14 14 10-10"/><path d="M19 25 6 38l4 4 13-13"/></svg><span><span class="t">Procédures</span><span class="d" data-etu="Saisir le juge, délais et recours, expliqués pas à pas" data-pro="Saisine, délais, pièces et exécution : la marche à suivre">Saisir le juge, délais et recours, expliqués pas à pas</span></span></button>
     <button class="audb hubc" id="mt-reformes" data-p="reformes"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6h18l8 8v28H12z"/><path d="M30 6v8h8"/><path d="M18 24h14M18 30h14M18 36h8"/></svg><span><span class="t">Réformes<span class="cnt" id="c-ref"></span></span><span class="d" data-etu="Ce qui a changé récemment dans vos matières" data-pro="Lois, ordonnances et décrets récents, par domaine">Ce qui a changé récemment dans vos matières</span></span></button>
     <button class="audb hubc" id="mt-jurisprudence" data-p="jurisprudence"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 8v32M14 40h20M9 14h30"/><path d="M9 14 4 28h10z"/><path d="M39 14l-5 14h10z"/></svg><span><span class="t">Jurisprudence<span class="cnt" id="c-jur"></span></span><span class="d" data-etu="Les arrêts à connaître, classés par chambre" data-pro="Décisions récentes : Cour de cassation, Conseil d'État, cours d'appel">Les arrêts à connaître, classés par chambre</span></span></button>
-    <button class="audb hubc" id="burger" aria-haspopup="dialog" aria-controls="rdrawer"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8h8v32H8zM18 8h8v32h-8z"/><path d="M29 10l7-2 8 30-7 2z"/></svg><span><span class="t">Ressources</span><span class="d" data-etu="Dictionnaire, codes, méthodes et calculateurs" data-pro="Codes, modèles d'actes, calculateurs, dictionnaire">Dictionnaire, codes, méthodes et calculateurs</span></span></button>
+    <button class="audb hubc" id="burger" aria-haspopup="dialog" aria-controls="rdrawer"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8h8v32H8zM18 8h8v32h-8z"/><path d="M29 10l7-2 8 30-7 2z"/></svg><span><span class="t">Ressources</span><span class="d" data-etu="Dictionnaire, codes, méthodologie, adages" data-pro="Codes, modèles d'actes, calculateurs, dictionnaire">Dictionnaire, codes, méthodes et calculateurs</span></span></button>
     <button class="audb hubc" id="mt-modules" data-sub="modules"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 6 4 16l20 10 20-10z"/><path d="M4 24l20 10 20-10"/><path d="M4 32l20 10 20-10"/></svg><span><span class="t">Modules</span><span class="d" data-etu="Chaque grande matière en trois niveaux de lecture" data-pro="Approfondir un domaine : fiches, procédure, actes et cas">Chaque grande matière en trois niveaux de lecture</span></span></button>
     <button class="audb hubc" id="mt-concours" data-p="concours"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="30" r="10"/><path d="M17 22 12 6h8l4 10 4-10h8l-5 16"/></svg><span><span class="t">Concours</span><span class="d" data-etu="Examens et concours : programmes et examens blancs corrigés" data-pro="Examens professionnels : programmes et sujets corrigés">Examens et concours : programmes et examens blancs corrigés</span></span></button>
     <button class="audb hubc" id="mt-partage" data-p="partage"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="17" cy="16" r="6"/><path d="M5 40c0-7 5-12 12-12s12 5 12 12"/><path d="M31 10a6 6 0 0 1 0 12M33 28c6 1 10 6 10 12"/></svg><span><span class="t" id="mt-pa-b">Partiels</span><span class="d" id="mt-pa-s">Sujets partagés par fac</span></span></button>
@@ -718,7 +726,6 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
   </nav>
   </div>
 
-  <div class="metsel" id="metsel" hidden></div>
 
 
 
@@ -779,9 +786,10 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
 
   <section class="panel" id="p-ressources" hidden aria-labelledby="rr-title">
     <div class="section-head" style="margin:0">
-      <div class="eyebrow">Dictionnaire · Codes · Modèles d'actes · Calculateurs</div>
+      <div class="eyebrow"><span class="only-pro">Dictionnaire · Codes · Modèles d'actes · Calculateurs</span><span class="only-etu">Dictionnaire · Codes · Méthodologie · Adages</span></div>
       <h2 id="rr-title">La boîte à outils du juriste</h2>
-      <p>Un dictionnaire relié aux textes du site, les principaux codes avec leurs articles clés, leur jurisprudence et leurs ouvrages de référence, des modèles d'actes à compléter en ligne et les calculateurs. Accessibles à tous depuis le bouton Ressources ou le menu ☰.</p>
+      <p class="only-pro">Un dictionnaire relié aux textes du site, les principaux codes avec leurs articles clés, leur jurisprudence et leurs ouvrages de référence, des modèles d'actes à compléter en ligne et les calculateurs.</p>
+      <p class="only-etu">Un dictionnaire relié aux textes du site, les principaux codes avec leurs articles clés, leur jurisprudence et leurs ouvrages de référence, la méthodologie des exercices, les adages expliqués, les délais clés et les liens officiels.</p>
     </div>
     <div id="ress"></div>
   </section>
@@ -15237,7 +15245,8 @@ function renderMetSel(){
   const el=document.getElementById('metsel'), gate=document.getElementById('metgate');
   const all=[METGEN,...METIERS];
   el.hidden=aud!=='pro';
-  el.innerHTML=`<span class="eyebrow">Votre profession</span>${all.map(x=>`<button class="chip" data-met="${x.id}" aria-pressed="${curMetier===x.id}">${esc(x.id==='general'?'Général':x.n)}</button>`).join('')}`;
+  el.innerHTML=`<label class="metpick"><span>Votre profession</span><select id="metpk">${curMetier?'':'<option value="" selected disabled>Choisir…</option>'}${all.map(x=>`<option value="${x.id}"${curMetier===x.id?' selected':''}>${esc(x.id==='general'?'Général (toutes professions)':x.n)}</option>`).join('')}</select></label>`;
+  {const pk=el.querySelector('#metpk');pk.onchange=()=>{if(pk.value)chooseMetier(pk.value)}}
   const need=aud==='pro'&&!curMetier;
   gate.hidden=!need;document.querySelector('.maintabs').hidden=need;
   if(need){ALLP.forEach(x=>document.getElementById('p-'+x).hidden=true);
@@ -15806,7 +15815,7 @@ let rSub='dico',rQ='',rCat='all',rCode=null,rActe=null;
 const RSUBALL=[["dico","Dictionnaire"],["modules","Modules approfondis"],["codes","Par code"],["actes","Modèles d'actes"],["calc","Calculateurs"],["delais","Délais clés"],["liens","Liens officiels"],["adages","Adages"],["methodo","Méthodologie"],["metiers","Par profession"]];
 let rAll=false;
 const rMet=()=>{const M=typeof metObj==='function'?metObj():null;return M&&!rAll?M:null};
-const RSUB_=()=>RSUBALL.filter(([k])=>(k!=='modules'||rSub==='modules')&&(k!=='methodo'||aud!=='pro'||!rMet())&&(k!=='metiers'||!rMet()));
+const RSUB_=()=>RSUBALL.filter(([k])=>(k!=='modules'||rSub==='modules')&&(aud!=='etudiant'||!['actes','calc','metiers'].includes(k)||rSub===k)&&(k!=='methodo'||aud!=='pro'||!rMet())&&(k!=='metiers'||!rMet()));
 let DICOMET={};
 function dicoVis(){const M=rMet();if(!M||!M.mats)return DICO;if(DICOMET[M.id])return DICOMET[M.id];
   const txt=norm(M.mats.map(id=>{const m=MAT.find(x=>x.id===id);return m?JSON.stringify(m.fiche)+JSON.stringify(DET[id]||[]):''}).join(' '));
@@ -16778,12 +16787,11 @@ function openMat(id,t,scroll){
   document.querySelectorAll('.spine').forEach(s=>s.setAttribute('aria-selected',s.id==='s-'+id));
   const m=cur, total=m.cas.length+m.diss.length+m.comm.length;
   book.style.setProperty('--c',m.c);
-  const tabs=[["fiche","Fiche",null],["quiz","Quiz",quizBadge(m)],["cas","Cas pratiques",m.cas.length],["diss","Dissertations",m.diss.length],["comm","Commentaires",m.comm.length],...(procFor('mat',m.id).length?[["proc","Saisir le juge",procFor('mat',m.id).length]]:[]),...(calcsForMat(m).length?[["calc","Calculs",calcsForMat(m).length]]:[])];
+  const tabs=[["fiche","Fiche",null],["quiz","Quiz",quizBadge(m)],["cas","Cas pratiques",m.cas.length],["diss","Dissertations",m.diss.length],["comm","Commentaires",m.comm.length],...(procFor('mat',m.id).length?[["proc","Saisir le juge",procFor('mat',m.id).length]]:[])];
   book.innerHTML=`<div class="book-head">
      <div class="bh-title"><h2>${esc(m.n)}</h2><span class="ypill">${m.y}${m.spe?' · '+(SPECS[m.spe]||PARC[m.spe]):''}</span></div>
      <p class="lead">${esc(m.fiche.lead)}</p>
      <span class="progress" id="prog">${countDone(m)} / ${total} sujets travaillés${best[m.id]!=null?` · meilleur quiz ${typeof best[m.id]==='string'?best[m.id]:best[m.id]+'/'+m.quiz.length}`:''}</span>
-     ${calcChips(calcsForMat(m))}
      ${modBtn(modKeyMat(m.id),'mat:'+m.id)}
      <div class="tabs" role="tablist">${tabs.map(([k,l,n])=>`<button class="tab" role="tab" id="t-${k}" data-k="${k}" aria-selected="${k===tab}">${l}${n!=null?`<span class="n">${n}</span>`:''}</button>`).join('')}</div>
    </div><div class="book-body" id="body"></div>`;
@@ -17005,7 +17013,7 @@ function hubOpen(g,o){const b=g.querySelector('.hubt'),l=g.querySelector('.hubg'
 document.querySelectorAll('.hubgrp').forEach(g=>g.querySelector('.hubt').onclick=()=>hubOpen(g,g.querySelector('.hubg').hidden));
 /* accueil : trois catégories nommées selon le profil ; la bibliothèque d'abord */
 var HUBLAY={etudiant:{lib:['Ma bibliothèque',['mt-hrev','mt-modules']],a:["M'entraîner",['mt-prog','mt-concours','mt-partage']],b:["Suivre l'actualité",['mt-reformes','mt-jurisprudence','burger']]},
-  pro:{lib:['Ma bibliothèque',['mt-hmat','mt-modules','mt-hmet']],a:['Au cabinet',['mt-procedures','burger','mt-hmres']],b:['Rester à jour',['mt-prog','mt-reformes','mt-jurisprudence','mt-concours']]}};
+  pro:{lib:['Ma bibliothèque',['mt-hmat','mt-modules','mt-hmet']],a:['Au bureau',['mt-procedures','burger','mt-hmres']],b:['Rester à jour',['mt-prog','mt-reformes','mt-jurisprudence','mt-concours']]}};
 function hubLayout(reset){const L=HUBLAY[aud],pool=document.querySelector('.hubpool'),noMet=document.getElementById('mt-metier').hidden;
   pool.append(...document.querySelectorAll('.hubgrp .hubc'));
   Object.entries(L).forEach(([k,[name,ids]])=>{const g=document.querySelector('.hubgrp.'+k),l=g.querySelector('.hubg');
@@ -17023,9 +17031,9 @@ function setAud(a,keepPanel){
 
   document.getElementById('mt1b').textContent=aud==="pro"?"Matières":"Révisions";
   document.getElementById('mt1s').textContent=aud==="pro"?"Fiches, cas de cabinet, jurisprudence":"Licence et master, par matière";
-  document.getElementById('h1').innerHTML=aud==="pro"?'Droit <em>au But</em>':'Droit <em>au But</em>';
   document.getElementById('lede').textContent=aud==="pro"?PRO.length+" domaines de pratique et "+(MODS.length+1)+" modules approfondis (famille, travail, pénal, affaires, immobilier…) : fiches de synthèse, situations de cabinet avec leur jurisprudence, procédures, délais, outils de calcul et modèles d'actes à compléter.":"De la L1 au M2, tirez une matière de l'étagère et révisez : fiches en trois niveaux de lecture, quiz, cas pratiques, dissertations et commentaires d'arrêts, chacun avec son corrigé à part. Chaque fiche se télécharge en PDF ou en Word.";
   renderNews('reformes');renderNews('jurisprudence');
+  if(typeof renderRess==='function')renderRess();
   if(typeof applyMetier==='function'&&!setAud._in){setAud._in=true;try{applyMetier()}finally{setAud._in=false}}
   if(aud==='pro'&&!curMetier)return;
   let p=keepPanel&&PANELS[aud].includes(curPanel)?curPanel:PANELS[aud][0];
@@ -17042,7 +17050,7 @@ function showPanel(p,scroll){
 }
 document.querySelectorAll('.mtab').forEach(b=>b.onclick=()=>goPanel(b.dataset.p));
 /* ouvrir une section et y emmener le lecteur : défilement sous la barre fixe, focus sur son titre, annonce */
-function goPanel(p){showPanel(p,false);const pn=document.getElementById('p-'+curPanel);if(!pn)return;
+function goPanel(p){document.body.classList.add('scrolled');showPanel(p,false);const pn=document.getElementById('p-'+curPanel);if(!pn)return;
   const h=pn.querySelector('h2')||pn;if(h!==pn)h.tabIndex=-1;
   const top=pn.getBoundingClientRect().top+scrollY-(document.querySelector('.navstack').offsetHeight+12);
   const y0=scrollY;scrollTo({top,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
@@ -17160,6 +17168,8 @@ renderPShelf();
 renderProcPanel();renderRess();renderMetier();renderMRes();initSearch();initDrawer();initDico();initJuris();initLearn();
 setAud(aud,false);
 /* annonces pour les lecteurs d'écran */
+/* titre réduit dans la barre fixe dès qu'on fait défiler (avec hystérésis) */
+{const sc=()=>{const y=scrollY,b=document.body.classList;if(y>90)b.add('scrolled');else if(y<20)b.remove('scrolled')};addEventListener('scroll',sc,{passive:true});sc()}
 function srSay(t){const e=document.getElementById('sr-live');if(!e)return;e.textContent='';setTimeout(()=>{e.textContent=t},60)}
 /* sauvegarde et restauration de la progression (clés bp-) */
 {const sv=document.getElementById('bk-save'),ld=document.getElementById('bk-load'),fi=document.getElementById('bk-file'),msg=document.getElementById('bk-msg');

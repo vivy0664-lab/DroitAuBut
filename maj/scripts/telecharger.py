@@ -146,5 +146,15 @@ try:
 except Exception as e:
     log('Juridictions : erreur ' + err(e)); etat['juridictions'] = False
 
+# 4. Tribunaux de commerce et coordonnées des juridictions (annuaire de l'administration, service-public.fr)
+try:
+    ann = req('https://api-lannuaire.service-public.fr/api/explore/v2.1/catalog/datasets/api-lannuaire-administration/exports/json?'
+              + urllib.parse.urlencode({'where': 'partenaire="ministere_justice"', 'select': 'nom,pivot,adresse,telephone,url_service_public'}), timeout=300)
+    if len(ann) < 500000 or not ann.lstrip().startswith(b'['): raise ValueError(f'fichier inattendu ({len(ann)} octets)')
+    open(OUT + 'annuaire_justice.json', 'wb').write(ann)
+    log('Annuaire des juridictions : téléchargé'); etat['annuaire'] = True
+except Exception as e:
+    log('Annuaire des juridictions : erreur ' + err(e) + ' (copie précédente conservée)'); etat['annuaire'] = False
+
 json.dump(etat, open(OUT + 'etat.json', 'w'))
 log('Fin : ' + json.dumps(etat))

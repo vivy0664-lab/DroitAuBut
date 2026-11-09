@@ -262,6 +262,9 @@ body.scrolled .mast{font-size:28px;margin-bottom:6px}
 body.aud-pro .only-etu,body:not(.aud-pro) .only-pro{display:none!important}
 .jurbox,.jurres{border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:4px;padding:12px 16px;background:var(--bg);display:flex;flex-direction:column;gap:4px;margin-top:4px}
 .jurres{border-left-color:var(--navy);margin-top:12px}.jurname{font:700 24px/1.2 var(--display);color:var(--ink)}
+.toolwarn{border:1px solid color-mix(in srgb,var(--ko) 45%,var(--line));background:color-mix(in srgb,var(--ko) 7%,var(--paper));border-radius:4px;padding:10px 14px;font-size:14px;margin:0 0 12px;max-width:none}
+.toolwarn b{display:block;font:500 12px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ko);margin-bottom:2px}
+.cinline .toolwarn,#acalc .toolwarn{margin:10px 0 0}
 .jurco{font-size:14px;color:var(--muted)}
 .jurall{margin-top:12px}.jurall summary{cursor:pointer;font-weight:600;color:var(--accent);font-size:15px}
 .hubgrp.lib{--cat:var(--ink)}.hubgrp.a{--cat:var(--accent)}.hubgrp.b{--cat:var(--navy)}
@@ -13676,11 +13679,12 @@ const TOOLS=[
 let curTool="pc";
 function field(id,label,val,help,type){return `<label class="fld" for="${id}"><span>${label}</span>${type==='sel'?val:`<input id="${id}" type="number" inputmode="decimal" value="${val}" step="any">`}${help?`<small>${help}</small>`:''}</label>`}
 function sel(id,opts,v){return `<select id="${id}">${opts.map(([k,l])=>`<option value="${k}"${k==v?' selected':''}>${l}</option>`).join('')}</select>`}
+var TOOLWARN='<p class="toolwarn"><b>À vérifier</b>Outil d\'aide qui peut comporter des erreurs ou des données qui ne sont plus à jour : contrôlez toujours le résultat au regard des textes en vigueur et de votre situation avant de l\'utiliser.</p>';
 function renderTools(){
   const el=document.getElementById('tools');if(!el)return;
   const TV=typeof toolsVisible==='function'?toolsVisible():TOOLS;if(!TV.some(([k])=>k===curTool))curTool=TV[0][0];
   const grps=[...new Set(TV.map(([k])=>TOOLGRP[k]||'Autres'))];
-  el.innerHTML=`<div class="toolgroups">${grps.map(g=>`<div class="toolnav" role="tablist"><span class="eyebrow tg">${g}</span>${TV.filter(([k])=>(TOOLGRP[k]||'Autres')===g).map(([k,l])=>`<button class="chip" id="tool-${k}" data-tool="${k}" aria-pressed="${k===curTool}">${l}</button>`).join('')}</div>`).join('')}</div><div class="toolcard" id="toolcard"></div>`;
+  el.innerHTML=`<div class="toolgroups">${grps.map(g=>`<div class="toolnav" role="tablist"><span class="eyebrow tg">${g}</span>${TV.filter(([k])=>(TOOLGRP[k]||'Autres')===g).map(([k,l])=>`<button class="chip" id="tool-${k}" data-tool="${k}" aria-pressed="${k===curTool}">${l}</button>`).join('')}</div>`).join('')}</div>${TOOLWARN}<div class="toolcard" id="toolcard"></div>`;
   el.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>{curTool=b.dataset.tool;renderTools()});
   TOOLFN[curTool](document.getElementById('toolcard'));
 }
@@ -14073,7 +14077,7 @@ function openInlineCalc(tool,box,btn){
   if(box.firstChild){box.innerHTML='';btn.textContent='Ouvrir le calculateur ici';return}
   document.querySelectorAll('.cinline').forEach(x=>{if(x!==box)x.innerHTML=''});document.querySelectorAll('[data-ctool]').forEach(b=>b.textContent='Ouvrir le calculateur ici');
   const tc=document.getElementById('toolcard');if(tc){tc.innerHTML='';toolsDirty=true}
-  box.innerHTML='<div class="toolcard"></div>';
+  box.innerHTML='<div class="toolcard"></div>'+TOOLWARN;
   TOOLFN[tool](box.firstChild);
   btn.textContent='Fermer le calculateur';
 }
@@ -15881,7 +15885,7 @@ function actCalcBind(a,V,fill){const L=(ACTCALC[a.id]||[]).filter(c=>TOOLFN[c.to
   document.querySelectorAll('[data-acalc]').forEach(b=>b.onclick=()=>{const open=b.getAttribute('aria-pressed')==='true';
     document.querySelectorAll('[data-acalc]').forEach(x=>x.setAttribute('aria-pressed','false'));if(open){box.innerHTML='';return}
     b.setAttribute('aria-pressed','true');const c=L[+b.dataset.acalc],fl=c.to&&a.f.find(f=>f[0]===c.to);
-    box.innerHTML=`<div class="toolcard"></div>${c.pick?`<div class="actions acpick"><button class="btn" id="acpick">Reporter dans « ${esc(fl?fl[1].replace(/\s*\(.*?\)\s*$/,''):c.to)} »</button><span class="note" id="acmsg" aria-live="polite"></span></div>`:''}`;
+    box.innerHTML=`<div class="toolcard"></div>${TOOLWARN}${c.pick?`<div class="actions acpick"><button class="btn" id="acpick">Reporter dans « ${esc(fl?fl[1].replace(/\s*\(.*?\)\s*$/,''):c.to)} »</button><span class="note" id="acmsg" aria-live="polite"></span></div>`:''}`;
     const card=box.firstChild;TOOLFN[c.tool](card);
     Object.entries(c.pre||{}).forEach(([id,v])=>{const e=card.querySelector('#'+id);if(!e)return;const val=typeof v==='string'&&v[0]==='@'?(V[v.slice(1)]||''):v;if(val==='')return;e.value=val;e.dispatchEvent(new Event('input',{bubbles:true}))});
     const pk=document.getElementById('acpick');if(pk)pk.onclick=()=>{const v=c.pick(),m=document.getElementById('acmsg');
@@ -15950,13 +15954,14 @@ function renderRess(){
     h=`<p class="lead2" style="margin-bottom:12px">Les exercices juridiques, étape par étape.</p>${METHODO.map(m=>`<section class="rxb" style="margin-bottom:12px"><h4>${esc(m.t)}</h4><ol class="flist">${m.pts.map(p=>`<li>${esc(p)}</li>`).join('')}</ol></section>`).join('')}`;
   } else if(rSub==='metiers'){
     h=`<p class="lead2" style="margin-bottom:12px">Les ressources propres à chaque profession : trames, listes de contrôle, calculateurs, délais et liens.</p><div class="toolnav">${METIERS.map(M=>`<button class="chip" data-jm="${M.id}">${esc(M.n)}</button>`).join('')}</div>${METIERS.map(M=>`<div id="rm-${M.id}">${renderAllMetRes1(M)}</div>`).join('')}`;
-  } else if(rSub==='jur'){h='<div class="toolcard" id="jurcard"></div>';
+  } else if(rSub==='jur'){h=TOOLWARN+'<div class="toolcard" id="jurcard"></div>';
   } else if(rSub==='calc'){
     h=`<p class="lead2" style="margin-bottom:16px">Calculateurs indicatifs, accessibles à tous. Les formules détaillées figurent dans l'onglet Calculs des matières concernées.</p><div id="tools"></div>`;
   } else {
     const AV=actesVis();if(!rActe||!AV.some(x=>x.id===rActe))rActe=(AV[0]||ACTES[0]).id;
     const a=ACTES.find(x=>x.id===rActe), cats=[...new Set(AV.map(x=>x.cat))];
     h=`<label class="fld" style="max-width:520px;margin-bottom:8px"><span style="min-height:0">Trouver un modèle</span><input type="search" id="afind" placeholder="Ex. : bail, licenciement, mise en demeure"></label><ul class="afhits" id="afhits" hidden></ul><label class="fld" style="max-width:520px;margin-bottom:16px"><span style="min-height:0">Ou choisir dans la liste</span><select id="asel">${cats.map(c=>`<optgroup label="${esc(c)}">${AV.filter(x=>x.cat===c).map(x=>`<option value="${x.id}"${x.id===rActe?' selected':''}>${esc(x.t)}</option>`).join('')}</optgroup>`).join('')}</select></label>${actSelect(a)}
+     <p class="toolwarn"><b>À vérifier</b>Modèle indicatif qui peut comporter des erreurs ou des mentions qui ne sont plus à jour : relisez-le et adaptez-le à votre situation et aux textes en vigueur avant de l'utiliser.</p>
      <div class="toolcard"><h3>${esc(a.t)}</h3><p class="lead2">${esc(a.pour)}</p>
      <div class="acols"><div class="fgrid1"><div class="actions"><button class="btn ghost" id="aex">Remplir avec l'exemple</button><button class="btn ghost" id="aclr">Tout effacer</button></div>${actFields(a)}${actOptHtml(a)}</div>
      <div><div class="actions" style="margin-bottom:8px"><button class="btn" id="acopy">Copier le texte</button><button class="btn ghost" id="aword">Télécharger en Word</button><button class="btn ghost" id="apdf">PDF</button></div><p class="amiss" id="amiss" aria-live="polite"></p><pre class="apre" id="apre"></pre></div></div>${actCalcHtml(a)}

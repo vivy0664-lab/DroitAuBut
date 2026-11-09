@@ -722,6 +722,7 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;b
     <button class="audb hubc" id="mt-hmat" data-p="matieres"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8h8v32H8zM18 8h8v32h-8z"/><path d="M29 10l7-2 8 30-7 2z"/></svg><span><span class="t">Matières</span><span class="d" data-etu="Les domaines de pratique, en volumes : fiches, cas, jurisprudence" data-pro="Les domaines de pratique, en volumes : fiches, cas, jurisprudence">Les domaines de pratique, en volumes : fiches, cas, jurisprudence</span></span></button>
     <button class="audb hubc" id="mt-hmet" data-p="metier"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="16" width="36" height="24" rx="2"/><path d="M18 16v-5h12v5"/><path d="M6 26h36"/></svg><span><span class="t">Mon métier</span><span class="d" data-etu="Les réflexes et raccourcis de votre profession" data-pro="Les réflexes et raccourcis de votre profession">Les réflexes et raccourcis de votre profession</span></span></button>
     <button class="audb hubc" id="mt-hmres" data-p="mres"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M30 8l10 10-20 20H10V28z"/><path d="M26 12l10 10"/></svg><span><span class="t">Ressources métier</span><span class="d" data-etu="Trames, listes de contrôle et délais de votre profession" data-pro="Trames, listes de contrôle et délais de votre profession">Trames, listes de contrôle et délais de votre profession</span></span></button>
+    <button class="audb hubc" id="mt-hjur" data-tool="jur"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 42s-13-12-13-22a13 13 0 0 1 26 0c0 10-13 22-13 22z"/><path d="M18 22h12M20 22v-5h8v5M24 14v3"/></svg><span><span class="t">Juridiction compétente</span><span class="d">Le tribunal compétent pour chaque commune de France</span></span></button>
     </div>
   </nav>
   </div>
@@ -17013,7 +17014,7 @@ function hubOpen(g,o){const b=g.querySelector('.hubt'),l=g.querySelector('.hubg'
 document.querySelectorAll('.hubgrp').forEach(g=>g.querySelector('.hubt').onclick=()=>hubOpen(g,g.querySelector('.hubg').hidden));
 /* accueil : trois catégories nommées selon le profil ; la bibliothèque d'abord */
 var HUBLAY={etudiant:{lib:['Ma bibliothèque',['mt-hrev','mt-modules']],a:["M'entraîner",['mt-prog','mt-concours','mt-partage']],b:["Suivre l'actualité",['mt-reformes','mt-jurisprudence','burger']]},
-  pro:{lib:['Ma bibliothèque',['mt-hmat','mt-modules','mt-hmet']],a:['Au bureau',['mt-procedures','burger','mt-hmres']],b:['Rester à jour',['mt-prog','mt-reformes','mt-jurisprudence','mt-concours']]}};
+  pro:{lib:['Ma bibliothèque',['mt-hmat','mt-modules','mt-hmet']],a:['Au bureau',['mt-procedures','mt-hjur','burger','mt-hmres']],b:['Rester à jour',['mt-prog','mt-reformes','mt-jurisprudence','mt-concours']]}};
 function hubLayout(reset){const L=HUBLAY[aud],pool=document.querySelector('.hubpool'),noMet=document.getElementById('mt-metier').hidden;
   pool.append(...document.querySelectorAll('.hubgrp .hubc'));
   Object.entries(L).forEach(([k,[name,ids]])=>{const g=document.querySelector('.hubgrp.'+k),l=g.querySelector('.hubg');
@@ -17068,6 +17069,7 @@ document.querySelectorAll('.hubc[data-p]').forEach(b=>b.onclick=()=>goPanel(b.da
  document.addEventListener('click',e=>{if(!pop.hidden&&!pop.contains(e.target))close()});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!pop.hidden){close();mb.focus()}});
  document.getElementById('navsearch').onclick=()=>{const q=document.getElementById('gq');q.scrollIntoView({behavior:'smooth',block:'center'});q.focus({preventScroll:true})}}
+document.getElementById('mt-hjur').onclick=()=>{goTool('jur');const c=document.getElementById('toolcard');if(c){document.body.classList.add('scrolled');const top=c.getBoundingClientRect().top+scrollY-(document.querySelector('.navstack').offsetHeight+12),y0=scrollY;scrollTo({top,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});setTimeout(()=>{if(Math.abs(scrollY-y0)<2&&Math.abs(scrollY-top)>2)scrollTo(0,top)},700)}};
 document.getElementById('mt-modules').onclick=()=>{rSub='modules';rCode=null;renderRess();goPanel('ressources')};
 document.getElementById('hometab').onclick=()=>document.querySelector('.hub').scrollIntoView({behavior:'smooth',block:'center'});
 document.querySelectorAll('.audsw[data-a]').forEach(b=>b.onclick=()=>setAud(b.dataset.a,true));
